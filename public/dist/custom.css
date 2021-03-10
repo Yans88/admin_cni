@@ -1,0 +1,141 @@
+.content-header {
+    background: #fbfbfb;
+    box-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
+    position: relative;
+    padding: 10px 5px 7px 5px;
+    margin: 0;
+    
+}
+.content-wrapper>.content{padding-top:15px;}
+.content-header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+.content-header .breadcrumb {
+    background-color: transparent;
+    margin-bottom: 0;
+    padding: 0;
+    font-size: 12px;
+}
+.text-center{
+    text-align: center;
+}
+
+.text-error { 
+  font-size: 70% !important;
+  margin-bottom: 2px;  
+}
+
+.text-error-login { 
+  font-size: 80% !important;
+  color: #dc3545; 
+  font-weight: 700; 
+}
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+navbar-nav>li>.dropdown-menu {
+    margin-top: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;  
+   
+}
+
+.dropdown-menu>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    white-space: nowrap;
+    color: #0f6674;
+}
+
+.dropdown-menu:hover, .dropdown-menu > a:hover {
+    background-color: rgba(237, 238, 237, 1);
+    color: #000;
+}
+
+.show > .dropdown-menu {
+    animation-name: fadeAnimation;
+    animation-duration: .7s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: fadeAnimation;
+    -webkit-animation-duration: .7s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-name: fadeAnimation;
+    -moz-animation-duration: .7s;
+    -moz-animation-iteration-count: 1;
+    -moz-animation-timing-function: ease;
+    -moz-animation-fill-mode: forwards;
+    min-width: 5rem;
+    font-size: .78rem!important;
+  font-weight: bold;
+  }
+  @keyframes fadeAnimation {
+    from {
+      opacity: 0;
+      top: 120%;
+    }
+    to {
+      opacity: 1;
+      top: 100%;
+    }
+  }
+  @-webkit-keyframes fadeAnimation {
+    from {
+      opacity: 0;
+      top: 120%;
+    }
+    to {
+      opacity: 1;
+      top: 100%;
+    }
+  }
+
+  body{
+    font-size: 14px !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  }
+  .text-sm .btn {
+    font-size: 12px !important;
+}
+  .btn-xs {
+    padding: .125rem .25rem !important;
+    font-size: .75rem !important;
+    line-height: 1.5 !important;
+    border-radius: .15rem;
+}
+
+.table th{
+  text-align: center;
+}
+.table td, .table th {
+  padding: 5px !important;
+  vertical-align: center !important;
+  border-top: 1px solid #dee2e6;
+}
+
+.text-sm .brand-link {
+  font-size: x-large;
+}
+
+.card-header {
+  background-color: #fff !important;
+}
+
+.main-sidebar{
+  min-height: 720px !important;
+}

@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {  
   const getBasename = path => path.substr(0, path.lastIndexOf('/'));
-  console.log(getBasename(window.location.pathname));
   return (
     <Router basename={getBasename(window.location.pathname)}>
       <Switch>

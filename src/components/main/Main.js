@@ -55,7 +55,7 @@ const Main = ({ onUserLoad }) => {
     }
 
     let template;
-
+    const getBasename = path => path.substr(0, path.lastIndexOf('/'));
     if (appLoadingState) {
         template = 'Running ....';
     } else {
@@ -64,15 +64,14 @@ const Main = ({ onUserLoad }) => {
                 <Header toggleMenuSidebar={toggleMenuSidebar} />
 
                 <MenuSidebar />
-
-                <Switch>
+            
+                <Switch basename={getBasename(window.location.pathname)}>
                     <Route path="/users" component={UserList} />
                     <Route exact path="/konsumen" component={Konsumen} />
                     <Route path="/category" component={Category} />
                     <Route path="/banners" component={Banner} />
                     <Route path="/members" component={Members} />
                 </Switch>
-
             </>
         );
     }

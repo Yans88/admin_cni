@@ -3,15 +3,12 @@ import ReactDatatable from '@ashvin27/react-datatable';
 import CategoryService from './CategoryService';
 import { Button, Form, Figure } from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-import NoImg from '../assets/no_photo.jpg'
+import NoImg from '../assets/noPhoto.jpg'
 
 const Category = (auth) => {
-
-    const initData = { id_category: '', category_name: '', img: '' };
+    const initData = { id_category: "", category_name: "", img: "" };
     const [selected, setSelected] = useState(initData);
     const [categoryList, setCategoryList] = useState([]);
     const [totalData, setTotalData] = useState(0);
@@ -361,5 +358,4 @@ const Category = (auth) => {
 const mapStateToProps = (state) => ({
     user: state.auth.currentUser
 });
-export default connect(mapStateToProps, '')(Category);
-
+export default connect(mapStateToProps, "")(Category);

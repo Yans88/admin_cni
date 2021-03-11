@@ -8,7 +8,7 @@ const MenuSidebar = () => {
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
             {/* Brand Logo */}
-            <NavLink to='/' className="brand-link text-center active">
+            <NavLink to='/' className="brand-link text-center">
                 <span className="brand-text"><strong>Admin CNI</strong></span>
             </NavLink>
 
@@ -19,7 +19,7 @@ const MenuSidebar = () => {
                     <ul className="nav nav-pills nav-sidebar flex-column text-sm" data-widget="treeview" role="menu" data-accordion="false">
                         <li className="nav-item">
                             <NavLink
-                                to='#'
+                                to='/members'
                                 role="button"
                                 className="nav-link">
                                 <i className="nav-icon fas fa-copy" />
@@ -61,7 +61,7 @@ const MenuSidebar = () => {
                         </li>
                         <li className="nav-item">
                             <NavLink
-                                to='/'
+                                to='/products'
                                 className="nav-link">
                                 <i className="nav-icon fa fa-bookmark" />
                                 <p>Products</p>
@@ -70,7 +70,7 @@ const MenuSidebar = () => {
                         </li>
                         <li className="nav-item">
                             <NavLink
-                                to='#'
+                                to='/banners'
                                 role="button"
                                 className="nav-link">
                                 <i className="nav-icon fas fa-copy" />

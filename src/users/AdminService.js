@@ -14,7 +14,7 @@ class AdminService {
             case "DELETE_DATA":
                 return axios.post(API_URL + "/del_admin", param)
             default:
-                return axios.post(API_URL + "/admin", param)
+                return axios.post(API_URL + "/simpan_admin", param)
         }
     }
 }

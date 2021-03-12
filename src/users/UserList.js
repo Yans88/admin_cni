@@ -149,7 +149,7 @@ const UserList = (auth) => {
     }
     const getData = (queryString) => {
         setLoadTbl(true);
-        AdminService.postDataUsers(queryString)
+        AdminService.postDataUsers(queryString, "GET_DATA")
             .then(response => {
                 setTimeout(() => {
                     if (response.data.err_code === "00") {
@@ -230,7 +230,6 @@ const UserList = (auth) => {
                 .required('Please provide a password')
         }),
         onSubmit: (values, { setSubmitting, resetForm }) => {
-            setActionForm("ADD_DATA");
             handleSave(values);
             resetForm({});
             setSubmitting(false);
@@ -241,6 +240,7 @@ const UserList = (auth) => {
     });
 
     const discardChanges = () => {
+        setActionForm("ADD_DATA");
         setSelected(initAdmin);
         formik.resetForm();
         setShow(true);
@@ -344,13 +344,13 @@ const UserList = (auth) => {
                     formSubmit={formik.handleSubmit}
                 ></AppModal>
 
-                <AppSwalSuccess
+                {showSwalSuccess ? (<AppSwalSuccess
                     show={showSwalSuccess}
                     title={errMsg}
                     type="success"
                     handleClose={closeSwal}
                 >
-                </AppSwalSuccess>
+                </AppSwalSuccess>) : ''}
 
                 <AppModal
                     show={deleteForm}

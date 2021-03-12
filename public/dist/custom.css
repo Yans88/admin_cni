@@ -120,11 +120,11 @@ navbar-nav>li>.dropdown-menu {
 }
 
 .table th{
-  text-align: center;
+  text-align: middle;
 }
 .table td, .table th {
   padding: 5px !important;
-  vertical-align: center !important;
+  vertical-align: middle !important;
   border-top: 1px solid #dee2e6;
 }
 
@@ -138,4 +138,8 @@ navbar-nav>li>.dropdown-menu {
 
 .main-sidebar{
   min-height: 720px !important;
+}
+
+.modal-body{
+  padding-bottom: 0px !important;
 }

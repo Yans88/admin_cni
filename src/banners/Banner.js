@@ -70,19 +70,21 @@ const Banner = (auth) => {
         {
             key: "priority_number",
             text: "Priorty",
+            align: "center",
             sortable: true
         },
         {
             key: "img",
             text: "Image",
+            align: "center",
             sortable: false,
             cell: record => {
                 return (
                     <div style={{ textAlign: "center" }}>
                         <Figure>
                             <Figure.Image
-                                width={171}
-                                height={180}
+                                width={130}
+                                height={100}
                                 alt={record.type === 1 ? record.product_name : <a href={record.url} target="_blank">{record.url}</a>}
                                 src={record.img}
                             />
@@ -97,6 +99,7 @@ const Banner = (auth) => {
             key: "action",
             text: "Action",
             width: 170,
+            align: "center",
             sortable: false,
             cell: record => {
                 return (
@@ -272,29 +275,41 @@ const Banner = (auth) => {
         <Form.Group controlId="id_admin">
             <Form.Control type="hidden" {...formik.getFieldProps('id_admin')} />
         </Form.Group>
-        <Form.Group controlId="fullname">
+        <Form.Group controlId="type">
             <Form.Label>Type</Form.Label>
-            {formik.touched.name && formik.errors.name ?
-                (<span className="float-right text-error badge badge-danger">{formik.errors.name}</span>) : null}
-            <Form.Control name="name" size="sm" value="test val" type="text" placeholder="Fullname" {...formik.getFieldProps('name')} />
+            <Form.Control name="type" size="sm" as="select">
+                <option value="">- Type -</option>
+                <option value="1">Product Detail</option>
+                <option value="2">Website</option>
+            </Form.Control>
         </Form.Group>
-        <Form.Group controlId="username">
-            <Form.Label>Web URL</Form.Label>
+        <Form.Group controlId="web_url">
+            <Form.Label>URL</Form.Label>
             {formik.touched.username && formik.errors.username ?
                 (<span className="float-right text-error badge badge-danger">{formik.errors.username}</span>) : null}
-            <Form.Control size="sm" type="text" placeholder="Username" {...formik.getFieldProps('username')} />
+            <Form.Control size="sm" type="text" placeholder="URL" {...formik.getFieldProps('username')} />
         </Form.Group>
-        <Form.Group controlId="password">
+        <Form.Group controlId="product">
             <Form.Label>Product</Form.Label>
-            {formik.touched.pass && formik.errors.pass ?
-                (<span className="float-right text-error badge badge-danger">{formik.errors.pass}</span>) : null}
-            <Form.Control size="sm" type="text" placeholder="Password" {...formik.getFieldProps('pass')} />
+            <Form.Control name="product" size="sm" as="select">
+                <option value="">- Product -</option>
+                <option value="1">Product Detail</option>
+                <option value="2">Website</option>
+            </Form.Control>
         </Form.Group>
-        <Form.Group controlId="password">
+        <Form.Group controlId="image">
             <Form.Label>Image</Form.Label>
-            {formik.touched.pass && formik.errors.pass ?
-                (<span className="float-right text-error badge badge-danger">{formik.errors.pass}</span>) : null}
-            <Form.Control size="sm" type="text" placeholder="Password" {...formik.getFieldProps('pass')} />
+            <Form.File size="sm" name="img" />
+        </Form.Group>
+        <Form.Group controlId="imagePreview">
+            <Figure>
+                <Figure.Image
+                    width={130}
+                    height={100}
+                    alt=""
+                    src={selected.imgUpload}
+                />
+            </Figure>
         </Form.Group>
     </Form>;
 
@@ -323,7 +338,7 @@ const Banner = (auth) => {
                                 {/* card start */}
                                 <div className="card card-success shadow-lg">
                                     <div className="card-header">
-                                        <Button disabled variant="success" onClick={discardChanges}><i className="fa fa-plus"></i> Add</Button>
+                                        <Button variant="success" onClick={discardChanges}><i className="fa fa-plus"></i> Add</Button>
                                         {/* <ToastProvider
                                             placement="bottom-right" autoDismiss
                                             autoDismissTimeout={2000}
@@ -356,12 +371,12 @@ const Banner = (auth) => {
 
                 <AppModal
                     show={show}
-                    size="sm"
+                    
                     form={frmUser}
                     handleClose={handleClose}
                     backdrop="static"
                     keyboard={false}
-                    title="Add/Edit User"
+                    title="Add/Edit Banner"
                     titleButton="Save change"
                     themeButton="success"
                     isLoading={isLoading}

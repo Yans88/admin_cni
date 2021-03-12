@@ -45,12 +45,13 @@ const Members = (auth) => {
             width: 20,
             align: "center",
             sortable: false,
-            cell: (row, index) => ((pageNumb - 1) * pageSize) + index + 1 + '.',
+            cell: (row, index) => <div style={{ textAlign: "center" }}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
             row: 0
         },
         {
             key: "cni_id",
             text: "CNI ID",
+            align: "center",
             sortable: true,
             cell: record => {
                 return (<Fragment> {record.nama} <br />
@@ -61,36 +62,41 @@ const Members = (auth) => {
         {
             key: "nama",
             text: "Fullname",
+            align: "center",
             sortable: true
         },
         {
             key: "email",
             text: "Contact",
+            align: "center",
             sortable: false,
             cell: record => { return (<Fragment> {record.email} <br /><b>Phone</b> : {record.phone}</Fragment>) }
         },
         {
             key: "ewallet",
             text: "e-Wallet",
+            align: "center",
             sortable: true
         },
         {
             key: "action",
             text: "Action",
-            width: 80,
+            width: 75,
             sortable: false,
             align: "center",
             cell: record => {
                 return (
-                    <Fragment>
-                        <button disabled
-                            className="btn btn-xs btn-info"
-                            onClick={e => editRecord(record)}
-                            style={{ marginRight: '5px' }}>
-                            <i className="fa fa-eye"></i> View
+                    <div style={{ textAlign: "center" }}>
+                        <Fragment>
+                            <button disabled
+                                className="btn btn-xs btn-info"
+                                onClick={e => editRecord(record)}
+                                style={{ marginRight: '5px' }}>
+                                <i className="fa fa-eye"></i> View
                         </button>
 
-                    </Fragment>
+                        </Fragment>
+                    </div>
                 );
             }
         }

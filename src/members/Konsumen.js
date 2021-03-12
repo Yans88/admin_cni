@@ -4,19 +4,20 @@ import { connect } from 'react-redux';
 import MemberService from './MemberService';
 
 const Members = (auth) => {
-    const initAdmin = { id_admin: '', username: '', pass: '', name: '' };
+    const initAdmin = { id_admin: '', username: '', pass: '', nama: '' };
     const [selected, setSelected] = useState(initAdmin);
     const [memberList, setMemberList] = useState([]);
     const [totalData, setTotalData] = useState(0);
     const [pageNumb, setPageNumb] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [sortOrder, setSortOrder] = useState("ASC");
-    const [sortColumn, setSortColumn] = useState("name");
+    const [sortColumn, setSortColumn] = useState("nama");
     const [filterValue, setFilterValue] = useState("");
     const [loadTbl, setLoadTbl] = useState(true);
-    
+
 
     const getData = (queryString) => {
+        console.log(queryString);
         setLoadTbl(true);
         MemberService.postData(queryString)
             .then(response => {
@@ -44,13 +45,14 @@ const Members = (auth) => {
             width: 20,
             align: "center",
             sortable: false,
-            cell: (row, index) => ((pageNumb - 1) * pageSize) + index + 1 + '.',
+            cell: (row, index) => <div style={{ textAlign: "center" }}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
             row: 0
         },
-        
+
         {
             key: "nama",
             text: "Fullname",
+            align: "center",
             sortable: true,
             cell: record => {
                 return (<Fragment> {record.nama} <br />
@@ -61,31 +63,34 @@ const Members = (auth) => {
         {
             key: "email",
             text: "Contact",
+            align: "center",
             sortable: false,
             cell: record => { return (<Fragment> {record.email} <br /><b>Phone</b> : {record.phone}</Fragment>) }
         },
         {
             key: "ewallet",
             text: "e-Wallet",
+            align: "center",
             sortable: true
         },
         {
             key: "action",
             text: "Action",
-            width: 80,
+            width: 75,
             sortable: false,
             align: "center",
             cell: record => {
                 return (
-                    <Fragment>
-                        <button disabled
-                            className="btn btn-xs btn-info"
-                            onClick={e => editRecord(record)}
-                            style={{ marginRight: '5px' }}>
-                            <i className="fa fa-eye"></i> View
+                    <div style={{ textAlign: "center" }}>
+                        <Fragment>
+                            <button disabled
+                                className="btn btn-xs btn-info"
+                                onClick={e => editRecord(record)}
+                                style={{ marginRight: '5px' }}>
+                                <i className="fa fa-eye"></i> View
                         </button>
-
-                    </Fragment>
+                        </Fragment>
+                    </div>
                 );
             }
         }
@@ -113,13 +118,13 @@ const Members = (auth) => {
             keyword: filterValue,
             page_number: pageNumb,
             per_page: pageSize,
-            type:2
+            type: 2
         }
         getData(param);
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
     const editRecord = (record) => {
-        setSelected(record)        
+        setSelected(record)
     }
 
     const tableChangeHandler = (data) => {

@@ -46,7 +46,7 @@ export const AppSwalConfirm = ({
             {...otherProps}
             show={show}
             type={type}
-            title={title}
+            title={title !== null ? title : '-'}
             text={textBody}
             onConfirm={handleClose}
             onCancel={handleClose}

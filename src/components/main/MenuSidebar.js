@@ -96,6 +96,15 @@ const MenuSidebar = () => {
                                     </NavLink>
 
                                 </li>
+                                <li className="nav-item">
+                                    <NavLink
+                                        to='/setting'
+                                        className="nav-link">
+                                        <i className="nav-icon fa fa-folder-open" />
+                                        <p>Setting</p>
+                                    </NavLink>
+
+                                </li>
 
                             </ul>
                         </li>

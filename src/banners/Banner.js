@@ -1,12 +1,14 @@
 import React, { useState, Fragment, useEffect } from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
 import BannerService from './BannerService';
-import { Button, Form, Figure } from 'react-bootstrap';
+import { Button, Form, Figure, Col } from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import Select from 'react-select';
+import { SelectProducts } from '../components/modal/MySelect';
+
+
 
 
 // export const ToastDemo = ({ content }) => {
@@ -23,7 +25,8 @@ import { AppSwalSuccess } from '../components/modal/SwalSuccess';
 
 const Banner = (auth) => {
 
-    const initData = { id_banner: '', id_product: '', img: '', type: '', url: '', priority_number: '' };
+    const initData = { id_banner: '', id_product: '', img: '', type: '', url: '', priority_number: '', imgUpload: '' };
+    const errorValidate = { img: '', priority_number: '', type: '' };
     const [selected, setSelected] = useState(initData);
     const [bannerList, setBannerList] = useState([]);
     const [totalData, setTotalData] = useState(0);
@@ -36,7 +39,7 @@ const Banner = (auth) => {
     const [show, setShow] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [deleteForm, setdeleteForm] = useState(false);
-    const [errMsg, setErrMsg] = useState('');
+    const [errMsg, setErrMsg] = useState(errorValidate);
     const [actionForm, setActionForm] = useState(null);
     const [showSwalSuccess, setshowSwalSuccess] = useState(false);
 
@@ -105,13 +108,13 @@ const Banner = (auth) => {
                 return (
                     <div style={{ textAlign: "center" }}>
                         <Fragment>
-                            <button disabled
+                            <button
                                 className="btn btn-xs btn-success"
                                 onClick={e => editRecord(record)}
                                 style={{ marginRight: '5px' }}>
                                 <i className="fa fa-edit"></i> Edit
                         </button>
-                            <button disabled
+                            <button
                                 className="btn btn-danger btn-xs"
                                 onClick={() => deleteRecord(record)}>
                                 <i className="fa fa-trash"></i> Delete
@@ -139,9 +142,10 @@ const Banner = (auth) => {
     }
 
     const editRecord = (record) => {
-        setSelected(record)
+        setSelected({ ...record, imgUpload: record.img })
         setShow(true);
         setActionForm("EDIT_DATA")
+        setErrMsg(errorValidate);
     }
 
     const deleteRecord = (record) => {
@@ -168,6 +172,7 @@ const Banner = (auth) => {
             return true;
         });
     }
+
     const getData = (queryString) => {
         setLoadTbl(true);
         BannerService.postData(queryString)
@@ -190,38 +195,51 @@ const Banner = (auth) => {
     };
 
     const handleSave = async (userPost) => {
+
         let err_code = '';
         let contentSwal = '-';
         setLoading(true);
-        setErrMsg(null);
+        setErrMsg(errorValidate);
+        let _data = new FormData();
+        _data.append('id_banner', userPost.id_banner);
+        _data.append('type', userPost.type);
+        _data.append('priority_number', userPost.priority_number);
+        userPost.type === 1 ? _data.append('id_product', userPost.id_product) : _data.append('id_product', '');
+        userPost.type === 2 ? _data.append('url', userPost.url) : _data.append('url', '');
         if (actionForm === "ADD_DATA") {
-            userPost.created_by = auth.user.id_operator;
+            _data.append('img', userPost.img);
+            _data.append('id_operator', auth.user.id_operator);
             contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil ditambahkan</div>' }} />;
         }
         if (actionForm === "EDIT_DATA") {
-            userPost.updated_by = auth.user.id_operator;
+            _data.append('img', userPost.img);
+            _data.append('id_operator', auth.user.id_operator);
             contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil diubah</div>' }} />;
         }
         if (actionForm === "DELETE_DATA") {
-            userPost = {};
-            userPost = {
+            _data = {};
+            _data = {
                 id_banner: selected.id_banner,
-                deleted_by: auth.user.id_operator
+                id_operator: auth.user.id_operator
             }
             contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
         }
-        await BannerService.postData(userPost, actionForm).then((res) => {
+
+        await BannerService.postData(_data, actionForm).then((res) => {
+            console.log(res);
             err_code = res.data.err_code;
             setLoading(false);
-            if (err_code !== '00') {
-                setErrMsg(res.data.err_msg);
-                return;
-            } else {
+            if (err_code === '06') {
+                setErrMsg({ priority_number: "Number already exist" });
+            }
+            if (err_code === '00') {
                 setShow(false);
                 setdeleteForm(false);
                 setErrMsg(contentSwal);
                 setshowSwalSuccess(true);
             }
+
+
         }).catch((error) => {
             setLoading(false);
             setErrMsg(error)
@@ -237,71 +255,129 @@ const Banner = (auth) => {
             per_page: pageSize
         }
         getData(param);
+
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
-    const formik = useFormik({
-        initialValues: selected,
-        enableReinitialize: true,
-        validationSchema: Yup.object({
-            name: Yup.string()
-                .required('Please enter fullname'),
-            username: Yup.string()
-                .required('Please enter username'),
-            pass: Yup.string()
-                .required('Please provide a password')
-        }),
-        onSubmit: (values, { setSubmitting, resetForm }) => {
-            setActionForm("ADD_DATA");
-            handleSave(values);
-            resetForm({});
-            setSubmitting(false);
-        },
-        onReset: (values, { setSubmitting, resetForm }) => {
-            setSubmitting(false);
+    const handleChange = event => {
+        const { name, value } = event.target
+        var val = value;
+        setErrMsg(errorValidate);
+        if (event.target.name === "img") {
+            val = event.target.files[0];
+            setSelected({ ...selected, imgUpload: "", img: "" })
+            if (!val) return;
+            if (!val.name.match(/\.(jpg|jpeg|png)$/)) {
+                setErrMsg({ img: "Please select valid image(.jpg .jpeg .png)" });
+                setLoading(true);
+                return;
+            }
+            if (val.size > 2099200) {
+                setErrMsg({ img: "File size over 2MB" });
+                setLoading(true);
+                return;
+            }
+            let reader = new FileReader();
+            reader.readAsDataURL(val);
+            reader.onloadend = () => {
+                setSelected({ ...selected, imgUpload: reader.result, img: val })
+            };
         }
-    });
+        setSelected({
+            ...selected,
+            [name]: val
+        })
+    }
+
+    const onchangeSelect = (item) => {
+        setSelected({ ...selected, id_product: item.value, product_name: item.label })
+
+    };
+
+    const handleChangeNumberOnly = evt => {
+        const number = (evt.target.validity.valid) ? evt.target.value : selected.priority_number;
+        setSelected({ ...selected, priority_number: number })
+    }
+
+    const handleSubmit = () => {
+        var fileSize = selected.img.size;
+        var error = null;
+        if (selected.type === null || selected.type === "") {
+            error = { ...error, type: "Please select type" };
+        }
+        if (selected.img) {
+            if (fileSize > 2099200) { // satuan bytes 2099200 => 2MB
+                error = { ...error, img: "File size over 2MB" };
+            }
+        }
+        setErrMsg(error);
+        if (!error) handleSave(selected);
+    }
 
     const discardChanges = () => {
+        setActionForm("ADD_DATA")
         setSelected(initData);
-        formik.resetForm();
+        setLoading(false);
         setShow(true);
+        setErrMsg(errorValidate);
     }
 
     const frmUser = <Form id="myForm">
-        {/* <div className="alert alert-danger alert-sm">
-            <button type="button" className="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <span className="fw-semi-bold">Error:</span> Login failed.
-        </div> */}
-        <Form.Group controlId="id_admin">
-            <Form.Control type="hidden" {...formik.getFieldProps('id_admin')} />
-        </Form.Group>
-        <Form.Group controlId="type">
-            <Form.Label>Type</Form.Label>
-            <Form.Control name="type" size="sm" as="select">
-                <option value="">- Type -</option>
-                <option value="1">Product Detail</option>
-                <option value="2">Website</option>
-            </Form.Control>
-        </Form.Group>
-        <Form.Group controlId="web_url">
+        <Form.Row>
+            <Form.Group controlId="id_banner">
+                <Form.Control type="hidden" defaultValue={selected.id_banner} />
+            </Form.Group>
+            <Form.Group as={Col} controlId="type">
+                <Form.Label>Type</Form.Label>{errMsg.type ?
+                    (<span className="float-right text-error badge badge-danger">{errMsg.type}</span>) : ''}
+                <Form.Control
+                    name="type"
+                    size="sm"
+                    as="select"
+                    value={selected.type}
+                    onChange={handleChange}>
+                    <option value="">- Type -</option>
+                    <option value="1">Product Detail</option>
+                    <option value="2">Website</option>
+                </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} controlId="priority_number">
+                <Form.Label>Priority Number</Form.Label>{errMsg.priority_number ?
+                    (<span className="float-right text-error badge badge-danger">{errMsg.priority_number}</span>) : ''}
+                <Form.Control
+                    size="sm"
+                    name="priority_number"
+                    type="text" pattern="[0-9]*"
+                    onInput={handleChangeNumberOnly}
+                    value={selected.priority_number}
+                    onChange={handleChangeNumberOnly}
+                    placeholder="Priority Number" />
+            </Form.Group>
+        </Form.Row>
+        {selected.type === 2 || selected.type === "2" ? (<Form.Group controlId="url">
             <Form.Label>URL</Form.Label>
-            {formik.touched.username && formik.errors.username ?
-                (<span className="float-right text-error badge badge-danger">{formik.errors.username}</span>) : null}
-            <Form.Control size="sm" type="text" placeholder="URL" {...formik.getFieldProps('username')} />
-        </Form.Group>
-        <Form.Group controlId="product">
+            <Form.Control
+                size="sm"
+                type="text"
+                name="url"
+                value={selected.url}
+                onChange={handleChange}
+                placeholder="URL" />
+        </Form.Group>) : ''}
+
+        {selected.type === 1 || selected.type === "1" ? (<Form.Group controlId="id_product">
             <Form.Label>Product</Form.Label>
-            <Form.Control name="product" size="sm" as="select">
-                <option value="">- Product -</option>
-                <option value="1">Product Detail</option>
-                <option value="2">Website</option>
-            </Form.Control>
-        </Form.Group>
+            <SelectProducts
+
+                myVal={selected.id_product ? ({ value: selected.id_product, label: selected.product_name }) : ''}
+                onChange={onchangeSelect} />
+        </Form.Group>) : ''}
+
         <Form.Group controlId="image">
-            <Form.Label>Image</Form.Label>
-            <Form.File size="sm" name="img" />
+            <Form.Label>Image</Form.Label>{errMsg.img ?
+                (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : null}
+            <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={handleChange} />
         </Form.Group>
-        <Form.Group controlId="imagePreview">
+        {selected.imgUpload ? (<Form.Group controlId="imagePreview">
             <Figure>
                 <Figure.Image
                     width={130}
@@ -310,7 +386,7 @@ const Banner = (auth) => {
                     src={selected.imgUpload}
                 />
             </Figure>
-        </Form.Group>
+        </Form.Group>) : ''}
     </Form>;
 
     const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:18px; text-align:center;">Apakah anda yakin <br/>menghapus data ini ?</div>' }} />;
@@ -349,6 +425,7 @@ const Banner = (auth) => {
                                     </div>
 
                                     <div className="card-body">
+
                                         {bannerList ? (<ReactDatatable
                                             config={config}
                                             records={bannerList}
@@ -371,7 +448,7 @@ const Banner = (auth) => {
 
                 <AppModal
                     show={show}
-                    
+
                     form={frmUser}
                     handleClose={handleClose}
                     backdrop="static"
@@ -380,16 +457,15 @@ const Banner = (auth) => {
                     titleButton="Save change"
                     themeButton="success"
                     isLoading={isLoading}
-                    formSubmit={formik.handleSubmit}
+                    formSubmit={handleSubmit}
                 ></AppModal>
 
-                <AppSwalSuccess
+                {showSwalSuccess ? (<AppSwalSuccess
                     show={showSwalSuccess}
                     title={errMsg}
                     type="success"
-                    handleClose={closeSwal}
-                >
-                </AppSwalSuccess>
+                    handleClose={closeSwal}                >
+                </AppSwalSuccess>) : ''}
 
                 <AppModal
                     show={deleteForm}

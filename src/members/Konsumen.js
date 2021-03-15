@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import MemberService from './MemberService';
 
 const Members = (auth) => {
-    const initAdmin = { id_admin: '', username: '', pass: '', nama: '' };
-    const [selected, setSelected] = useState(initAdmin);
     const [memberList, setMemberList] = useState([]);
     const [totalData, setTotalData] = useState(0);
     const [pageNumb, setPageNumb] = useState(1);
@@ -15,9 +13,7 @@ const Members = (auth) => {
     const [filterValue, setFilterValue] = useState("");
     const [loadTbl, setLoadTbl] = useState(true);
 
-
     const getData = (queryString) => {
-        console.log(queryString);
         setLoadTbl(true);
         MemberService.postData(queryString)
             .then(response => {
@@ -62,14 +58,14 @@ const Members = (auth) => {
         },
         {
             key: "email",
-            text: "Contact",
+            text: "Email",
             align: "center",
-            sortable: false,
-            cell: record => { return (<Fragment> {record.email} <br /><b>Phone</b> : {record.phone}</Fragment>) }
+            sortable: true,
+            //cell: record => { return (<Fragment> {record.email} <br /><b>Phone</b> : {record.phone}</Fragment>) }
         },
         {
-            key: "ewallet",
-            text: "e-Wallet",
+            key: "phone",
+            text: "Phone",
             align: "center",
             sortable: true
         },
@@ -124,7 +120,7 @@ const Members = (auth) => {
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
     const editRecord = (record) => {
-        setSelected(record)
+        console.log(record)
     }
 
     const tableChangeHandler = (data) => {

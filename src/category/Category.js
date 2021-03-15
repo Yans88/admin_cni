@@ -132,7 +132,7 @@ const Category = (auth) => {
 
     const deleteRecord = (record) => {
         setErrMsg(errorValidate);
-        setSelected(record)        
+        setSelected(record)
         setActionForm("DELETE_DATA")
         setdeleteForm(true);
     }
@@ -155,9 +155,9 @@ const Category = (auth) => {
             return true;
         });
     }
-    const getData = (queryString) => {
+    const getData = async (queryString) => {
         setLoadTbl(true);
-        CategoryService.postData(queryString)
+        await CategoryService.postData(queryString)
             .then(response => {
                 setTimeout(() => {
                     if (response.data.err_code === "00") {
@@ -234,9 +234,7 @@ const Category = (auth) => {
             }
         }
         setErrMsg(error);
-        console.log(error);
         if (!error) handleSave(selected);
-        console.log(error);
     }
 
     useEffect(() => {
@@ -277,7 +275,7 @@ const Category = (auth) => {
                 return;
             }
             let reader = new FileReader();
-            var url = reader.readAsDataURL(val);
+            reader.readAsDataURL(val);
             reader.onloadend = () => {
                 setSelected({ ...selected, imgUpload: reader.result, img: val })
             };
@@ -293,13 +291,13 @@ const Category = (auth) => {
             <Form.Control type="hidden" defaultValue={selected.id_category} />
         </Form.Group>
         <Form.Group controlId="category_name">
-            <Form.Label>Category</Form.Label>
-
+            <Form.Label>Category</Form.Label>{errMsg.category_name ?
+                (<span className="float-right text-error badge badge-danger">{errMsg.category_name}</span>) : ''}
             <Form.Control size="sm" name="category_name" type="text" value={selected.category_name} onChange={handleChange} placeholder="Category" />
         </Form.Group>
         <Form.Group controlId="image">
             <Form.Label>Image</Form.Label>{errMsg.img ?
-                (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : null}
+                (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
             <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={handleChange} />
         </Form.Group>
         {selected.imgUpload ? (<Form.Group controlId="imagePreview">

@@ -9,6 +9,8 @@ import Members from '../../members/Members';
 import Konsumen from '../../members/Konsumen';
 import Category from '../../category/Category';
 import Banner from '../../banners/Banner';
+import Product from '../../products/Product';
+import Setting from '../../settings/Setting';
 
 const Main = ({ onUserLoad }) => {
 
@@ -67,10 +69,13 @@ const Main = ({ onUserLoad }) => {
             
                 <Switch basename={getBasename(window.location.pathname)}>
                     <Route path="/users" component={UserList} />
-                    <Route exact path="/konsumen" component={Konsumen} />
+                    <Route path="/konsumen" component={Konsumen} />
                     <Route path="/category" component={Category} />
+                    <Route path="/products" component={Product} />
                     <Route path="/banners" component={Banner} />
+                    <Route exact path="/" component={Banner} />
                     <Route path="/members" component={Members} />
+                    <Route path="/setting" component={Setting} />
                 </Switch>
             </>
         );

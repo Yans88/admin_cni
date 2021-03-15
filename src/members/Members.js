@@ -5,14 +5,12 @@ import { connect } from 'react-redux';
 import MemberService from './MemberService';
 
 const Members = (auth) => {
-    const initAdmin = { id_admin: '', username: '', pass: '', name: '' };
-    const [selected, setSelected] = useState(initAdmin);
     const [memberList, setMemberList] = useState([]);
     const [totalData, setTotalData] = useState(0);
     const [pageNumb, setPageNumb] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [sortOrder, setSortOrder] = useState("ASC");
-    const [sortColumn, setSortColumn] = useState("name");
+    const [sortColumn, setSortColumn] = useState("nama");
     const [filterValue, setFilterValue] = useState("");
     const [loadTbl, setLoadTbl] = useState(true);
 
@@ -130,7 +128,7 @@ const Members = (auth) => {
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
     const editRecord = (record) => {
-        setSelected(record)
+        console.log(record)
     }
 
     const tableChangeHandler = (data) => {

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { Button} from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import ProductService from './ProductService';
 import { TblProducts } from './TblProducts';
 
@@ -22,7 +24,7 @@ const Product = (auth) => {
             .then(response => {
                 setTimeout(() => {
                     if (response.data.err_code === "00") {
-                        
+
                         setProductList(response.data.data);
                         setTotalData(response.data.total_data);
                     }
@@ -100,7 +102,10 @@ const Product = (auth) => {
                             <div className="col-12">
                                 {/* card start */}
                                 <div className="card card-success shadow-lg">
-
+                                    <div className="card-header">
+                                        <Link to="/add_product"><Button variant="success"><i className="fa fa-plus"></i> Add</Button>
+                                        </Link>
+                                    </div>
                                     <div className="card-body">
                                         {productList ? (<TblProducts
                                             records={productList}

@@ -7,11 +7,10 @@ export const GET_DATA = 'GET_DATA';
 export const VIEW_DETAIL = 'VIEW_DETAIL';
 
 export function getMembers(param) {
-    return (dispatch)=>{
+    return (dispatch) => {
         MemberService.postData(param, GET_DATA).then(function (response) {
-            console.log(response);
             dispatch({
-                type: GET_DATA, 
+                type: GET_DATA,
                 payload: {
                     data: response.data,
                     errorMessage: false
@@ -19,7 +18,7 @@ export function getMembers(param) {
             })
         }).catch(function (error) {
             dispatch({
-                type: VIEW_DETAIL, 
+                type: VIEW_DETAIL,
                 payload: {
                     data: null,
                     errorMessage: error

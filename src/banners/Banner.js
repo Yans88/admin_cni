@@ -8,9 +8,6 @@ import { AppSwalSuccess } from '../components/modal/SwalSuccess';
 import Select from 'react-select';
 import { SelectProducts } from '../components/modal/MySelect';
 
-
-
-
 // export const ToastDemo = ({ content }) => {
 //     const { addToast } = useToasts()
 //     return (
@@ -290,7 +287,6 @@ const Banner = (auth) => {
 
     const onchangeSelect = (item) => {
         setSelected({ ...selected, id_product: item.value, product_name: item.label })
-
     };
 
     const handleChangeNumberOnly = evt => {
@@ -367,7 +363,6 @@ const Banner = (auth) => {
         {selected.type === 1 || selected.type === "1" ? (<Form.Group controlId="id_product">
             <Form.Label>Product</Form.Label>
             <SelectProducts
-
                 myVal={selected.id_product ? ({ value: selected.id_product, label: selected.product_name }) : ''}
                 onChange={onchangeSelect} />
         </Form.Group>) : ''}

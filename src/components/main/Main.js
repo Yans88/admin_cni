@@ -11,6 +11,7 @@ import Category from '../../category/Category';
 import Banner from '../../banners/Banner';
 import Product from '../../products/Product';
 import Setting from '../../settings/Setting';
+import ProductForm from '../../products/ProductForm';
 
 const Main = ({ onUserLoad }) => {
 
@@ -76,6 +77,8 @@ const Main = ({ onUserLoad }) => {
                     <Route exact path="/" component={Banner} />
                     <Route path="/members" component={Members} />
                     <Route path="/setting" component={Setting} />
+                    <Route path="/add_product" component={ProductForm}/>
+                    <Route path="/edit_product/:id" component={ProductForm}/>
                 </Switch>
             </>
         );

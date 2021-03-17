@@ -50,6 +50,7 @@ export const TblProducts = props => {
             key: "qty",
             text: "Stok",
             align: "center",
+            width: 70,
             sortable: true,
             cell: record => {
                 return (
@@ -65,13 +66,19 @@ export const TblProducts = props => {
         {
             key: "action",
             text: "Action",
-            width: 122,
+            width: 190,
             sortable: false,
             align: "center",
             cell: record => {
                 return (
                     <div style={{ textAlign: "center" }}>
                         <Fragment>
+                            <button disabled
+                                className="btn btn-info btn-xs"
+                                onClick={() => props.deleteRecord(record)}
+                                style={{ marginRight: '5px' }}>
+                                <i className="fa fa-list"></i> Image
+                            </button>
                             <button
                                 className="btn btn-xs btn-success"
                                 onClick={() => props.editRecord(record)}
@@ -83,6 +90,7 @@ export const TblProducts = props => {
                                 onClick={() => props.deleteRecord(record)}>
                                 <i className="fa fa-trash"></i> Delete
                             </button>
+
                         </Fragment>
                     </div>
                 );

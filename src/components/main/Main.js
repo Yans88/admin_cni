@@ -78,7 +78,7 @@ const Main = ({ onUserLoad }) => {
                     <Route path="/members" component={Members} />
                     <Route path="/setting" component={Setting} />
                     <Route path="/add_product" component={ProductForm}/>
-                    <Route path="/edit_product/:id" component={ProductForm}/>
+                    <Route path="/edit_product" component={ProductForm}/>
                 </Switch>
             </>
         );

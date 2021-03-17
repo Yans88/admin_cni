@@ -5,7 +5,6 @@ import { Button, Form, Figure, Col } from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
 import { connect } from 'react-redux';
 import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-import Select from 'react-select';
 import { SelectProducts } from '../components/modal/MySelect';
 
 // export const ToastDemo = ({ content }) => {
@@ -192,7 +191,6 @@ const Banner = (auth) => {
     };
 
     const handleSave = async (userPost) => {
-
         let err_code = '';
         let contentSwal = '-';
         setLoading(true);
@@ -223,7 +221,6 @@ const Banner = (auth) => {
         }
 
         await BannerService.postData(_data, actionForm).then((res) => {
-            console.log(res);
             err_code = res.data.err_code;
             setLoading(false);
             if (err_code === '06') {

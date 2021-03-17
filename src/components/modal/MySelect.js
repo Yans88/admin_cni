@@ -176,7 +176,7 @@ export const SelectCategory = props => {
 
     return (
         <AsyncPaginate
-            name="id_product"
+            name="id_category"
             isDisabled={loading}           
             loadOptions={getData} // function that executes HTTP request and returns array of options
             defaultOptions

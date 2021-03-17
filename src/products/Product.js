@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Button} from 'react-bootstrap';
+import Cookies from 'universal-cookie';
+import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import ProductService from './ProductService';
 import { TblProducts } from './TblProducts';
+import AppModal from '../components/modal/MyModal';
+import { AppSwalSuccess } from '../components/modal/SwalSuccess';
 
 const Product = (auth) => {
     const [productList, setProductList] = useState([]);
@@ -17,14 +20,33 @@ const Product = (auth) => {
     const [isLoading, setLoading] = useState(false);
     const [deleteForm, setdeleteForm] = useState(false);
     const [loadTbl, setLoadTbl] = useState(true);
+    const [showSwalSuccess, setshowSwalSuccess] = useState(false);
+    const [errMsg, setErrMsg] = useState(null);
+    const history = useHistory();
+    const cookie = new Cookies();
 
+    const handleClose = () => {
+        setdeleteForm(false);
+    };
+
+    const closeSwal = () => {
+        setshowSwalSuccess(false);
+        const param = {
+            sort_order: sortOrder,
+            sort_column: sortColumn,
+            keyword: filterValue,
+            page_number: pageNumb,
+            per_page: pageSize
+        }
+        getData(param);
+    }
     const getData = async (queryString) => {
+        cookie.remove('selectedIdCNI');
         setLoadTbl(true);
         await ProductService.postData(queryString)
             .then(response => {
                 setTimeout(() => {
                     if (response.data.err_code === "00") {
-
                         setProductList(response.data.data);
                         setTotalData(response.data.total_data);
                     }
@@ -33,11 +55,37 @@ const Product = (auth) => {
                         setTotalData(0);
                     }
                     setLoadTbl(false);
-                }, 200);
+                }, 300);
             })
             .catch(e => {
                 console.log(e);
             });
+    };
+
+    const handleSave = async () => {
+        let err_code = '';
+        let contentSwal = '-';
+        setLoading(true);
+
+        let _data = {
+            id_product: selected.id_product,
+            id_operator: auth.user.id_operator
+        }
+        contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+
+        await ProductService.postData(_data, "DELETE_DATA").then((res) => {
+            err_code = res.data.err_code;
+            setLoading(false);
+            if (err_code === '00') {
+                setErrMsg(contentSwal);
+                setdeleteForm(false);
+                setshowSwalSuccess(true);
+            }
+        }).catch((error) => {
+            setLoading(false);
+            //setErrMsg(error);
+            console.log(error);
+        });
     };
 
     const tableChangeHandler = (data) => {
@@ -69,16 +117,19 @@ const Product = (auth) => {
             type: 1
         }
         getData(param);
+
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
-    const editRecord = (record) => {
-        console.log(record)
+    const EditRecord = async (record) => {
+        await cookie.set('selectedIdCNI', record.id_product);
+        history.push('/edit_product');
     }
 
     const deleteRecord = (record) => {
         setSelected(record)
         setdeleteForm(true);
     }
+    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:18px; text-align:center;">Apakah anda yakin <br/>menghapus data ini ?</div>' }} />;
 
     return (
         <div>
@@ -114,21 +165,38 @@ const Product = (auth) => {
                                             pageNumb={pageNumb}
                                             pageSize={pageSize}
                                             loading={loadTbl}
-                                            editRecord={editRecord}
+                                            editRecord={EditRecord}
                                             deleteRecord={deleteRecord}
                                         />) : (<p>Loading...</p>)}
                                     </div>
 
                                 </div>
-
-
                                 {/* /.card */}
                             </div>
                         </div>
                     </div>
                 </section>
 
+                <AppModal
+                    show={deleteForm}
+                    size="sm"
+                    form={contentDelete}
+                    handleClose={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                    title="Delete Product"
+                    titleButton="Delete Product"
+                    themeButton="danger"
+                    isLoading={isLoading}
+                    formSubmit={handleSave}
+                ></AppModal>
 
+                {showSwalSuccess ? (<AppSwalSuccess
+                    show={showSwalSuccess}
+                    title={errMsg}
+                    type="success"
+                    handleClose={closeSwal}                >
+                </AppSwalSuccess>) : ''}
 
             </div>
             <div>

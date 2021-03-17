@@ -1,6 +1,6 @@
 import Main from '../src/components/main/Main'
 import Login from '../src/components/login/Login';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect,Switch, Route } from 'react-router-dom';
 import ProtectedRoute from './router/ProtectedRoute';
 import PublicRoute from './router/PublicRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,7 +16,8 @@ export default function App() {
         <ProtectedRoute path="/">
           <Main />
         </ProtectedRoute>
-        <Route component={Main} />
+        <Redirect from="*" to="/" />
+        {/* <Route component={Main} /> */}
       </Switch>
     </Router>
 

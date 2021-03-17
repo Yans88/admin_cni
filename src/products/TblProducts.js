@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
+import NumberFormat from 'react-number-format';
 
 export const TblProducts = props => {
-   
+
     const columns = [
         {
             key: "no",
@@ -32,13 +33,34 @@ export const TblProducts = props => {
             text: "Harga",
             align: "center",
             sortable: true,
-            cell: record => { return (<Fragment> {record.harga} <br /><b>Diskon Member</b> : {record.diskon_member}</Fragment>) }
+            width: 165,
+            cell: record => {
+                return (<Fragment>
+                    <NumberFormat
+                        value={record.harga}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        displayType={'text'}
+                    />
+                    <br /><b>Diskon Member</b> : {record.diskon_member > 0 ? (record.diskon_member + '%') : 0}</Fragment>)
+            }
         },
+
         {
             key: "qty",
             text: "Stok",
             align: "center",
-            sortable: true
+            sortable: true,
+            cell: record => {
+                return (
+                    <NumberFormat
+                        value={record.qty}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        displayType={'text'}
+                    />
+                )
+            }
         },
         {
             key: "action",
@@ -50,17 +72,17 @@ export const TblProducts = props => {
                 return (
                     <div style={{ textAlign: "center" }}>
                         <Fragment>
-                            <button disabled
+                            <button
                                 className="btn btn-xs btn-success"
-                                onClick={e => props.editRecord(record)}
+                                onClick={() => props.editRecord(record)}
                                 style={{ marginRight: '5px' }}>
                                 <i className="fa fa-edit"></i> Edit
-                        </button>
-                            <button disabled
+                            </button>
+                            <button
                                 className="btn btn-danger btn-xs"
                                 onClick={() => props.deleteRecord(record)}>
                                 <i className="fa fa-trash"></i> Delete
-                        </button>
+                            </button>
                         </Fragment>
                     </div>
                 );

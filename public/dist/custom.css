@@ -147,3 +147,20 @@ navbar-nav>li>.dropdown-menu {
 .my-card-body{
   padding-bottom: 0px !important;
 }
+.was-validated .form-control:valid{
+  border-color: 1px solid #ced4da !important;
+  background-image: none !important;
+}
+.was-validated .custom-control-input:valid~.custom-control-label{
+  color:#212529 !important;
+}
+.was-validated .form-control:invalid{
+  border-color: 1px solid #ced4da !important;
+  background-image: none !important;
+}
+.form-control{
+  font-size: .8rem !important;
+}
+.asrt-page-length select{
+  width: 14% !important;
+}

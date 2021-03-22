@@ -46,6 +46,7 @@ class Provinsi extends Component {
     }
     componentDidMount() {
         sessionStorage.removeItem('idProvCNI');
+        sessionStorage.removeItem('idCityCNI');
         this.getData();
         this.setState({ id_operator: this.props.user.id_operator });
     }

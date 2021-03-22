@@ -4,7 +4,6 @@ let API_URL = process.env.REACT_APP_URL_API;
 
 class CategoryService {
     postData(param, action) {  
-            
         switch (action) {
             case "GET_DATA":
                 return axios.post(API_URL + "/banner", param)

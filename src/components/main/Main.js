@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from './Header'
 import MenuSidebar from './MenuSidebar'
+
 import { connect } from 'react-redux';
 import UserList from '../../users/UserList';
 import { getProfileAdmin } from '../login/LoginService';
@@ -9,13 +10,19 @@ import Members from '../../members/Members';
 import Konsumen from '../../members/Konsumen';
 import Category from '../../category/Category';
 import Banner from '../../banners/Banner';
-import Product from '../../products/Product';
-import Setting from '../../settings/Setting';
-import ProductForm from '../../products/ProductForm';
+import Provinsi from '../../area/Provinsi';
+import City from '../../area/City';
+import Kecamatan from '../../area/Kecamatan';
+const Product = React.lazy(() => import('../../products/Product'));
+const Setting = React.lazy(() => import('../../settings/Setting'));
+const ProductForm = React.lazy(() => import('../../products/ProductForm'));
+const ProductsImg = React.lazy(() => import('../../products/ProductsImg'));
+
 
 const Main = ({ onUserLoad }) => {
 
     const [appLoadingState, updateAppLoading] = useState(false);
+    const [menuCollapse, setMenuCollapse] = useState(false)
     const [menusidebarState, updateMenusidebarState] = useState({
         isMenuSidebarCollapsed: false
     });
@@ -24,6 +31,7 @@ const Main = ({ onUserLoad }) => {
         updateMenusidebarState({
             isMenuSidebarCollapsed: !menusidebarState.isMenuSidebarCollapsed
         });
+        menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
     };
 
     useEffect(() => {
@@ -64,22 +72,30 @@ const Main = ({ onUserLoad }) => {
     } else {
         template = (
             <>
-                <Header toggleMenuSidebar={toggleMenuSidebar} />
+                <React.Suspense fallback="waiting">
+                    <Header toggleMenuSidebar={toggleMenuSidebar} />
 
-                <MenuSidebar />
-            
-                <Switch basename={getBasename(window.location.pathname)}>
-                    <Route path="/users" component={UserList} />
-                    <Route path="/konsumen" component={Konsumen} />
-                    <Route path="/category" component={Category} />
-                    <Route path="/products" component={Product} />
-                    <Route path="/banners" component={Banner} />
-                    <Route exact path="/" component={Banner} />
-                    <Route path="/members" component={Members} />
-                    <Route path="/setting" component={Setting} />
-                    <Route path="/add_product" component={ProductForm}/>
-                    <Route path="/edit_product" component={ProductForm}/>
-                </Switch>
+                    <MenuSidebar toggleMenuSidebar={toggleMenuSidebar} menuCollapse={menuCollapse} />
+
+                    <Switch basename={getBasename(window.location.pathname)}>
+
+                        <Route path="/users" component={UserList} />
+                        <Route path="/konsumen" component={Konsumen} />
+                        <Route path="/category" component={Category} />
+                        <Route path="/products" component={Product} />
+                        <Route path="/banners" component={Banner} />
+                        <Route exact path="/" component={Banner} />
+                        <Route path="/members" component={Members} />
+                        <Route path="/setting" component={Setting} />
+                        <Route path="/add_product" component={ProductForm} />
+                        <Route path="/edit_product" component={ProductForm} />
+                        <Route path="/list_img" component={ProductsImg} />
+                        <Route path="/provinsi" component={Provinsi} />
+                        <Route path="/city" component={City} />
+                        <Route path="/kecamatan" component={Kecamatan} />
+                    </Switch>
+                </React.Suspense>
+                
             </>
         );
     }

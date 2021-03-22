@@ -42,6 +42,7 @@ const Product = (auth) => {
     }
     const getData = async (queryString) => {
         cookie.remove('selectedIdCNI');
+        cookie.remove('imageIdCNI');
         setLoadTbl(true);
         await ProductService.postData(queryString)
             .then(response => {
@@ -125,11 +126,16 @@ const Product = (auth) => {
         history.push('/edit_product');
     }
 
+    const listIMG = async (record) => {
+        await cookie.set('imageIdCNI', record.id_product);
+        history.push('/list_img');
+    }
+
     const deleteRecord = (record) => {
         setSelected(record)
         setdeleteForm(true);
     }
-    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:18px; text-align:center;">Apakah anda yakin <br/>menghapus data ini ?</div>' }} />;
+    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
 
     return (
         <div>
@@ -166,6 +172,7 @@ const Product = (auth) => {
                                             pageSize={pageSize}
                                             loading={loadTbl}
                                             editRecord={EditRecord}
+                                            listImg={listIMG}
                                             deleteRecord={deleteRecord}
                                         />) : (<p>Loading...</p>)}
                                     </div>

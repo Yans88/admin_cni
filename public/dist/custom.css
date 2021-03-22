@@ -2,7 +2,7 @@
     background: #fbfbfb;
     box-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
     position: relative;
-    padding: 10px 5px 7px 5px;
+    padding: 8px 5px 3px 5px !important;
     margin: 0;
     
 }
@@ -16,6 +16,7 @@
     margin-bottom: 0;
     padding: 0;
     font-size: 12px;
+    line-height: 2rem !important;
 }
 .text-center{
     text-align: center;
@@ -163,4 +164,178 @@ navbar-nav>li>.dropdown-menu {
 }
 .asrt-page-length select{
   width: 14% !important;
+}
+
+.img-product-pic {
+	position: relative;
+	display: inline-block;
+}
+
+.img-product-pic:hover .remove-image { 
+  display: block;
+}
+
+.remove-image:hover{
+  background: #E54E4E; 
+  top:-1px;
+  right: -1px;
+}
+
+.remove-image:active {
+  background: #E54E4E;
+  top: 0px;
+  right: -1px;
+ }
+ 
+.remove-image {
+  display: none;
+	padding: 2px 6px 3px;
+	position: absolute;
+	right: 0;
+	top: 0;
+  z-index: 100;
+  border-radius: 10em;
+    cursor: pointer;   
+    text-align: center;
+    text-decoration: none;
+font: 700 15px/20px sans-serif;
+background: #555;
+border: 3px solid #fff;
+color: #FFF;
+    line-height: 10px;
+    border-radius: 50%;  
+    -webkit-transition: background 0.5s;
+    transition: background 0.5s;
+}
+
+.dropzone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #eeeeee;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border .24s ease-in-out;
+  margin-bottom: 20px;
+  height: 150px;
+  min-height: 140px;
+}
+.dropzoneActive{
+  border-color: #0f6674;
+  border-style: dashed;
+}
+.modal-img {
+  margin: auto;
+  display: block;
+  width: 80%;
+  
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  font-size:17px;
+  padding: 10px 0;
+  text-align: center;
+  width: 80%;
+  color: #212529;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-img, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+.pro-menu-item.active{
+  background: rgba(10, 0, 0, 0.144);
+    opacity: 1;
+    color: #17a2b8 !important;
+}
+
+#header .pro-sidebar {
+ min-height: 1200px;
+ height: 1200px;
+  width: 100%;
+  min-width: 100%;
+  box-shadow: 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important;
+}
+
+#header .pro-sidebar.collapsed {
+  width: 73px;
+  min-width: 73px;
+}
+#header .closemenu {  
+  color: #000;
+  position: absolute;
+  right: 0px; 
+  z-index: 9999;
+  line-height: 20px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 22px;
+  top: 55px;
+  cursor: pointer;
+}
+#header .pro-sidebar-inner { 
+  box-shadow: 0.5px 0.866px 2px 0px rgba(0, 0, 0, 0.15);
+}
+#header .pro-sidebar-inner .pro-sidebar-layout {
+  overflow-y: hidden;
+}
+#header .pro-sidebar-inner .pro-sidebar-layout .logotext p {
+  font-size: 20px;
+  padding: 0 20px;
+  font-weight: bold;
+}
+
+#header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
+  
+  font-weight: bold;
+}
+
+.collapsed>.sidebar-btn {  
+    display: inline-block;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    line-height: 40px;
+    padding: 0;
+  }
+.brand-link{
+  color: rgba(255,255,255,.8);
+}
+
+@media only screen and (max-width: 720px) {
+  html {
+    overflow: hidden;
+  }
+}
+
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+  
+  background-color: transparent !important;
+}
+
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item > div > ul{
+padding: 1px !important;
+}
+.pro-inner-list-item {
+  padding-left: 0px !important;
+  padding-right: 10px !important;
+}
+
+.mb-2{
+  margin-bottom: 0 !important;
 }

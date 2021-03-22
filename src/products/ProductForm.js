@@ -16,20 +16,20 @@ import { Link } from 'react-router-dom';
 const cookie = new Cookies();
 //https://www.npmjs.com/package/react-datetime
 
+
 var yesterday = moment().subtract(1, 'day');
 var valid_startDate = function (current) {
     return current.isAfter(yesterday);
 };
-
 class ProductForm extends Component {
     constructor(props) {
         super(props);
+
         this.initialState = {
             id_product: '',
             product_name: '',
             id_category: '',
             category_name: '',
-            harga: '',
             deskripsi: '',
             berat: '',
             kondisi: '',
@@ -37,7 +37,7 @@ class ProductForm extends Component {
             video_url: '',
             img: '',
             imgUpload: '',
-            diskon_member: '',
+            short_description: '',
             qty: '',
             special_promo: '',
             start_date: '',
@@ -56,7 +56,6 @@ class ProductForm extends Component {
             product_name: '',
             id_category: '',
             category_name: '',
-            harga: '',
             deskripsi: '',
             berat: '',
             kondisi: '',
@@ -64,7 +63,7 @@ class ProductForm extends Component {
             video_url: '',
             img: '',
             imgUpload: noImg,
-            diskon_member: '',
+            short_description: "",
             qty: '',
             special_promo: '',
             start_date: '',
@@ -87,7 +86,6 @@ class ProductForm extends Component {
             this.setState({ isEdit: true });
             this.getData();
         }
-
         this.setState({ id_operator: this.props.user.id_operator });
     }
 
@@ -99,7 +97,7 @@ class ProductForm extends Component {
             .then(response => {
                 if (response.data.err_code === "00") {
                     const dtRes = response.data.data;
-                    Object.keys(this.initialState).map((key) => {                        
+                    Object.keys(this.initialState).map((key) => {
                         this.setState({ [key]: dtRes[key] });
                         this.setState({ imgUpload: dtRes.img });
                         this.setState({ img: '' });
@@ -108,7 +106,6 @@ class ProductForm extends Component {
                     });
                 }
                 if (response.data.err_code === "04") {
-                    console.log(response.data.data);
                     this.setState({ isLoading: false });
                 }
             })
@@ -118,16 +115,27 @@ class ProductForm extends Component {
             });
     };
 
+    
     handleChangeStartDate(date) {
-        const selectedDate = new Date(date);
-        const _date = moment(selectedDate).format('YYYY-MM-DD HH:mm');
-        this.setState({ start_date: _date })
+        let validEd = this.state.validEd;
+        if (date) {
+            const selectedDate = new Date(date);
+            const _date = moment(selectedDate).format('YYYY-MM-DD HH:mm');
+            validEd = _date;
+            this.setState({ start_date: _date, validEd: moment(selectedDate) })
+        } else {
+            this.setState({ start_date: '' })
+        }
         if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
     }
     handleChangeEndDate(date) {
-        const selectedDate = new Date(date);
-        const _date = moment(selectedDate).format('YYYY-MM-DD HH:mm');
-        this.setState({ end_date: _date });
+        if (date) {
+            const selectedDate = new Date(date);
+            const _date = moment(selectedDate).format('YYYY-MM-DD HH:mm');
+            this.setState({ end_date: _date })
+        } else {
+            this.setState({ end_date: '' })
+        }
         if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
     }
     handleChange(evt) {
@@ -172,37 +180,48 @@ class ProductForm extends Component {
     handleSubmit(evt) {
         const form = evt.currentTarget;
         this.setState({ isLoading: true });
+        let error = false;
         if (form.checkValidity() === false) {
+            this.setState({ isLoading: false });
             //if (!this.state.img) this.setState({ ...this, errMsg: { ...this, img: "Image Required" } })
             if (!this.state.id_category) this.setState({ ...this, errMsg: { ...this, id_category: "Required" } })
+            error = true;
             evt.preventDefault();
             evt.stopPropagation();
         }
         //if (!this.state.img) this.setState({ ...this, errMsg: { ...this, img: "Image Required" } })
         if (!this.state.id_category) this.setState({ ...this, errMsg: { ...this, id_category: "Required" } })
-        if ((!this.state.id_category)) {
+        if (!this.state.id_category) {
+            error = true;
+            this.setState({ isLoading: false });
             evt.preventDefault();
             evt.stopPropagation();
         }
+
         this.setState({ validated: true })
-        let err_code = '';
-        let _data = new FormData();
-        Object.keys(this.initialState).map((key) => {
-            _data.append(key, this.state[key]);
-            return 1;
-        });
-        ProductService.postData(_data, 'ADD_DATA').then((res) => {
-            err_code = res.data.err_code;
-            if (err_code === '00') {
-                this.setState({ showSwalSuccess: true })
-            } else {
-                console.log(res.data);
-            }
-        }).catch((error) => {
-            evt.preventDefault();
-            evt.stopPropagation();
-            this.setState({ isLoading: true, validated: false })
-        });
+
+        if (!error) {
+            let err_code = '';
+            let _data = new FormData();
+            Object.keys(this.initialState).map((key) => {
+                _data.append(key, this.state[key]);
+                return 1;
+            });
+            _data.append("id_operator", this.props.user.id_operator);
+            ProductService.postData(_data, 'ADD_DATA').then((res) => {
+                err_code = res.data.err_code;
+                if (err_code === '00') {
+                    this.setState({ showSwalSuccess: true })
+                } else {
+                    console.log(res.data);
+                }
+
+            }).catch((error) => {
+                evt.preventDefault();
+                evt.stopPropagation();
+                this.setState({ isLoading: true, validated: false })
+            });
+        }
         evt.preventDefault();
         evt.stopPropagation();
     }
@@ -217,14 +236,37 @@ class ProductForm extends Component {
         this.props.history.push('/products');
     }
 
+    renderView(mode, renderDefault, name) {
+        // Only for years, months and days view
+        if (mode === "time") return renderDefault();
+
+        return (
+            <div className="wrapper">
+                {renderDefault()}
+                <div className="controls">
+                    <Button variant="warning" type="button" onClick={() => this.clear(name)}>Clear</Button>
+                </div>
+            </div>
+        );
+    }
+
+    clear(name) {
+        if (name === "end_date") {
+            this.handleChangeEndDate();
+        }
+        if (name === "start_date") {
+            this.handleChangeStartDate();
+        }
+    }
+
     render() {
-        
-        
+
         let contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil disimpan</div>' }} />;
-        const withValueCap = (inputObj) => {
-            const { value } = inputObj;
-            if (value <= 100) return inputObj;
-        };
+        // const withValueCap = (inputObj) => {
+        //     const { value } = inputObj;
+        //     if (value <= 100) return inputObj;
+        // };
+
         return (
             <div>
                 <div className="content-wrapper">
@@ -234,13 +276,12 @@ class ProductForm extends Component {
                             <div className="row mb-2">
                                 <div className="col-sm-6">
                                     <h1 className="m-0">{this.state.isEdit ? ("Edit Product") : "Add Product"}</h1>
-                                </div>{/* /.col */}
+                                </div>
 
-                            </div>{/* /.row */}
-                        </div>{/* /.container-fluid */}
+                            </div>
+                        </div>
                     </div>
-                    {/* /.content-header */}
-                    {/* Main content */}
+
                     <section className="content">
                         <div className="container-fluid">
                             <div className="row">
@@ -283,36 +324,31 @@ class ProductForm extends Component {
                                                         </Form.Control.Feedback>
                                                     </Form.Group>
 
-                                                    <Form.Group as={Col} xs={2} controlId="harga">
-                                                        <Form.Label>Price</Form.Label>
+                                                    <Form.Group as={Col} xs={2} controlId="qty">
+                                                        <Form.Label>Quantity</Form.Label>
                                                         <NumberFormat
                                                             onChange={this.handleChange}
-                                                            name="harga"
+                                                            name="qty"
                                                             className="form-control form-control-sm"
-                                                            value={this.state.harga}
+                                                            value={this.state.qty ? this.state.qty : 0}
                                                             thousandSeparator={true}
                                                             decimalScale={2}
                                                             inputMode="numeric"
-                                                            required
                                                             autoComplete="off"
-                                                            placeholder="Price" />
-                                                        <Form.Control.Feedback type="invalid">
-                                                            <span className="badge badge-danger">Price is Required</span>
-                                                        </Form.Control.Feedback>
+                                                            placeholder="Quantity" />
                                                     </Form.Group>
-                                                    <Form.Group as={Col} xs={2} controlId="diskon_member">
-                                                        <Form.Label>Discount Member(%)</Form.Label>
+                                                    <Form.Group as={Col} xs={2} controlId="min_pembelian">
+                                                        <Form.Label>Min. Pembelian</Form.Label>
                                                         <NumberFormat
                                                             onChange={this.handleChange}
-                                                            name="diskon_member"
+                                                            name="min_pembelian"
                                                             className="form-control form-control-sm"
-                                                            value={this.state.diskon_member}
+                                                            value={this.state.min_pembelian ? this.state.min_pembelian : ''}
                                                             thousandSeparator={true}
                                                             decimalScale={2}
                                                             inputMode="numeric"
-                                                            isAllowed={withValueCap}
                                                             autoComplete="off"
-                                                            placeholder="Disc. Member(%)" />
+                                                            placeholder="Min. Pembelian" />
 
                                                     </Form.Group>
                                                 </Form.Row>
@@ -330,7 +366,7 @@ class ProductForm extends Component {
                                                     <Form.Group as={Col} xs={3} controlId="kondisi">
                                                         <Form.Label>Kondisi</Form.Label>
                                                         <Form.Control
-                                                            value={this.state.kondisi}
+                                                            value={this.state.kondisi ? this.state.kondisi : ''}
                                                             onChange={this.handleChange}
                                                             size="sm"
                                                             name="kondisi"
@@ -339,17 +375,21 @@ class ProductForm extends Component {
                                                             placeholder="Kondisi" />
                                                     </Form.Group>
                                                     <Form.Group as={Col} xs={2} controlId="start_date">
-                                                        <Form.Label>Start Date</Form.Label>                                                        
+                                                        <Form.Label>Start Date</Form.Label>
                                                         <Datetime
-                                                            setViewDate={new Date(this.state.start_date)}
-                                                            value={new Date(this.state.start_date)}
+                                                            setViewDate={this.state.start_date ? (new Date(this.state.start_date)) : new Date()}
+                                                            value={this.state.start_date ? (new Date(this.state.start_date)) : ''}
                                                             onChange={this.handleChangeStartDate}
                                                             inputProps={{
+                                                                readOnly: true,
                                                                 autoComplete: "off",
                                                                 placeholder: 'Start Date',
                                                                 name: 'start_date',
                                                                 className: 'form-control form-control-sm'
                                                             }}
+                                                            renderView={(mode, renderDefault, start_date) =>
+                                                                this.renderView(mode, renderDefault, 'start_date')
+                                                            }
                                                             locale="id" isValidDate={this.state.validSd}
                                                         />
                                                     </Form.Group>
@@ -357,58 +397,19 @@ class ProductForm extends Component {
                                                     <Form.Group as={Col} xs={2} controlId="end_date">
                                                         <Form.Label>End Date</Form.Label>
                                                         <Datetime
-                                                            setViewDate={new Date(this.state.end_date)}
-                                                            value={new Date(this.state.end_date)}
+                                                            setViewDate={this.state.end_date ? (new Date(this.state.end_date)) : new Date()}
+                                                            value={this.state.end_date ? (new Date(this.state.end_date)) : ''}
                                                             onChange={this.handleChangeEndDate}
                                                             inputProps={{
+                                                                readOnly: true,
                                                                 placeholder: 'End Date', autoComplete: "off",
                                                                 name: 'end_date', className: 'form-control form-control-sm'
                                                             }}
-                                                            locale="id" isValidDate={this.state.validSd}
+                                                            renderView={(mode, renderDefault) =>
+                                                                this.renderView(mode, renderDefault, 'end_date')
+                                                            }
+                                                            locale="id" isValidDate={this.state.validEd}
                                                         />
-                                                    </Form.Group>
-                                                    <Form.Group as={Col} xs={2} controlId="qty">
-                                                        <Form.Label>Quantity</Form.Label>
-                                                        <NumberFormat
-                                                            onChange={this.handleChange}
-                                                            name="qty"
-                                                            className="form-control form-control-sm"
-                                                            value={this.state.qty}
-                                                            thousandSeparator={true}
-                                                            decimalScale={2}
-                                                            inputMode="numeric"
-                                                            autoComplete="off"
-                                                            placeholder="Quantity" />
-                                                    </Form.Group>
-
-                                                </Form.Row>
-
-                                                <Form.Row>
-                                                    <Form.Group as={Col} controlId="video_url">
-                                                        <Form.Label>URL Video</Form.Label>
-                                                        <Form.Control
-                                                            value={this.state.video_url}
-                                                            onChange={this.handleChange}
-                                                            size="sm"
-                                                            name="video_url"
-                                                            type="text"
-                                                            autoComplete="off"
-                                                            placeholder="URL Video" />
-                                                    </Form.Group>
-
-                                                    <Form.Group as={Col} xs={2} controlId="min_pembelian">
-                                                        <Form.Label>Min. Pembelian</Form.Label>
-                                                        <NumberFormat
-                                                            onChange={this.handleChange}
-                                                            name="min_pembelian"
-                                                            className="form-control form-control-sm"
-                                                            value={this.state.min_pembelian}
-                                                            thousandSeparator={true}
-                                                            decimalScale={2}
-                                                            inputMode="numeric"
-                                                            autoComplete="off"
-                                                            placeholder="Min. Pembelian" />
-
                                                     </Form.Group>
                                                     <Form.Group as={Col} xs={2} controlId="special_promo">
                                                         <Form.Label>Special Promo</Form.Label>
@@ -425,6 +426,37 @@ class ProductForm extends Component {
                                                             </Col>
                                                         </Row>
                                                     </Form.Group>
+
+                                                </Form.Row>
+
+                                                <Form.Row>
+                                                    <Form.Group as={Col} controlId="short_description">
+                                                        <Form.Label>Short Description</Form.Label>
+                                                        <Form.Control
+                                                            required
+                                                            value={this.state.short_description ? this.state.short_description : ''}
+                                                            onChange={this.handleChange}
+                                                            size="sm"
+                                                            name="short_description"
+                                                            type="text"
+                                                            autoComplete="off"
+                                                            placeholder="Short Description" />
+                                                        <Form.Control.Feedback type="invalid">
+                                                            <span className="badge badge-danger">Short Description is Required</span>
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                    <Form.Group as={Col} controlId="video_url">
+                                                        <Form.Label>URL Video</Form.Label>
+                                                        <Form.Control
+                                                            value={this.state.video_url ? this.state.video_url : ''}
+                                                            onChange={this.handleChange}
+                                                            size="sm"
+                                                            name="video_url"
+                                                            type="text"
+                                                            autoComplete="off"
+                                                            placeholder="URL Video" />
+                                                    </Form.Group>
+
 
                                                 </Form.Row>
 
@@ -451,7 +483,7 @@ class ProductForm extends Component {
                                                             name="img"
                                                             style={{ "color": "rgba(0, 0, 0, 0)" }} />
                                                         <Form.Text className="text-muted">
-                                                            - Extension .jpg, .jpeg, .png <br />- Maks. Size 2MB
+                                                            <em>- Images *.jpg, *.jpeg, *.png <br />- Maks. Size 2MB</em>
                                                         </Form.Text>
 
                                                     </Form.Group>
@@ -460,6 +492,7 @@ class ProductForm extends Component {
                                                         <Form.Label style={{ "color": "rgba(0, 0, 0, 0)" }}>-----</Form.Label>
                                                         <Figure>
                                                             <Figure.Image
+                                                                thumbnail
                                                                 width={130}
                                                                 height={100}
                                                                 alt=""

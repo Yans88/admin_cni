@@ -52,7 +52,7 @@ const Members = (auth) => {
             align: "center",
             sortable: true,
             cell: record => {
-                return (<Fragment> {record.nama} <br />
+                return (<Fragment> {record.cni_id} <br />
                     {record.status === 1 ? (<Badge variant="success">Verified</Badge>) : ''}
                 </Fragment>)
             }

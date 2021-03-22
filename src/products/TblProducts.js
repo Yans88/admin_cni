@@ -42,7 +42,7 @@ export const TblProducts = props => {
                         decimalScale={2}
                         displayType={'text'}
                     />
-                    <br /><b>Diskon Member</b> : {record.diskon_member > 0 ? (record.diskon_member + '%') : 0}</Fragment>)
+                </Fragment>)
             }
         },
 
@@ -73,9 +73,9 @@ export const TblProducts = props => {
                 return (
                     <div style={{ textAlign: "center" }}>
                         <Fragment>
-                            <button disabled
+                            <button
                                 className="btn btn-info btn-xs"
-                                onClick={() => props.deleteRecord(record)}
+                                onClick={() => props.listImg(record)}
                                 style={{ marginRight: '5px' }}>
                                 <i className="fa fa-list"></i> Image
                             </button>

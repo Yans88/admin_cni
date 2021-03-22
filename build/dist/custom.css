@@ -143,3 +143,117 @@ navbar-nav>li>.dropdown-menu {
 .modal-body{
   padding-bottom: 0px !important;
 }
+
+.my-card-body{
+  padding-bottom: 0px !important;
+}
+.was-validated .form-control:valid{
+  border-color: 1px solid #ced4da !important;
+  background-image: none !important;
+}
+.was-validated .custom-control-input:valid~.custom-control-label{
+  color:#212529 !important;
+}
+.was-validated .form-control:invalid{
+  border-color: 1px solid #ced4da !important;
+  background-image: none !important;
+}
+.form-control{
+  font-size: .8rem !important;
+}
+.asrt-page-length select{
+  width: 14% !important;
+}
+
+.img-product-pic {
+	position: relative;
+	display: inline-block;
+}
+
+.img-product-pic:hover .remove-image { 
+  display: block;
+}
+
+.remove-image:hover{
+  background: #E54E4E; 
+  top:-1px;
+  right: -1px;
+}
+
+.remove-image:active {
+  background: #E54E4E;
+  top: 0px;
+  right: -1px;
+ }
+ 
+.remove-image {
+  display: none;
+	padding: 2px 6px 3px;
+	position: absolute;
+	right: 0;
+	top: 0;
+  z-index: 100;
+  border-radius: 10em;
+    cursor: pointer;   
+    text-align: center;
+    text-decoration: none;
+font: 700 15px/20px sans-serif;
+background: #555;
+border: 3px solid #fff;
+color: #FFF;
+    line-height: 10px;
+    border-radius: 50%;  
+    -webkit-transition: background 0.5s;
+    transition: background 0.5s;
+}
+
+.dropzone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #eeeeee;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border .24s ease-in-out;
+  margin-bottom: 20px;
+  height: 150px;
+  min-height: 140px;
+}
+.dropzoneActive{
+  border-color: #0f6674;
+  border-style: dashed;
+}
+.modal-img {
+  margin: auto;
+  display: block;
+  width: 80%;
+  
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  font-size:17px;
+  padding: 10px 0;
+  text-align: center;
+  width: 80%;
+  color: #212529;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-img, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+

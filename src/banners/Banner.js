@@ -82,8 +82,9 @@ const Banner = (auth) => {
                     <div style={{ textAlign: "center" }}>
                         <Figure>
                             <Figure.Image
-                                width={130}
-                                height={100}
+                                thumbnail
+                                width={150}
+                                height={120}
                                 alt={record.type === 1 ? record.product_name : <a href={record.url} target="_blank">{record.url}</a>}
                                 src={record.img}
                             />
@@ -199,8 +200,9 @@ const Banner = (auth) => {
         _data.append('id_banner', userPost.id_banner);
         _data.append('type', userPost.type);
         _data.append('priority_number', userPost.priority_number);
-        userPost.type === 1 ? _data.append('id_product', userPost.id_product) : _data.append('id_product', '');
-        userPost.type === 2 ? _data.append('url', userPost.url) : _data.append('url', '');
+        userPost.type === 1 || userPost.type === "1" ? _data.append('id_product', userPost.id_product) : _data.append('id_product', '');
+        userPost.type === 2 || userPost.type === "2" ? _data.append('url', userPost.url) : _data.append('url', '');
+      
         if (actionForm === "ADD_DATA") {
             _data.append('img', userPost.img);
             _data.append('id_operator', auth.user.id_operator);
@@ -232,8 +234,6 @@ const Banner = (auth) => {
                 setErrMsg(contentSwal);
                 setshowSwalSuccess(true);
             }
-
-
         }).catch((error) => {
             setLoading(false);
             setErrMsg(error)
@@ -338,6 +338,7 @@ const Banner = (auth) => {
                     (<span className="float-right text-error badge badge-danger">{errMsg.priority_number}</span>) : ''}
                 <Form.Control
                     size="sm"
+                    autoComplete="off"
                     name="priority_number"
                     type="text" pattern="[0-9]*"
                     onInput={handleChangeNumberOnly}
@@ -349,6 +350,7 @@ const Banner = (auth) => {
         {selected.type === 2 || selected.type === "2" ? (<Form.Group controlId="url">
             <Form.Label>URL</Form.Label>
             <Form.Control
+                autoComplete="off"
                 size="sm"
                 type="text"
                 name="url"
@@ -372,6 +374,7 @@ const Banner = (auth) => {
         {selected.imgUpload ? (<Form.Group controlId="imagePreview">
             <Figure>
                 <Figure.Image
+                    thumbnail
                     width={130}
                     height={100}
                     alt=""
@@ -381,7 +384,7 @@ const Banner = (auth) => {
         </Form.Group>) : ''}
     </Form>;
 
-    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:18px; text-align:center;">Apakah anda yakin <br/>menghapus data ini ?</div>' }} />;
+    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
 
     return (
         <div>
@@ -466,8 +469,8 @@ const Banner = (auth) => {
                     handleClose={handleClose}
                     backdrop="static"
                     keyboard={false}
-                    title="Delete User"
-                    titleButton="Delete User"
+                    title="Delete Banner"
+                    titleButton="Delete Banner"
                     themeButton="danger"
                     isLoading={isLoading}
                     formSubmit={handleSave}

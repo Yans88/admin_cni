@@ -1,121 +1,120 @@
-import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useEffect, useState,useRef } from "react";
+import { NavLink, Link, useLocation, useHistory } from 'react-router-dom';
 
-const MenuSidebar = () => {
-    //const location = useLocation();
-    //console.log(location.pathname);
-    
+import {
+    ProSidebar,
+    Menu,
+    MenuItem,
+    SidebarHeader,
+    SidebarContent,
+    SubMenu,
+} from "react-pro-sidebar";
+
+import { FaList, FaGripHorizontal } from "react-icons/fa";
+import { FiHome } from "react-icons/fi";
+import 'react-pro-sidebar/dist/css/styles.css';
+import { BsFillPersonLinesFill, BsFillPeopleFill, BsFillBookmarksFill, BsFillImageFill, BsFillPersonCheckFill, BsGearFill, BsFillPersonDashFill } from "react-icons/bs";
+import { ImLocation2 } from "react-icons/im";
+
+const MenuSidebar = ({ menuCollapse }) => {
+    const menuMasterData = ["banners", "users", "setting", "provinsi","city","kecamatan"];
+    const menuProducts = ["products", "add_product", "edit_product", "list_img"];
+    const dataPelanggan = ["members", "konsumen"];
+    const menuArea = ["provinsi","city","kecamatan"];
+    const location = useLocation();
+    const lastPathName = location.pathname.replace("/", "");
+    const [isActiveMenu, setIssActiveMenu] = useState({});
+    const [isOpenMasterData, setIsOpenMasterData] = useState(false);
+    const [isOpenDataPelanggan, setIsOpenDataPelanggan] = useState(false);   
+    let menuActive = menuProducts.includes(lastPathName) ? menuProducts[0] : lastPathName;
+    menuActive = menuArea.includes(lastPathName) ? menuArea[0] : lastPathName;
+    let subMenuOpen = menuMasterData.includes(lastPathName) ? "masterData" : '';
+    subMenuOpen = dataPelanggan.includes(lastPathName) ? "dataPelanggan" : subMenuOpen;   
+
+    useEffect(() => {
+        setIsOpenMasterData(e => {
+            return subMenuOpen === "masterData" ? true : false;
+        })
+        setIsOpenDataPelanggan(e => {
+            return subMenuOpen === "dataPelanggan" ? true : false;
+        })
+        setIssActiveMenu({ [menuActive]: true });
+    }, [menuActive, subMenuOpen]);
+
+    const handleClickSubmenu = name => () => {
+        setIsOpenMasterData(prevState => {            
+            const isOpen = prevState;
+            return name === "masterData" ? !isOpen : isOpen;
+        })
+        setIsOpenDataPelanggan(prevState => {
+            const isOpen = prevState;
+            return name === "dataPelanggan" ? !isOpen : isOpen;
+        })
+    };
     return (
-        <aside className="main-sidebar sidebar-dark-primary elevation-4">
-            {/* Brand Logo */}
-            <NavLink to='/' className="brand-link text-center">
-                <span className="brand-text"><strong>Admin CNI</strong></span>
-            </NavLink>
+        <>
+            
+            <div id="header" className="main-sidebar">
+                {/* collapsed props to change menu size using menucollapse state */}
+                <ProSidebar breakPoint="xl" collapsed={menuCollapse}>
+                    <SidebarHeader>
+                        <Link to='/' className="brand-link">
+                            <div
+                                style={{
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                <strong>{menuCollapse ? "CNI" : "Admin CNI"}</strong>
+                            </div>
 
-            {/* Sidebar */}
-            <div className="sidebar">
+                        </Link>
+                    </SidebarHeader>
 
-                <nav className="mt-2" style={{ marginTop: '1rem!important' }}>
-                    <ul className="nav nav-pills nav-sidebar flex-column text-sm" data-widget="treeview" role="menu" data-accordion="false">
-                        <li className="nav-item">
-                            <NavLink
-                                to='/members'
-                                role="button"
-                                className="nav-link">
-                                <i className="nav-icon fas fa-copy" />
-                                <p>Data Pelanggan  <i className="right fas fa-angle-left" /></p>
-                            </NavLink>
+                    <SidebarContent>
+                        <Menu iconShape="circle">
+                            <MenuItem icon={<FiHome />}>
+                                <NavLink to='/home' />Beranda
+                            </MenuItem>
+                            <SubMenu title="Data Pelanggan" onClick={handleClickSubmenu("dataPelanggan")} open={isOpenDataPelanggan} icon={<BsFillPeopleFill />}>
+                                <MenuItem active={isActiveMenu.members} style={{ "paddingLeft": "30px" }} icon={<BsFillPersonCheckFill />}>
+                                    <NavLink to='/members' /> Members
+                                </MenuItem>
+                                <MenuItem active={isActiveMenu.konsumen} style={{ "paddingLeft": "30px" }} icon={<BsFillPersonDashFill />}>
+                                    <NavLink to='/konsumen' />
+                                    Konsumen
+                                </MenuItem>
+                            </SubMenu>
+                            <MenuItem active={isActiveMenu.category} icon={<FaList />}>
+                                <NavLink to='/category' />Category
+                            </MenuItem>
+                            <MenuItem active={isActiveMenu.products} icon={<BsFillBookmarksFill />}>
+                                <NavLink to='/products' />Products
+                            </MenuItem>
+                            <SubMenu title="Master Data" onClick={handleClickSubmenu("masterData")} open={isOpenMasterData} icon={<FaGripHorizontal />}>
+                                <MenuItem style={{ "paddingLeft": "30px" }} icon={<BsFillImageFill />} active={isActiveMenu.banners}>
+                                    <NavLink to='/banners' /> Banners
+                                </MenuItem>
+                                <MenuItem style={{ "paddingLeft": "30px" }} active={isActiveMenu.provinsi} icon={<ImLocation2 />}>
+                                    <NavLink to='/provinsi' /> Area
+                                </MenuItem>
+                                <MenuItem style={{ "paddingLeft": "30px" }} active={isActiveMenu.users} icon={<BsFillPersonLinesFill />}>
+                                    <NavLink to='/users' />
+                                        Users
+                                </MenuItem>
+                                <MenuItem style={{ "paddingLeft": "30px" }} active={isActiveMenu.setting} icon={<BsGearFill />}>
+                                    <NavLink to='/setting' />
+                                    Setting
+                                </MenuItem>
+                            </SubMenu>
+                        </Menu>
+                    </SidebarContent>
 
-                            <ul className="nav nav-treeview">
-                                <li className="nav-item">
-                                    <NavLink
-                                        to='/members'
-                                        className="nav-link">
-                                        <i className="nav-icon fa fa-folder-open" />
-                                        <p>Members</p>
-                                    </NavLink>
-
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink
-                                        to='/konsumen'
-                                        className="nav-link">
-                                        <i className="nav-icon fa fa-folder-open" />
-                                        <p>Konsumen</p>
-                                    </NavLink>
-
-                                </li>
-
-                            </ul>
-                        </li>
-
-
-                        <li className="nav-item">
-                            <NavLink
-                                to='/category'
-                                className="nav-link">
-                                <i className="nav-icon fa fa-bookmark" />
-                                <p>Category</p>
-                            </NavLink>
-
-                        </li>
-                        <li className="nav-item">
-                            <NavLink
-                                to='/products'
-                                className="nav-link">
-                                <i className="nav-icon fa fa-bookmark" />
-                                <p>Products</p>
-                            </NavLink>
-
-                        </li>
-                        <li className="nav-item">
-                            <NavLink
-                                to='/banners'
-                                role="button"
-                                className="nav-link">
-                                <i className="nav-icon fas fa-copy" />
-                                <p>Master Data  <i className="right fas fa-angle-left" /></p>
-                            </NavLink>
-
-                            <ul className="nav nav-treeview">
-                                <li className="nav-item">
-                                    <NavLink
-                                        to='/banners'
-                                        className="nav-link">
-                                        <i className="nav-icon fa fa-folder-open" />
-                                        <p>Banners</p>
-                                    </NavLink>
-
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink
-                                        to='/users'
-                                        className="nav-link">
-                                        <i className="nav-icon fa fa-folder-open" />
-                                        <p>Users</p>
-                                    </NavLink>
-
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink
-                                        to='/setting'
-                                        className="nav-link">
-                                        <i className="nav-icon fa fa-folder-open" />
-                                        <p>Setting</p>
-                                    </NavLink>
-
-                                </li>
-
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-
+                </ProSidebar>
             </div>
-        </aside>
-    )
-}
-
-
+        </>
+    );
+};
 
 export default MenuSidebar;

@@ -4,7 +4,7 @@ let API_URL = process.env.REACT_APP_URL_API;
 
 class ProductService {
     postData(param, action) {
-
+        
         switch (action) {
             case "GET_DATA":
                 return axios.post(API_URL + "/product", param)
@@ -12,6 +12,12 @@ class ProductService {
                 return axios.post(API_URL + "/simpan_product", param)
             case "VIEW_DETAIL":
                 return axios.post(API_URL + "/product_detail", param)
+            case "GET_IMAGE":
+                return axios.post(API_URL + "/product_img", param)
+            case "UPLOAD_IMAGE":
+                return axios.post(API_URL + "/upl_img_prod", param)
+            case "DEL_IMAGE":
+                return axios.post(API_URL + "/del_img_prod", param)
             case "DELETE_DATA":
                 return axios.post(API_URL + "/del_product", param)
             case "GET_PRODUCT":

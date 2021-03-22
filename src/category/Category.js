@@ -70,8 +70,9 @@ const Category = (auth) => {
                     <div style={{ textAlign: "center" }}>
                         <Figure>
                             <Figure.Image
-                                width={130}
-                                height={100}
+                                thumbnail
+                                width={150}
+                                height={120}
                                 alt={record.product_name}
                                 src={record.img ? (record.img) : (NoImg)}
                             />
@@ -314,7 +315,7 @@ const Category = (auth) => {
 
     </Form>;
 
-    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:18px; text-align:center;">Apakah anda yakin <br/>menghapus data ini ?</div>' }} />;
+    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
 
     return (
         <div>
@@ -398,8 +399,8 @@ const Category = (auth) => {
                     handleClose={handleClose}
                     backdrop="static"
                     keyboard={false}
-                    title="Delete User"
-                    titleButton="Delete User"
+                    title="Delete Category"
+                    titleButton="Delete Category"
                     themeButton="danger"
                     isLoading={isLoading}
                     formSubmit={handleSave}

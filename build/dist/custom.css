@@ -2,7 +2,7 @@
     background: #fbfbfb;
     box-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
     position: relative;
-    padding: 10px 5px 7px 5px;
+    padding: 8px 5px 3px 5px !important;
     margin: 0;
     
 }
@@ -16,6 +16,7 @@
     margin-bottom: 0;
     padding: 0;
     font-size: 12px;
+    line-height: 2rem !important;
 }
 .text-center{
     text-align: center;
@@ -257,3 +258,84 @@ color: #FFF;
   to {transform:scale(1)}
 }
 
+.pro-menu-item.active{
+  background: rgba(10, 0, 0, 0.144);
+    opacity: 1;
+    color: #17a2b8 !important;
+}
+
+#header .pro-sidebar {
+ min-height: 1200px;
+ height: 1200px;
+  width: 100%;
+  min-width: 100%;
+  box-shadow: 0 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)!important;
+}
+
+#header .pro-sidebar.collapsed {
+  width: 73px;
+  min-width: 73px;
+}
+#header .closemenu {  
+  color: #000;
+  position: absolute;
+  right: 0px; 
+  z-index: 9999;
+  line-height: 20px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 22px;
+  top: 55px;
+  cursor: pointer;
+}
+#header .pro-sidebar-inner { 
+  box-shadow: 0.5px 0.866px 2px 0px rgba(0, 0, 0, 0.15);
+}
+#header .pro-sidebar-inner .pro-sidebar-layout {
+  overflow-y: hidden;
+}
+#header .pro-sidebar-inner .pro-sidebar-layout .logotext p {
+  font-size: 20px;
+  padding: 0 20px;
+  font-weight: bold;
+}
+
+#header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
+  
+  font-weight: bold;
+}
+
+.collapsed>.sidebar-btn {  
+    display: inline-block;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    line-height: 40px;
+    padding: 0;
+  }
+.brand-link{
+  color: rgba(255,255,255,.8);
+}
+
+@media only screen and (max-width: 720px) {
+  html {
+    overflow: hidden;
+  }
+}
+
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+  
+  background-color: transparent !important;
+}
+
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item > div > ul{
+padding: 1px !important;
+}
+.pro-inner-list-item {
+  padding-left: 0px !important;
+  padding-right: 10px !important;
+}
+
+.mb-2{
+  margin-bottom: 0 !important;
+}

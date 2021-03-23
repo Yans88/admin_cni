@@ -27,7 +27,7 @@ const MenuSidebar = ({ menuCollapse }) => {
     const [isOpenMasterData, setIsOpenMasterData] = useState(false);
     const [isOpenDataPelanggan, setIsOpenDataPelanggan] = useState(false);   
     let menuActive = menuProducts.includes(lastPathName) ? menuProducts[0] : lastPathName;
-    menuActive = menuArea.includes(lastPathName) ? menuArea[0] : lastPathName;
+    menuActive = menuArea.includes(lastPathName) ? menuArea[0] : menuActive;
     let subMenuOpen = menuMasterData.includes(lastPathName) ? "masterData" : '';
     subMenuOpen = dataPelanggan.includes(lastPathName) ? "dataPelanggan" : subMenuOpen;   
 

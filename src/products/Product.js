@@ -44,6 +44,7 @@ const Product = (auth) => {
         cookie.remove('selectedIdCNI');
         cookie.remove('imageIdCNI');
         setLoadTbl(true);
+        queryString.is_cms = 1;
         await ProductService.postData(queryString)
             .then(response => {
                 setTimeout(() => {

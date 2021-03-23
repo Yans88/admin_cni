@@ -222,6 +222,7 @@ class Kecamatan extends Component {
 
 
     render() {
+        const getBasename = path => path.substr(0, path.lastIndexOf('/'));
         const columns = [
             {
                 key: "no",
@@ -351,9 +352,9 @@ class Kecamatan extends Component {
                                 </div>
                                 <div className="col-sm-6">
                                     <Breadcrumb className="float-right">
-                                        <Breadcrumb.Item href="/provinsi">Provinsi</Breadcrumb.Item>
+                                        <Breadcrumb.Item href={getBasename(window.location.pathname) + "/provinsi"}>Provinsi</Breadcrumb.Item>
 
-                                        <Breadcrumb.Item href="/city">{this.state.provinsi_name}</Breadcrumb.Item>
+                                        <Breadcrumb.Item href={getBasename(window.location.pathname) + "/city"}>{this.state.provinsi_name}</Breadcrumb.Item>
                                         <Breadcrumb.Item active>{this.state.city_name}</Breadcrumb.Item>
                                     </Breadcrumb>
                                 </div>

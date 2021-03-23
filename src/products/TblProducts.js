@@ -29,20 +29,37 @@ export const TblProducts = props => {
             sortable: true
         },
         {
-            key: "harga",
-            text: "Harga",
+            key: "harga_member",
+            text: "Hrg. Member",
             align: "center",
             sortable: true,
-            width: 165,
+            width:120,
             cell: record => {
-                return (<Fragment>
+                return (<div style={{ textAlign: "right" }}><Fragment>                     
                     <NumberFormat
-                        value={record.harga}
+                        value={record.harga_member}
                         thousandSeparator={true}
                         decimalScale={2}
                         displayType={'text'}
                     />
-                </Fragment>)
+                </Fragment></div>)
+            }
+        },
+        {
+            key: "harga_konsumen",
+            text: "Hrg. Konsumen",
+            align: "center",
+            sortable: true,
+            width:120,
+            cell: record => {
+                return (<div style={{ textAlign: "right" }}><Fragment>                     
+                    <NumberFormat
+                        value={record.harga_konsumen}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        displayType={'text'}
+                    />
+                </Fragment></div>)
             }
         },
 

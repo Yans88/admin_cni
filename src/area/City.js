@@ -223,6 +223,7 @@ class City extends Component {
     }
 
     render() {
+        const getBasename = path => path.substr(0, path.lastIndexOf('/'));
         const columns = [
             {
                 key: "no",
@@ -359,7 +360,7 @@ class City extends Component {
                                 <div className="col-sm-6">
 
                                     <Breadcrumb className="float-right">
-                                        <Breadcrumb.Item href="/provinsi">Provinsi</Breadcrumb.Item>
+                                        <Breadcrumb.Item href={getBasename(window.location.pathname) + "/provinsi"}>Provinsi</Breadcrumb.Item>
 
                                         <Breadcrumb.Item active>{this.state.provinsi_name}</Breadcrumb.Item>
                                     </Breadcrumb>

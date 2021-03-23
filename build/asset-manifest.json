@@ -1,7 +1,7 @@
 {
   "files": {
     "static/js/0.305c05d9.chunk.js": "/cms_cni/static/js/0.305c05d9.chunk.js",
-    "main.js": "/cms_cni/static/js/main.dc1e7675.chunk.js",
+    "main.js": "/cms_cni/static/js/main.a3b6fb98.chunk.js",
     "runtime-main.js": "/cms_cni/static/js/runtime-main.e0ff864f.js",
     "static/css/3.656b96c3.chunk.css": "/cms_cni/static/css/3.656b96c3.chunk.css",
     "static/js/3.fab38f1a.chunk.js": "/cms_cni/static/js/3.fab38f1a.chunk.js",
@@ -24,6 +24,6 @@
     "static/js/runtime-main.e0ff864f.js",
     "static/css/3.656b96c3.chunk.css",
     "static/js/3.fab38f1a.chunk.js",
-    "static/js/main.dc1e7675.chunk.js"
+    "static/js/main.a3b6fb98.chunk.js"
   ]
 }

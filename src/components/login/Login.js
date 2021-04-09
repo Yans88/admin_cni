@@ -79,6 +79,7 @@ const Login = ({ onUserLogin }) => {
                         ) : null}
                         <div className="input-group mb-3">
                             <input
+                                autoComplete="off"
                                 type="text"
                                 className="form-control"
                                 placeholder="Username"
@@ -97,6 +98,7 @@ const Login = ({ onUserLogin }) => {
                         ) : null}
                         <div className="input-group mb-3">
                             <input
+                                autoComplete="off"
                                 type="password"
                                 className="form-control"
                                 placeholder="Password"

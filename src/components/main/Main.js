@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Header from './Header'
 import MenuSidebar from './MenuSidebar'
 
 import { connect } from 'react-redux';
-import UserList from '../../users/UserList';
 import { getProfileAdmin } from '../login/LoginService';
+
+import PageLoading from './PageLoading';
+import UserList from '../../users/UserList';
 import Members from '../../members/Members';
 import Konsumen from '../../members/Konsumen';
 import Category from '../../category/Category';
 import Banner from '../../banners/Banner';
+import Product from '../../products/Product';
+import ProductForm from '../../products/ProductForm';
+import ProductsImg from '../../products/ProductsImg';
+import Setting from '../../settings/Setting';
 import Provinsi from '../../area/Provinsi';
-import City from '../../area/City';
-import Kecamatan from '../../area/Kecamatan';
-const Product = React.lazy(() => import('../../products/Product'));
-const Setting = React.lazy(() => import('../../settings/Setting'));
-const ProductForm = React.lazy(() => import('../../products/ProductForm'));
-const ProductsImg = React.lazy(() => import('../../products/ProductsImg'));
+import Warehouse from '../../area/Warehouse';
+import ListTrans from '../../transaksi/ListTrans';
+import TransDetail from '../../transaksi/TransDetail';
+import ListTransPayment from '../../transaksi/ListTransPayment';
+import ListTransCompleted from '../../transaksi/ListTransCompleted';
 
+const City = React.lazy(() => import('../../area/City'));
+const Kecamatan = React.lazy(() => import('../../area/Kecamatan'));
 
 const Main = ({ onUserLoad }) => {
 
@@ -52,10 +59,11 @@ const Main = ({ onUserLoad }) => {
 
     document.getElementById('root').classList.remove('login-page');
     document.getElementById('root').classList.remove('hold-transition');
-
+    document.getElementById('root').classList.add('bg-sidebar');
     document.getElementById('root').className += ' sidebar-mini';
 
     if (menusidebarState.isMenuSidebarCollapsed) {
+
         document.getElementById('root').classList.add('sidebar-collapse');
         document.getElementById('root').classList.remove('sidebar-open');
         document.getElementById('root').classList.add('active');
@@ -68,15 +76,21 @@ const Main = ({ onUserLoad }) => {
     let template;
     const getBasename = path => path.substr(0, path.lastIndexOf('/'));
     if (appLoadingState) {
-        template = 'Running ....';
+
+        template = (
+            <>
+                <Header toggleMenuSidebar={toggleMenuSidebar} />
+                <MenuSidebar toggleMenuSidebar={toggleMenuSidebar} menuCollapse={menuCollapse} />
+                <PageLoading />
+            </>
+        );
     } else {
         template = (
             <>
-                <React.Suspense fallback="waiting">
+                <React.Suspense fallback={<PageLoading />}>
+
                     <Header toggleMenuSidebar={toggleMenuSidebar} />
-
                     <MenuSidebar toggleMenuSidebar={toggleMenuSidebar} menuCollapse={menuCollapse} />
-
                     <Switch basename={getBasename(window.location.pathname)}>
 
                         <Route path="/users" component={UserList} />
@@ -93,9 +107,14 @@ const Main = ({ onUserLoad }) => {
                         <Route path="/provinsi" component={Provinsi} />
                         <Route path="/city" component={City} />
                         <Route path="/kecamatan" component={Kecamatan} />
+                        <Route path="/warehouse" component={Warehouse} />
+                        <Route path="/waiting_payment" component={ListTrans} />
+                        <Route path="/payment" component={ListTransPayment} />
+                        <Route path="/completed" component={ListTransCompleted} />
+                        <Route path="/trans_detail" component={TransDetail} />
                     </Switch>
                 </React.Suspense>
-                
+
             </>
         );
     }

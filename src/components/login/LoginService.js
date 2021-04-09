@@ -1,5 +1,4 @@
 import axios from "axios";
-import Moment from "react-moment"
 
 const API_URL = process.env.REACT_APP_URL_API;
 const CryptoJS = require("crypto-js");

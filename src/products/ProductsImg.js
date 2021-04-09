@@ -6,16 +6,21 @@ import { Link } from 'react-router-dom';
 import Dropzone from "react-dropzone";
 import ProductService from './ProductService';
 import AppModal from '../components/modal/MyModal';
+import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import MyLoading from '../components/loading/MyLoading';
+
 const cookie = new Cookies();
 
 class ProductsImg extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loadingPage: true,
+            //loadingPage: true,
+            appsLoading: false,
             isLoading:false,
             deleteForm:false,
             showSwalSuccess:false,
+            contentSwal : '',
             id:'',
             selectedImg:'',
             id_product: '',
@@ -28,15 +33,17 @@ class ProductsImg extends Component {
         this.deleteImg = this.deleteImg.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.closeSwal = this.closeSwal.bind(this);
     }
     componentDidMount() {
+        this.setState({appsLoading:true})
         setTimeout(() => {
             this.getDataProduct();
             this.getData();
         }, 300);
     }
 
-    getData = async () => {
+    getData = async () => {        
         const selectedIdCNI = cookie.get('imageIdCNI');
         const queryString = { id_product: selectedIdCNI };
         this.setState(queryString);
@@ -44,17 +51,17 @@ class ProductsImg extends Component {
             .then(response => {
                 if (response.data.err_code === "00") {
                     const dtRes = response.data.data;
-                    this.setState({ dtImg: dtRes });
+                    this.setState({ dtImg: dtRes, appsLoading:false });
                 }
                 if (response.data.err_code === "04") {
-                    this.setState({ isLoading: false });
+                    this.setState({ isLoading: false,dtImg:[] });
                 }
             })
             .catch(e => {
                 console.log(e);
-                this.setState({ isLoading: false });
+                this.setState({ isLoading: false,dtImg:[] });
             });
-            this.setState({loadingPage:false})
+            //this.setState({loadingPage:false})
     };
 
     getDataProduct = async () => {
@@ -91,11 +98,15 @@ class ProductsImg extends Component {
         ProductService.postData(this.state, 'DEL_IMAGE').then((res) => {
             let err_code = res.data.err_code;
             if (err_code === '00') {
-                this.setState({ ...this.state,showSwalSuccess: true,deleteForm:false })
-                setTimeout(() => {
-                    this.setState({...this.state,isLoading:false})
-                    this.getData();
-                }, 300);
+                const contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+                this.setState({ 
+                    ...this.state,
+                    showSwalSuccess: true,
+                    deleteForm:false,
+                    isLoading:false,
+                    contentSwal:contentSwal 
+                })
+               
             } else {
                 console.log(res.data);
             }
@@ -106,6 +117,13 @@ class ProductsImg extends Component {
 
     handleClose(){
         this.setState({isLoading:false,deleteForm:false});
+    }
+
+    closeSwal(){
+        this.setState({showSwalSuccess:false,contentSwal:''});
+        setTimeout(() => {
+            this.getData();
+        }, 300);
     }
 
     handleDrop(acceptedFiles, fileRejections) {
@@ -119,7 +137,7 @@ class ProductsImg extends Component {
         fd.append('id_operator',this.state.id_operator);
         fd.append('id_product',this.state.id_product);
         ProductService.postData(fd, 'UPLOAD_IMAGE').then((res) => {
-            this.setState({loadingPage:true})
+            //this.setState({loadingPage:true})
             const err_code = res.data.err_code;
             if (err_code === '00') {
                 this.getData();
@@ -147,8 +165,6 @@ class ProductsImg extends Component {
         })
         this.setState({ fileNames: fileReject })
     }
-
-    
 
     render() {
         const deleteContent =  
@@ -187,7 +203,10 @@ class ProductsImg extends Component {
                         <div className="container-fluid">
                             <div className="row">
                                 <div className="col-12">
-                                    {/* card start */}
+                                {this.state.appsLoading ? (
+                                        <MyLoading/>
+                                    ) : (
+                                    
                                     <div className="card shadow-lg">
                                         <div className="card-header">
                                             <h4 className="m-0">{this.state.product_name}</h4>
@@ -244,9 +263,10 @@ class ProductsImg extends Component {
 
                                     </div>
 
-
-                                    {/* /.card */}
+                                    )}
+                                    
                                 </div>
+                                
                             </div>
                         </div>
                     </section>
@@ -264,7 +284,11 @@ class ProductsImg extends Component {
                     formSubmit={this.handleDelete}
                 ></AppModal>
 
-
+                {this.state.showSwalSuccess ? (<AppSwalSuccess
+                    show={this.state.showSwalSuccess}
+                    title={this.state.contentSwal}
+                    type="success"
+                    handleClose={this.closeSwal}/>) : ''}
 
                 </div>
                 <div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { NavLink, Link, useLocation, useHistory } from 'react-router-dom';
 
 import {
@@ -11,25 +11,29 @@ import {
 } from "react-pro-sidebar";
 
 import { FaList, FaGripHorizontal } from "react-icons/fa";
-import { FiHome } from "react-icons/fi";
 import 'react-pro-sidebar/dist/css/styles.css';
-import { BsFillPersonLinesFill, BsFillPeopleFill, BsFillBookmarksFill, BsFillImageFill, BsFillPersonCheckFill, BsGearFill, BsFillPersonDashFill } from "react-icons/bs";
-import { ImLocation2 } from "react-icons/im";
+import { BsClipboardData, BsCardText, BsCardList, BsCardChecklist, BsFillPersonLinesFill, BsFillPeopleFill, BsFillBookmarksFill, BsFillImageFill, BsFillPersonCheckFill, BsGearFill, BsFillPersonDashFill } from "react-icons/bs";
+import { ImLocation2, ImHome } from "react-icons/im";
+import { MdAccountBalance } from "react-icons/md";
 
 const MenuSidebar = ({ menuCollapse }) => {
-    const menuMasterData = ["banners", "users", "setting", "provinsi","city","kecamatan"];
+    const menuMasterData = ["banners", "users", "setting", "provinsi", "city", "kecamatan", "warehouse"];
     const menuProducts = ["products", "add_product", "edit_product", "list_img"];
     const dataPelanggan = ["members", "konsumen"];
-    const menuArea = ["provinsi","city","kecamatan"];
+    const menuArea = ["provinsi", "city", "kecamatan"];
+    const dataTrans = ["waiting_payment", "payment", "completed", "trans_detail"];
     const location = useLocation();
     const lastPathName = location.pathname.replace("/", "");
     const [isActiveMenu, setIssActiveMenu] = useState({});
     const [isOpenMasterData, setIsOpenMasterData] = useState(false);
-    const [isOpenDataPelanggan, setIsOpenDataPelanggan] = useState(false);   
+    const [isOpenDataPelanggan, setIsOpenDataPelanggan] = useState(false);
+    const [isOpenDataTrans, setIsOpenDataTrans] = useState(false);
     let menuActive = menuProducts.includes(lastPathName) ? menuProducts[0] : lastPathName;
     menuActive = menuArea.includes(lastPathName) ? menuArea[0] : menuActive;
+    //menuActive = dataTrans.includes(lastPathName) ? dataTrans[0] : menuActive;
     let subMenuOpen = menuMasterData.includes(lastPathName) ? "masterData" : '';
-    subMenuOpen = dataPelanggan.includes(lastPathName) ? "dataPelanggan" : subMenuOpen;   
+    subMenuOpen = dataPelanggan.includes(lastPathName) ? "dataPelanggan" : subMenuOpen;
+    subMenuOpen = dataTrans.includes(lastPathName) ? "dataTrans" : subMenuOpen;
 
     useEffect(() => {
         setIsOpenMasterData(e => {
@@ -38,11 +42,14 @@ const MenuSidebar = ({ menuCollapse }) => {
         setIsOpenDataPelanggan(e => {
             return subMenuOpen === "dataPelanggan" ? true : false;
         })
+        setIsOpenDataTrans(e => {
+            return subMenuOpen === "dataTrans" ? true : false;
+        })
         setIssActiveMenu({ [menuActive]: true });
     }, [menuActive, subMenuOpen]);
 
     const handleClickSubmenu = name => () => {
-        setIsOpenMasterData(prevState => {            
+        setIsOpenMasterData(prevState => {
             const isOpen = prevState;
             return name === "masterData" ? !isOpen : isOpen;
         })
@@ -50,11 +57,16 @@ const MenuSidebar = ({ menuCollapse }) => {
             const isOpen = prevState;
             return name === "dataPelanggan" ? !isOpen : isOpen;
         })
+        setIsOpenDataTrans(prevState => {
+            const isOpen = prevState;
+            return name === "dataTrans" ? !isOpen : isOpen;
+        })
     };
     return (
         <>
-            
+
             <div id="header" className="main-sidebar">
+
                 {/* collapsed props to change menu size using menucollapse state */}
                 <ProSidebar breakPoint="xl" collapsed={menuCollapse}>
                     <SidebarHeader>
@@ -74,14 +86,14 @@ const MenuSidebar = ({ menuCollapse }) => {
 
                     <SidebarContent>
                         <Menu iconShape="circle">
-                            <MenuItem icon={<FiHome />}>
+                            <MenuItem icon={<ImHome />}>
                                 <NavLink to='/home' />Beranda
                             </MenuItem>
                             <SubMenu title="Data Pelanggan" onClick={handleClickSubmenu("dataPelanggan")} open={isOpenDataPelanggan} icon={<BsFillPeopleFill />}>
-                                <MenuItem active={isActiveMenu.members} style={{ "paddingLeft": "30px" }} icon={<BsFillPersonCheckFill />}>
+                                <MenuItem active={isActiveMenu.members} style={{ "paddingLeft": "27px" }} icon={<BsFillPersonCheckFill />}>
                                     <NavLink to='/members' /> Members
                                 </MenuItem>
-                                <MenuItem active={isActiveMenu.konsumen} style={{ "paddingLeft": "30px" }} icon={<BsFillPersonDashFill />}>
+                                <MenuItem active={isActiveMenu.konsumen} style={{ "paddingLeft": "27px" }} icon={<BsFillPersonDashFill />}>
                                     <NavLink to='/konsumen' />
                                     Konsumen
                                 </MenuItem>
@@ -92,18 +104,34 @@ const MenuSidebar = ({ menuCollapse }) => {
                             <MenuItem active={isActiveMenu.products} icon={<BsFillBookmarksFill />}>
                                 <NavLink to='/products' />Products
                             </MenuItem>
+                            <SubMenu title="Transaksi" onClick={handleClickSubmenu("dataTrans")} open={isOpenDataTrans} icon={<BsClipboardData />}>
+                                <MenuItem active={isActiveMenu.waiting_payment} style={{ "paddingLeft": "27px" }} icon={<BsCardText />}>
+                                    <NavLink to='/waiting_payment' /> Waiting Payment
+                                </MenuItem>
+                                <MenuItem active={isActiveMenu.payment} style={{ "paddingLeft": "27px" }} icon={<BsCardList />}>
+                                    <NavLink to='/payment' />
+                                    Payment Complete
+                                </MenuItem>
+                                <MenuItem active={isActiveMenu.completed} style={{ "paddingLeft": "27px" }} icon={<BsCardChecklist />}>
+                                    <NavLink to='/completed' />
+                                    Completed
+                                </MenuItem>
+                            </SubMenu>
                             <SubMenu title="Master Data" onClick={handleClickSubmenu("masterData")} open={isOpenMasterData} icon={<FaGripHorizontal />}>
-                                <MenuItem style={{ "paddingLeft": "30px" }} icon={<BsFillImageFill />} active={isActiveMenu.banners}>
+                                <MenuItem style={{ "paddingLeft": "27px" }} icon={<BsFillImageFill />} active={isActiveMenu.banners}>
                                     <NavLink to='/banners' /> Banners
                                 </MenuItem>
-                                <MenuItem style={{ "paddingLeft": "30px" }} active={isActiveMenu.provinsi} icon={<ImLocation2 />}>
+                                <MenuItem style={{ "paddingLeft": "27px" }} active={isActiveMenu.provinsi} icon={<ImLocation2 />}>
                                     <NavLink to='/provinsi' /> Area
                                 </MenuItem>
-                                <MenuItem style={{ "paddingLeft": "30px" }} active={isActiveMenu.users} icon={<BsFillPersonLinesFill />}>
+                                <MenuItem style={{ "paddingLeft": "27px" }} active={isActiveMenu.warehouse} icon={<MdAccountBalance />}>
+                                    <NavLink to='/warehouse' /> Warehouse
+                                </MenuItem>
+                                <MenuItem style={{ "paddingLeft": "27px" }} active={isActiveMenu.users} icon={<BsFillPersonLinesFill />}>
                                     <NavLink to='/users' />
                                         Users
                                 </MenuItem>
-                                <MenuItem style={{ "paddingLeft": "30px" }} active={isActiveMenu.setting} icon={<BsGearFill />}>
+                                <MenuItem style={{ "paddingLeft": "27px" }} active={isActiveMenu.setting} icon={<BsGearFill />}>
                                     <NavLink to='/setting' />
                                     Setting
                                 </MenuItem>

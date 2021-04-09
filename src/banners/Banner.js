@@ -85,11 +85,11 @@ const Banner = (auth) => {
                                 thumbnail
                                 width={150}
                                 height={120}
-                                alt={record.type === 1 ? record.product_name : <a href={record.url} target="_blank">{record.url}</a>}
+                                alt={record.type === 1 ? record.product_name : <a href={record.url} target="_blank" rel="noopener noreferrer">{record.url}</a>}
                                 src={record.img}
                             />
                             <Figure.Caption>
-                                {record.type === 1 ? record.product_name : <a href={record.url} target="_blank">{record.url}</a>}
+                                {record.type === 1 ? record.product_name : <a href={record.url} target="_blank" rel="noopener noreferrer">{record.url}</a>}
                             </Figure.Caption>
                         </Figure></div>
                 )
@@ -202,7 +202,7 @@ const Banner = (auth) => {
         _data.append('priority_number', userPost.priority_number);
         userPost.type === 1 || userPost.type === "1" ? _data.append('id_product', userPost.id_product) : _data.append('id_product', '');
         userPost.type === 2 || userPost.type === "2" ? _data.append('url', userPost.url) : _data.append('url', '');
-      
+
         if (actionForm === "ADD_DATA") {
             _data.append('img', userPost.img);
             _data.append('id_operator', auth.user.id_operator);
@@ -459,7 +459,7 @@ const Banner = (auth) => {
                     show={showSwalSuccess}
                     title={errMsg}
                     type="success"
-                    handleClose={closeSwal}                >
+                    handleClose={closeSwal}>
                 </AppSwalSuccess>) : ''}
 
                 <AppModal

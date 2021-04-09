@@ -15,6 +15,7 @@ class City extends Component {
             kode_jne: "",
             kode_lp: "",
             id_operator: "",
+            id_city_cni : "",
             id_provinsi: sessionStorage.getItem('idProvCNI'),
         }
         this.state = {
@@ -67,7 +68,8 @@ class City extends Component {
                         this.setState({
                             ...this.state,
                             dtRes: [],
-                            totalData: 0
+                            totalData: 0,
+                            provinsi_name: response.data.provinsi
                         });
                     }
                     this.setState({ loadTbl: false });
@@ -255,6 +257,13 @@ class City extends Component {
                 sortable: true,
             },
             {
+                key: "id_city_cni",
+                text: "ID Kota/Kab CNI",
+                align: "center",
+                width: 120,
+                sortable: true,
+            },
+            {
                 key: "action",
                 text: "Action",
                 width: 240,
@@ -342,6 +351,22 @@ class City extends Component {
                     placeholder="Kode Lion Parcel"
                     onChange={this.handleChange}
                     autoComplete="off" />
+            </Form.Group>
+            <Form.Group controlId="id_city_cni">
+                <Form.Label>ID City CNI</Form.Label>
+                {/* {this.state.errMsg.kode_lp ?
+                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.kode_lp}</span>) : null} */}
+                <Form.Control
+                    name="id_city_cni"
+                    value={this.state.selected.id_city_cni}
+                    size="sm"
+                    type="text"
+                    placeholder="ID City CNI"
+                    onChange={this.handleChange}
+                    autoComplete="off" />
+                <Form.Text className="text-muted">
+                    <em>Untuk keperluan mapping Distribution Center </em>
+                </Form.Text>
             </Form.Group>
         </Form>;
         const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;

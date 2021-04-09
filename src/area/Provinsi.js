@@ -15,6 +15,7 @@ class Provinsi extends Component {
             provinsi_name: "",
             kode_jne: "",
             kode_lp: "",
+            id_prov_cni:"",
             id_operator: "",
         }
         this.state = {
@@ -248,6 +249,13 @@ class Provinsi extends Component {
                 sortable: true,
             },
             {
+                key: "id_prov_cni",
+                text: "ID Provinsi CNI",
+                align: "center",
+                width: 120,
+                sortable: true,
+            },
+            {
                 key: "action",
                 text: "Action",
                 width: 210,
@@ -312,6 +320,9 @@ class Provinsi extends Component {
                     onChange={this.handleChange}
                     autoComplete="off" />
             </Form.Group>
+            <Form.Row>
+
+            </Form.Row>
             <Form.Group controlId="kode_jne">
                 <Form.Label>Kode JNE</Form.Label>
                 {this.state.errMsg.kode_jne ?
@@ -336,6 +347,22 @@ class Provinsi extends Component {
                     placeholder="Kode Lion Parcel"
                     onChange={this.handleChange}
                     autoComplete="off" />
+            </Form.Group>
+            <Form.Group controlId="id_prov_cni">
+                <Form.Label>ID Provinsi CNI</Form.Label>
+                {/* {this.state.errMsg.kode_lp ?
+                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.kode_lp}</span>) : null} */}
+                <Form.Control
+                    name="id_prov_cni"
+                    value={this.state.selected.id_prov_cni}
+                    size="sm"
+                    type="text"
+                    placeholder="ID Provinsi CNI"
+                    onChange={this.handleChange}
+                    autoComplete="off" />
+                <Form.Text className="text-muted">
+                    <em>Untuk keperluan mapping Distribution Center </em>
+                </Form.Text>
             </Form.Group>
         </Form>;
         const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;

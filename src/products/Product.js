@@ -110,7 +110,7 @@ const Product = (auth) => {
     }
 
     useEffect(() => {
-        const param = {
+        const queryString = {
             sort_order: sortOrder,
             sort_column: sortColumn,
             keyword: filterValue,
@@ -118,8 +118,28 @@ const Product = (auth) => {
             per_page: pageSize,
             type: 1
         }
-        getData(param);
-
+        const getData = async (queryString) => {           
+            setLoadTbl(true);
+            queryString.is_cms = 1;
+            await ProductService.postData(queryString)
+                .then(response => {
+                    setTimeout(() => {
+                        if (response.data.err_code === "00") {
+                            setProductList(response.data.data);
+                            setTotalData(response.data.total_data);
+                        }
+                        if (response.data.err_code === "04") {
+                            setProductList([]);
+                            setTotalData(0);
+                        }
+                        setLoadTbl(false);
+                    }, 300);
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        };    
+        getData(queryString);       
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
     const EditRecord = async (record) => {

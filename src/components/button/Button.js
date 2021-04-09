@@ -8,7 +8,9 @@ const icons = {
     googlePlus: 'fab fa-google-plus',
     sign: 'fa fa-unlock-alt',
     edit: 'fa fa-edit',
-    delete : 'fa fa-trash'
+    delete: 'fa fa-trash',
+    add: 'fa fa-plus',
+    times: 'fa fa-times'
 };
 
 const AppButton = ({

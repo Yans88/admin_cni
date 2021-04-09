@@ -15,6 +15,7 @@ class Kecamatan extends Component {
             kode_jne: "",
             kode_lp: "",
             id_operator: "",
+            id_kec_cni:"",
             id_city: sessionStorage.getItem('idCityCNI'),
         }
         this.state = {
@@ -254,9 +255,16 @@ class Kecamatan extends Component {
                 sortable: true,
             },
             {
+                key: "id_kec_cni",
+                text: "ID Kec CNI",
+                align: "center",
+                width: 100,
+                sortable: true,
+            },
+            {
                 key: "action",
                 text: "Action",
-                width: 240,
+                width: 130,
                 sortable: false,
                 align: "center",
                 cell: record => {
@@ -335,6 +343,22 @@ class Kecamatan extends Component {
                     placeholder="Kode Lion Parcel"
                     onChange={this.handleChange}
                     autoComplete="off" />
+            </Form.Group>
+            <Form.Group controlId="id_kec_cni">
+                <Form.Label>ID Kecamatan CNI</Form.Label>
+                {/* {this.state.errMsg.kode_lp ?
+                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.kode_lp}</span>) : null} */}
+                <Form.Control
+                    name="id_kec_cni"
+                    value={this.state.selected.id_kec_cni}
+                    size="sm"
+                    type="text"
+                    placeholder="ID Kecamatan CNI"
+                    onChange={this.handleChange}
+                    autoComplete="off" />
+                <Form.Text className="text-muted">
+                    <em>Untuk keperluan mapping Distribution Center </em>
+                </Form.Text>
             </Form.Group>
         </Form>;
         const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;

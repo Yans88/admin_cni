@@ -47,9 +47,7 @@ class ProductForm extends Component {
             qty: '',
             special_promo: '',
             start_date: '',
-            end_date: '',
-            harga_member: '',
-            harga_konsumen: '',
+            end_date: '',            
             id_operator: ''
         }
         this.state = {
@@ -76,9 +74,7 @@ class ProductForm extends Component {
             qty: '',
             special_promo: '',
             start_date: '',
-            end_date: '',
-            harga_member: '',
-            harga_konsumen: '',
+            end_date: '',           
             id_operator: '',
             test: 'Halo'
         };
@@ -478,36 +474,9 @@ class ProductForm extends Component {
                                                                 type="text"
                                                                 autoComplete="off"
                                                                 placeholder="URL Video" />
-                                                        </Form.Group>
-                                                        <Form.Group as={Col} controlId="harga_member">
-                                                            <Form.Label>Harga Member</Form.Label>
-                                                            <NumberFormat
-                                                                required
-                                                                onChange={this.handleChange}
-                                                                name="harga_member"
-                                                                className="form-control form-control-sm"
-                                                                value={this.state.harga_member ? this.state.harga_member : ''}
-                                                                thousandSeparator={true}
-                                                                decimalScale={2}
-                                                                inputMode="numeric"
-                                                                autoComplete="off"
-                                                                placeholder="Harga Member" />
-                                                        </Form.Group>
+                                                        </Form.Group>                                                  
 
-                                                        <Form.Group as={Col} controlId="harga_konsumen">
-                                                            <Form.Label>Harga Konsumen</Form.Label>
-                                                            <NumberFormat
-                                                                required
-                                                                onChange={this.handleChange}
-                                                                name="harga_konsumen"
-                                                                className="form-control form-control-sm"
-                                                                value={this.state.harga_konsumen ? this.state.harga_konsumen : ''}
-                                                                thousandSeparator={true}
-                                                                decimalScale={2}
-                                                                inputMode="numeric"
-                                                                autoComplete="off"
-                                                                placeholder="Harga Konsumen" />
-                                                        </Form.Group>
+                                                       
 
                                                     </Form.Row>
 

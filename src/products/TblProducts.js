@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
 import NumberFormat from 'react-number-format';
+import { Link } from 'react-router-dom';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export const TblProducts = props => {
 
@@ -33,32 +35,55 @@ export const TblProducts = props => {
             text: "Hrg. Member",
             align: "center",
             sortable: true,
-            width:120,
+            width: 120,
             cell: record => {
-                return (<div style={{ textAlign: "right" }}><Fragment>                     
-                    <NumberFormat
-                        value={record.harga_member}
-                        thousandSeparator={true}
-                        decimalScale={2}
-                        displayType={'text'}
-                    />
+                return (<div style={{ textAlign: "right" }}><Fragment>
+                    <OverlayTrigger
+                        placement="left"
+                        overlay={
+                            <Tooltip id="tooltip-left">
+                                Pricelist
+                            </Tooltip>
+                        }
+                    >
+                        <Link to='/pricelist' onClick={() => props.PriceList(record)}>
+                            <NumberFormat
+                                value={record.harga_member}
+                                thousandSeparator={true}
+                                decimalScale={2}
+                                displayType={'text'}
+                            />
+                        </Link>
+                    </OverlayTrigger>
                 </Fragment></div>)
             }
+            
         },
         {
             key: "harga_konsumen",
             text: "Hrg. Konsumen",
             align: "center",
             sortable: true,
-            width:120,
+            width: 120,
             cell: record => {
-                return (<div style={{ textAlign: "right" }}><Fragment>                     
-                    <NumberFormat
-                        value={record.harga_konsumen}
-                        thousandSeparator={true}
-                        decimalScale={2}
-                        displayType={'text'}
-                    />
+                return (<div style={{ textAlign: "right" }}><Fragment>
+                    <OverlayTrigger
+                        placement="left"
+                        overlay={
+                            <Tooltip id="tooltip-left">
+                                Pricelist
+                            </Tooltip>
+                        }
+                    >
+                        <Link to='/pricelist' onClick={() => props.PriceList(record)}>
+                            <NumberFormat
+                                value={record.harga_konsumen}
+                                thousandSeparator={true}
+                                decimalScale={2}
+                                displayType={'text'}
+                            />
+                        </Link>
+                    </OverlayTrigger>
                 </Fragment></div>)
             }
         },

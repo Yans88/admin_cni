@@ -3,8 +3,8 @@ import {Redirect, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 const PublicRoute = ({children, isLoggedIn, ...rest}) => {
-    const isAuthenticated = isLoggedIn || localStorage.getItem('token');
-
+    const isAuthenticated = isLoggedIn || localStorage.getItem('tokenCNI');
+console.log(rest);
     return (
         <Route
             {...rest}

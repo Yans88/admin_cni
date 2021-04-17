@@ -8,8 +8,7 @@ class TransService {
             case "GET_DATA":
                 return axios.post(API_URL + "/list_transaksi", param)
             case "VIEW_DETAIL":
-                return axios.post(API_URL + "/transaksi_detail", param)
-            
+                return axios.post(API_URL + "/transaksi_detail", param)            
             default:
                 return axios.post(API_URL + "/simpan_admin", param)
         }

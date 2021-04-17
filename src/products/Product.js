@@ -43,6 +43,7 @@ const Product = (auth) => {
     const getData = async (queryString) => {
         cookie.remove('selectedIdCNI');
         cookie.remove('imageIdCNI');
+        cookie.remove('pricelistIdCNI');
         setLoadTbl(true);
         queryString.is_cms = 1;
         await ProductService.postData(queryString)
@@ -118,7 +119,7 @@ const Product = (auth) => {
             per_page: pageSize,
             type: 1
         }
-        const getData = async (queryString) => {           
+        const getData = async (queryString) => {
             setLoadTbl(true);
             queryString.is_cms = 1;
             await ProductService.postData(queryString)
@@ -138,8 +139,12 @@ const Product = (auth) => {
                 .catch(e => {
                     console.log(e);
                 });
-        };    
-        getData(queryString);       
+        };
+        getData(queryString);
+        const cookie = new Cookies();
+        cookie.remove('selectedIdCNI');
+        cookie.remove('imageIdCNI');
+        cookie.remove('pricelistIdCNI');
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
     const EditRecord = async (record) => {
@@ -150,6 +155,11 @@ const Product = (auth) => {
     const listIMG = async (record) => {
         await cookie.set('imageIdCNI', record.id_product);
         history.push('/list_img');
+    }
+
+    const PriceList = async (record) => {
+        await cookie.set('pricelistIdCNI', record.id_product);
+        history.push('/pricelist');
     }
 
     const deleteRecord = (record) => {
@@ -194,6 +204,7 @@ const Product = (auth) => {
                                             loading={loadTbl}
                                             editRecord={EditRecord}
                                             listImg={listIMG}
+                                            PriceList={PriceList}
                                             deleteRecord={deleteRecord}
                                         />) : (<p>Loading...</p>)}
                                     </div>
@@ -223,7 +234,7 @@ const Product = (auth) => {
                     show={showSwalSuccess}
                     title={errMsg}
                     type="success"
-                    handleClose={closeSwal}                >
+                    handleClose={closeSwal}>
                 </AppSwalSuccess>) : ''}
 
             </div>

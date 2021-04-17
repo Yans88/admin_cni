@@ -1,11 +1,24 @@
-import {createStore, combineReducers} from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 import authReducer from './reducers/auth';
-import membersReducer from './reducers/member';
+import newsReducer from './reducers/newsReducer';
+import pricelistReducer from './reducers/pricelistReducer';
+import settingReducer from './reducers/settingReducer';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
+
+const enhancer = composeEnhancers(
+    applyMiddleware(thunk)
+    // other store enhancers if any
+);
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    members:membersReducer
+    pricelist: pricelistReducer,
+    setting:settingReducer,
+    news:newsReducer
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, enhancer);
 export default store;

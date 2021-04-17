@@ -12,13 +12,13 @@ import {
 
 import { FaList, FaGripHorizontal } from "react-icons/fa";
 import 'react-pro-sidebar/dist/css/styles.css';
-import { BsClipboardData, BsCardText, BsCardList, BsCardChecklist, BsFillPersonLinesFill, BsFillPeopleFill, BsFillBookmarksFill, BsFillImageFill, BsFillPersonCheckFill, BsGearFill, BsFillPersonDashFill } from "react-icons/bs";
+import { BsNewspaper,BsClipboardData, BsCardText, BsCardList, BsCardChecklist, BsFillPersonLinesFill, BsFillPeopleFill, BsFillBookmarksFill, BsFillImageFill, BsFillPersonCheckFill, BsGearFill, BsFillPersonDashFill } from "react-icons/bs";
 import { ImLocation2, ImHome } from "react-icons/im";
 import { MdAccountBalance } from "react-icons/md";
 
 const MenuSidebar = ({ menuCollapse }) => {
-    const menuMasterData = ["banners", "users", "setting", "provinsi", "city", "kecamatan", "warehouse"];
-    const menuProducts = ["products", "add_product", "edit_product", "list_img"];
+    const menuMasterData = ["banners", "users", "setting", "provinsi", "city", "kecamatan", "warehouse","news"];
+    const menuProducts = ["products", "add_product", "edit_product", "list_img","pricelist"];
     const dataPelanggan = ["members", "konsumen"];
     const menuArea = ["provinsi", "city", "kecamatan"];
     const dataTrans = ["waiting_payment", "payment", "completed", "trans_detail"];
@@ -117,6 +117,9 @@ const MenuSidebar = ({ menuCollapse }) => {
                                     Completed
                                 </MenuItem>
                             </SubMenu>
+                            <MenuItem active={isActiveMenu.news} icon={<BsNewspaper />}>
+                                <NavLink to='/news' />News
+                            </MenuItem>
                             <SubMenu title="Master Data" onClick={handleClickSubmenu("masterData")} open={isOpenMasterData} icon={<FaGripHorizontal />}>
                                 <MenuItem style={{ "paddingLeft": "27px" }} icon={<BsFillImageFill />} active={isActiveMenu.banners}>
                                     <NavLink to='/banners' /> Banners

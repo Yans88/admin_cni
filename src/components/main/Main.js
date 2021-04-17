@@ -22,6 +22,8 @@ import ListTrans from '../../transaksi/ListTrans';
 import TransDetail from '../../transaksi/TransDetail';
 import ListTransPayment from '../../transaksi/ListTransPayment';
 import ListTransCompleted from '../../transaksi/ListTransCompleted';
+import PriceList from '../../products/PriceList'
+import News from '../../news/News';
 
 const City = React.lazy(() => import('../../area/City'));
 const Kecamatan = React.lazy(() => import('../../area/Kecamatan'));
@@ -112,6 +114,9 @@ const Main = ({ onUserLoad }) => {
                         <Route path="/payment" component={ListTransPayment} />
                         <Route path="/completed" component={ListTransCompleted} />
                         <Route path="/trans_detail" component={TransDetail} />
+                        <Route path='/pricelist' component={PriceList}/>
+                        <Route path='/setting' component={Setting}/>
+                        <Route path='/news' component={News}/>
                     </Switch>
                 </React.Suspense>
 

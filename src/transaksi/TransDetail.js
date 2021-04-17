@@ -127,7 +127,7 @@ class TransDetail extends Component {
                                                                 <td>{this.state.dtRes.phone_member}</td>
                                                                 <td><strong>No.VA</strong></td>
                                                                 <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.payment_channel > 0 ? this.state.dtRes.key_payment : "-"}</td>
+                                                                <td>{this.state.dtRes.payment === 2 ? this.state.dtRes.key_payment : "-"}</td>
 
                                                             </tr>
                                                             <tr>

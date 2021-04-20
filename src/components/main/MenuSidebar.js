@@ -12,16 +12,17 @@ import {
 
 import { FaList, FaGripHorizontal } from "react-icons/fa";
 import 'react-pro-sidebar/dist/css/styles.css';
-import { BsNewspaper,BsClipboardData, BsCardText, BsCardList, BsCardChecklist, BsFillPersonLinesFill, BsFillPeopleFill, BsFillBookmarksFill, BsFillImageFill, BsFillPersonCheckFill, BsGearFill, BsFillPersonDashFill } from "react-icons/bs";
+import { BsCursorFill, BsNewspaper, BsClipboardData, BsCardText, BsCardList, BsCardChecklist, BsFillPersonLinesFill, BsFillPeopleFill, BsFillBookmarksFill, BsFillImageFill, BsFillPersonCheckFill, BsGearFill, BsFillPersonDashFill } from "react-icons/bs";
 import { ImLocation2, ImHome } from "react-icons/im";
-import { MdAccountBalance } from "react-icons/md";
+import { MdAccountBalance, MdRemoveShoppingCart } from "react-icons/md";
+import { FiRefreshCw } from "react-icons/fi";
 
 const MenuSidebar = ({ menuCollapse }) => {
-    const menuMasterData = ["banners", "users", "setting", "provinsi", "city", "kecamatan", "warehouse","news"];
-    const menuProducts = ["products", "add_product", "edit_product", "list_img","pricelist"];
+    const menuMasterData = ["banners", "users", "setting", "provinsi", "city", "kecamatan", "warehouse", "news"];
+    const menuProducts = ["products", "add_product", "edit_product", "list_img", "pricelist"];
     const dataPelanggan = ["members", "konsumen"];
     const menuArea = ["provinsi", "city", "kecamatan"];
-    const dataTrans = ["waiting_payment", "payment", "completed", "trans_detail"];
+    const dataTrans = ["waiting_payment", "payment", "completed", "trans_detail", "onprocess", "dikirim", "expired"];
     const location = useLocation();
     const lastPathName = location.pathname.replace("/", "");
     const [isActiveMenu, setIssActiveMenu] = useState({});
@@ -112,9 +113,21 @@ const MenuSidebar = ({ menuCollapse }) => {
                                     <NavLink to='/payment' />
                                     Payment Complete
                                 </MenuItem>
+                                <MenuItem active={isActiveMenu.onprocess} style={{ "paddingLeft": "27px" }} icon={<FiRefreshCw />}>
+                                    <NavLink to='/onprocess' />
+                                    On Process
+                                </MenuItem>
+                                <MenuItem active={isActiveMenu.dikirim} style={{ "paddingLeft": "27px" }} icon={<BsCursorFill />}>
+                                    <NavLink to='/dikirim' />
+                                    Dikirim
+                                </MenuItem>
                                 <MenuItem active={isActiveMenu.completed} style={{ "paddingLeft": "27px" }} icon={<BsCardChecklist />}>
                                     <NavLink to='/completed' />
                                     Completed
+                                </MenuItem>
+                                <MenuItem active={isActiveMenu.expired} style={{ "paddingLeft": "27px" }} icon={<MdRemoveShoppingCart />}>
+                                    <NavLink to='/expired' />
+                                    Expired
                                 </MenuItem>
                             </SubMenu>
                             <MenuItem active={isActiveMenu.news} icon={<BsNewspaper />}>

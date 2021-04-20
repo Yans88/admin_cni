@@ -68,27 +68,6 @@ const Members = (auth) => {
             text: "Phone",
             align: "center",
             sortable: true
-        },
-        {
-            key: "action",
-            text: "Action",
-            width: 75,
-            sortable: false,
-            align: "center",
-            cell: record => {
-                return (
-                    <div style={{ textAlign: "center" }}>
-                        <Fragment>
-                            <button disabled
-                                className="btn btn-xs btn-info"
-                                onClick={e => editRecord(record)}
-                                style={{ marginRight: '5px' }}>
-                                <i className="fa fa-eye"></i> View
-                        </button>
-                        </Fragment>
-                    </div>
-                );
-            }
         }
     ];
     const config = {

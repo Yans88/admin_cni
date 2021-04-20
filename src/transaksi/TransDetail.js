@@ -5,19 +5,74 @@ import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import "moment/locale/id";
 import MyLoading from '../components/loading/MyLoading';
+import AppModal from '../components/modal/MyModal';
+import { AppSwalSuccess } from '../components/modal/SwalSuccess';
 
 class TransDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             appsLoading: true,
+            showConfirm: false,
+            isLoading: false,
+            showSwalSuccess: false,
             dtRes: {},
+            errMsg: null,
             id_transaksi: sessionStorage.getItem('idTransCNI'),
         }
     }
 
     componentDidMount() {
         this.getData();
+    }
+
+    handleClose = () => {
+        this.setState({ ...this.state, showConfirm: false, errMsg: null });
+    };
+
+    closeSwal = () => {
+        this.setState({
+            ...this.state,
+            errMsg: null,
+            showSwalSuccess: false
+        });
+    }
+
+    handleSave = () => {
+        this.setState({
+            ...this.state,
+            isLoading: true
+        })
+        const queryString = {
+            id_transaksi: this.state.id_transaksi,
+            id_operator: this.props.user.id_operator
+        }
+        
+        TransService.postData(queryString, "UPD_STATUS").then((res) => {
+            const err_code = res.data.err_code;
+            if (err_code === '00') {
+                this.setState({
+                    ...this.state,
+                    isLoading: false,
+                    showConfirm: false,
+                    errMsg: <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>' }} />,
+                    showSwalSuccess: true,
+                    dtRes: { ...this.state.dtRes, status: 3 }
+                });
+            }
+        }).catch((error) => {
+            console.log(error);
+            this.setState({
+                ...this.state,
+                isLoading: false,
+                showConfirm: false
+            });
+        });
+
+    }
+
+    confirmProcess = () => {
+        this.setState({ ...this.state, showConfirm: true, errMsg: null });
     }
 
     getData = () => {
@@ -48,7 +103,11 @@ class TransDetail extends Component {
             });
     };
 
+
+
     render() {
+        const contentConfirm = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin<br/><b>memproses</b> transaksi ini ?</div>' }} />;
+
         return (
             <div>
 
@@ -69,8 +128,6 @@ class TransDetail extends Component {
                         <section className="content">
                             <div className="container-fluid">
                                 <div className="row">
-
-
                                     <div className="col-12">
                                         {this.state.appsLoading ? (
                                             <MyLoading />
@@ -117,7 +174,10 @@ class TransDetail extends Component {
                                                                     <Fragment>
                                                                         {this.state.dtRes.status === 0 && <span className="badge bg-warning">Waiting Payment</span>}
                                                                         {this.state.dtRes.status === 1 && <span className="badge bg-info">Payment Complete</span>}
-                                                                        {this.state.dtRes.status === 2 && <span className="badge bg-success">Completed</span>}
+                                                                        {this.state.dtRes.status === 2 && <span className="badge bg-danger">Expired Payment</span>}
+                                                                        {this.state.dtRes.status === 3 && <span className="badge bg-warning">On Process</span>}
+                                                                        {this.state.dtRes.status === 4 && <span className="badge bg-info">Dikirim</span>}
+                                                                        {this.state.dtRes.status === 5 && <span className="badge bg-success">Completed</span>}
                                                                     </Fragment>
 
 
@@ -259,7 +319,8 @@ class TransDetail extends Component {
 
                                                 </div>
                                                 <div className="card-footer clearfix">
-                                                    <button type="button" onClick={()=>this.props.history.goBack()} className="btn bnt-flat btn-danger">Back</button>
+                                                    <button type="button" onClick={() => this.props.history.goBack()} className="btn bnt-flat btn-danger">Back</button>
+                                                    {this.state.dtRes.status === 1 && <button type="button" onClick={this.confirmProcess} style={{ marginLeft: 3 }} className="btn bnt-flat btn-warning">Process</button>}
 
                                                 </div>
 
@@ -271,7 +332,25 @@ class TransDetail extends Component {
                                 </div>
                             </div>
                         </section>
-
+                        {this.state.showSwalSuccess ? (<AppSwalSuccess
+                            show={this.state.showSwalSuccess}
+                            title={this.state.errMsg}
+                            type="success"
+                            handleClose={this.closeSwal.bind(this)}>
+                        </AppSwalSuccess>) : ''}
+                        <AppModal
+                            show={this.state.showConfirm}
+                            size="sm"
+                            form={contentConfirm}
+                            handleClose={this.handleClose.bind(this)}
+                            backdrop="static"
+                            keyboard={false}
+                            title="Confirm"
+                            titleButton="Yes, Process"
+                            themeButton="warning"
+                            isLoading={this.state.isLoading}
+                            formSubmit={this.handleSave.bind(this)}
+                        ></AppModal>
 
                     </div>
                     <div>

@@ -3,6 +3,7 @@ import ReactDatatable from '@ashvin27/react-datatable';
 import { Badge } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import MemberService from './MemberService';
+import NumberFormat from 'react-number-format';
 
 const Members = (auth) => {
     const [memberList, setMemberList] = useState([]);
@@ -69,34 +70,6 @@ const Members = (auth) => {
             align: "center",
             sortable: false,
             cell: record => { return (<Fragment> {record.email} <br /><b>Phone</b> : {record.phone}</Fragment>) }
-        },
-        {
-            key: "ewallet",
-            text: "e-Wallet",
-            align: "center",
-            sortable: true
-        },
-        {
-            key: "action",
-            text: "Action",
-            width: 75,
-            sortable: false,
-            align: "center",
-            cell: record => {
-                return (
-                    <div style={{ textAlign: "center" }}>
-                        <Fragment>
-                            <button disabled
-                                className="btn btn-xs btn-info"
-                                onClick={e => editRecord(record)}
-                                style={{ marginRight: '5px' }}>
-                                <i className="fa fa-eye"></i> View
-                        </button>
-
-                        </Fragment>
-                    </div>
-                );
-            }
         }
     ];
     const config = {

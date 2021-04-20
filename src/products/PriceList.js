@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { Alert, Button, Col, Collapse, Form, OverlayTrigger, Spinner, Tooltip } from 'react-bootstrap';
+import { Alert, Button, Col, Collapse, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import "moment/locale/id";
@@ -51,7 +51,7 @@ class PriceList extends Component {
             showSwalSuccess: false,
             loadArea: false,
             showFormAreaa: false,
-            sort_order: "ASC",
+            sort_order: "DESC",
             sort_column: "id_pricelist",
             start_date: "",
             end_date: "",

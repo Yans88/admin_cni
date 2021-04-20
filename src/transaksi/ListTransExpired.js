@@ -6,7 +6,7 @@ import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import "moment/locale/id";
 
-class ListTransCompleted extends Component {
+class ListTransExpired extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +21,7 @@ class ListTransCompleted extends Component {
                 sort_order: "DESC",
                 sort_column: "id_transaksi",
                 keyword: "",
-                status: 5,
+                status: 2,
             },
 
         }
@@ -190,7 +190,7 @@ class ListTransCompleted extends Component {
                                 <div className="col-12">
                                     <div className="card shadow-lg">
                                         <div className="card-header">
-                                            <h1 className="card-title card-title-custom">Completed</h1>
+                                            <h1 className="card-title card-title-custom">Expired</h1>
                                         </div>
 
                                         <div className="card-body">
@@ -227,4 +227,4 @@ class ListTransCompleted extends Component {
 const mapStateToProps = (state) => ({
     user: state.auth.currentUser
 });
-export default connect(mapStateToProps, '')(ListTransCompleted);
+export default connect(mapStateToProps, '')(ListTransExpired);

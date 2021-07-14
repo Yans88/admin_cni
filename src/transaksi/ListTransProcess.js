@@ -34,7 +34,9 @@ class ListTransProcess extends Component {
 
     getData = () => {
         this.setState({ loadTbl: true });
-        TransService.postData(this.state.queryString, "GET_DATA")
+        const { queryString } = this.state;
+        queryString.id_operator = this.props.user.id_operator;
+        TransService.postData(queryString, "GET_DATA")
             .then(response => {
                 setTimeout(() => {
                     if (response.data.err_code === "00") {
@@ -102,7 +104,7 @@ class ListTransProcess extends Component {
                 key: "created_at",
                 text: "Date",
                 align: "center",
-                width:130,
+                width: 130,
                 sortable: true,
                 cell: record => {
                     return (moment(new Date(record.created_at)).format('DD-MM-YYYY HH:mm'))

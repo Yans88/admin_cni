@@ -44,10 +44,11 @@ export const getProfileAdmin = async () => {
         const response = res.data;
         if (response.err_code === '00') {
             let data = response.data;
+            dt_user = data
             dt_user = {
+                ...dt_user,
                 id_operator: data.id_admin,
-                name: data.name,
-                password: null
+                
             };
         }
     });

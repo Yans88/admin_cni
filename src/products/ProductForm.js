@@ -27,12 +27,13 @@ var valid_startDate = function (current) {
     return current.isAfter(yesterday);
 };
 class ProductForm extends Component {
-   
+
     constructor(props) {
         super(props);
 
         this.initialState = {
             id_product: '',
+            kode_produk: '',
             product_name: '',
             id_category: '',
             category_name: '',
@@ -46,8 +47,9 @@ class ProductForm extends Component {
             short_description: '',
             qty: '',
             special_promo: '',
+            favourite: '',
             start_date: '',
-            end_date: '',            
+            end_date: '',
             id_operator: ''
         }
         this.state = {
@@ -61,6 +63,8 @@ class ProductForm extends Component {
             appsLoading: false,
             id_product: '',
             product_name: '',
+            product_code: '',
+            kode_produk: '',
             id_category: '',
             category_name: '',
             deskripsi: "",
@@ -73,8 +77,9 @@ class ProductForm extends Component {
             short_description: "",
             qty: '',
             special_promo: '',
+            favourite: '',
             start_date: '',
-            end_date: '',           
+            end_date: '',
             id_operator: '',
             test: 'Halo'
         };
@@ -93,12 +98,12 @@ class ProductForm extends Component {
         const selectedIdCNI = cookie.get('selectedIdCNI');
         if (pathName === 'edit_product' && (selectedIdCNI > 0 || !selectedIdCNI)) {
             this.setState({ isEdit: true });
-                this.getData();
+            this.getData();
         }
         this.setState({ id_operator: this.props.user.id_operator });
     }
 
-    
+
     getData = async () => {
         this.setState({ appsLoading: true, isLoading: true })
         const selectedIdCNI = cookie.get('selectedIdCNI');
@@ -146,6 +151,7 @@ class ProductForm extends Component {
         }
         if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
     }
+    
     handleChange(evt) {
         const name = evt.target.name;
         var value = evt.target.value;
@@ -171,9 +177,10 @@ class ProductForm extends Component {
                 this.setState({ img: value, imgUpload: reader.result })
             };
         }
-        if (name === 'special_promo') {
+        if (name === 'special_promo' || name === 'favourite') {
             value = evt.target.checked ? 1 : 0;
         }
+
         this.setState({
             [name]: value
         })
@@ -227,7 +234,7 @@ class ProductForm extends Component {
                 if (err_code === '00') {
                     this.setState({ showSwalSuccess: true })
                 } else {
-                    console.log(res.data);
+                    this.setState({ ...this, errMsg: { ...this, product_code: res.data.err_msg } })
                 }
 
             }).catch((error) => {
@@ -311,6 +318,22 @@ class ProductForm extends Component {
                                             <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
                                                 <div className="card-body my-card-body">
                                                     <Form.Row>
+                                                        <Form.Group as={Col} controlId="kode_produk">
+                                                            <Form.Label>Product Code</Form.Label>
+                                                            <Form.Control
+                                                                value={this.state.kode_produk}
+                                                                autoComplete="off"
+                                                                onChange={this.handleChange}
+                                                                size="sm"
+                                                                name="kode_produk"
+                                                                type="text"
+                                                                required
+                                                                placeholder="Product Code" />
+                                                            {this.state.errMsg.product_code ? (<span className="text-error badge badge-danger">{this.state.errMsg.product_code}</span>) : ''}
+                                                            <Form.Control.Feedback type="invalid">
+                                                                <span className="badge badge-danger">Product Code is Required</span>
+                                                            </Form.Control.Feedback>
+                                                        </Form.Group>
                                                         <Form.Group as={Col} controlId="product_name">
                                                             <Form.Label>Product Name</Form.Label>
                                                             <Form.Control
@@ -322,6 +345,7 @@ class ProductForm extends Component {
                                                                 type="text"
                                                                 required
                                                                 placeholder="Product Name" />
+
                                                             <Form.Control.Feedback type="invalid">
                                                                 <span className="badge badge-danger">Product Name is Required</span>
                                                             </Form.Control.Feedback>
@@ -378,7 +402,7 @@ class ProductForm extends Component {
                                                             <Form.Label>Category</Form.Label>
                                                             <SelectCategory
                                                                 myVal={this.state.id_category ? ({ value: this.state.id_category, label: this.state.category_name }) : ''}
-                                                                onChange={this.onchangeSelect}                                                                
+                                                                onChange={this.onchangeSelect}
                                                             />
                                                             {this.state.errMsg.id_category ? (<span className="text-error badge badge-danger">{this.state.errMsg.id_category}</span>) : ''}
                                                         </Form.Group>
@@ -474,9 +498,23 @@ class ProductForm extends Component {
                                                                 type="text"
                                                                 autoComplete="off"
                                                                 placeholder="URL Video" />
-                                                        </Form.Group>                                                  
+                                                        </Form.Group>
 
-                                                       
+                                                        <Form.Group as={Col} xs={2} controlId="favourite">
+                                                            <Form.Label>Favourite</Form.Label>
+                                                            <Row>
+                                                                <Col xs={{ span: 1, offset: 3 }}>
+                                                                    <Form.Check
+                                                                        onChange={this.handleChange}
+                                                                        checked={this.state.favourite > 0 ? ("checked") : ""}
+                                                                        label={this.state.favourite > 0 ? ("Yes") : "No"}
+                                                                        type="switch"
+                                                                        name="favourite"
+                                                                        custom
+                                                                    />
+                                                                </Col>
+                                                            </Row>
+                                                        </Form.Group>
 
                                                     </Form.Row>
 
@@ -539,7 +577,7 @@ class ProductForm extends Component {
                                                         type="submit"
                                                         theme="success">
                                                         Simpan
-                                                </AppButton>
+                                                    </AppButton>
                                                 </div>
                                             </Form>
                                         </div>

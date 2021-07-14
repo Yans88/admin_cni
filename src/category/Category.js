@@ -86,23 +86,38 @@ const Category = (auth) => {
         {
             key: "action",
             text: "Action",
-            width: 122,
+            width: 123,
             align: "center",
             sortable: false,
             cell: record => {
                 return (
                     <Fragment>
-                        <button
-                            className="btn btn-xs btn-success"
-                            onClick={e => editRecord(record)}
-                            style={{ marginRight: '5px' }}>
-                            <i className="fa fa-edit"></i> Edit
-                        </button>
-                        <button
-                            className="btn btn-danger btn-xs"
-                            onClick={() => deleteRecord(record)}>
-                            <i className="fa fa-trash"></i> Delete
-                        </button>
+                        {auth.user.category_edit ? (
+                            <button
+                                className="btn btn-xs btn-success"
+                                onClick={e => editRecord(record)}
+                                style={{ marginRight: '5px' }}>
+                                <i className="fa fa-edit"></i> Edit
+                            </button>) : (
+                            <button
+                                className="btn btn-xs btn-success"
+                                disabled
+                                style={{ marginRight: '5px' }}>
+                                <i className="fa fa-edit"></i> Edit
+                            </button>
+                        )}
+                        {auth.user.category_del ? (
+                            <button
+                                className="btn btn-danger btn-xs"
+                                onClick={() => deleteRecord(record)}>
+                                <i className="fa fa-trash"></i> Delete
+                            </button>) : (
+                            <button
+                                className="btn btn-danger btn-xs"
+                                disabled>
+                                <i className="fa fa-trash"></i> Delete
+                            </button>
+                        )}
                     </Fragment>
                 );
             }
@@ -340,7 +355,8 @@ const Category = (auth) => {
                                 {/* card start */}
                                 <div className="card card-success shadow-lg">
                                     <div className="card-header">
-                                        <Button variant="success" onClick={discardChanges}><i className="fa fa-plus"></i> Add</Button>
+                                        {auth.user.category_add ? <Button variant="success" onClick={discardChanges}><i className="fa fa-plus"></i> Add</Button> : <Button variant="success" disabled><i className="fa fa-plus"></i> Add</Button>}
+
                                         {/* <ToastProvider
                                             placement="bottom-right" autoDismiss
                                             autoDismissTimeout={2000}

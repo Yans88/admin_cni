@@ -178,6 +178,19 @@ class Setting extends Component {
                                                             </Form.Group>
                                                         </Form.Row>
                                                         <Form.Row>
+                                                            <Form.Group as={Col} xs={12} controlId="hold_mail_admin">
+                                                                <Form.Label>Transaksi Hold - Email Admin</Form.Label>
+                                                                <Form.Control
+                                                                    value={data.hold_mail_admin}
+                                                                    autoComplete="off"
+                                                                    onChange={this.handleChange.bind(this)}
+                                                                    size="sm"
+                                                                    name="hold_mail_admin"
+                                                                    type="text"
+                                                                    placeholder="Transaksi Hold - Email Admin" />
+                                                            </Form.Group>
+                                                        </Form.Row>
+                                                        <Form.Row>
                                                             <Form.Group as={Col} xs={12} controlId="content_reg">
                                                                 <Form.Label>Content Email Registrasi</Form.Label>
                                                                 <SunEditor
@@ -256,7 +269,46 @@ class Setting extends Component {
                                                             </Form.Group>
                                                         </Form.Row>
 
-                                                    
+                                                        <br />
+                                                        <Form.Row>
+                                                            <Form.Group as={Col} xs={12} controlId="content_email_dikirimkan_cust">
+                                                                <Form.Label>Content Email Transaksi Dikirimkan</Form.Label>
+                                                                <SunEditor
+                                                                    defaultValue={data.content_email_dikirimkan_cust}
+                                                                    setContents={data.content_email_dikirimkan_cust}
+                                                                    onChange={this.handleChangeDesk.bind(this, 'content_email_dikirimkan_cust')}
+                                                                    setOptions={{
+                                                                        placeholder: "Content Email Transaksi Dikirimkan ...",
+                                                                        maxHeight: 250,
+                                                                        height: 250,
+                                                                        buttonList: [
+                                                                            ['fontSize', 'formatBlock', 'bold', 'underline', 'italic', 'align', 'horizontalRule', 'list', 'lineHeight', 'link', 'strike', 'subscript', 'superscript', 'codeView', 'undo', 'redo', 'fontColor', 'hiliteColor', 'textStyle', 'paragraphStyle', 'blockquote', 'removeFormat']
+                                                                        ]
+                                                                    }}
+                                                                />
+                                                            </Form.Group>
+                                                        </Form.Row>
+
+                                                        <br />
+                                                        <Form.Row>
+                                                            <Form.Group as={Col} xs={12} controlId="content_email_hold_admin">
+                                                                <Form.Label>Content Email Transaksi Hold</Form.Label>
+                                                                <SunEditor
+                                                                    defaultValue={data.content_email_hold_admin}
+                                                                    setContents={data.content_email_hold_admin}
+                                                                    onChange={this.handleChangeDesk.bind(this, 'content_email_hold_admin')}
+                                                                    setOptions={{
+                                                                        placeholder: "Content Email Transaksi Hold ...",
+                                                                        maxHeight: 250,
+                                                                        height: 250,
+                                                                        buttonList: [
+                                                                            ['fontSize', 'formatBlock', 'bold', 'underline', 'italic', 'align', 'horizontalRule', 'list', 'lineHeight', 'link', 'strike', 'subscript', 'superscript', 'codeView', 'undo', 'redo', 'fontColor', 'hiliteColor', 'textStyle', 'paragraphStyle', 'blockquote', 'removeFormat']
+                                                                        ]
+                                                                    }}
+                                                                />
+                                                            </Form.Group>
+                                                        </Form.Row>
+
                                                     </div>
 
                                                 </Form>
@@ -269,7 +321,7 @@ class Setting extends Component {
                                                         type="button"
                                                         theme="success">
                                                         Update Data
-                                                </AppButton>
+                                                    </AppButton>
 
                                                 </div>
                                             </div>

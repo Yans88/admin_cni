@@ -191,8 +191,11 @@ const Product = (auth) => {
                                 {/* card start */}
                                 <div className="card card-success shadow-lg">
                                     <div className="card-header">
-                                        <Link to="/add_product"><Button variant="success"><i className="fa fa-plus"></i> Add</Button>
-                                        </Link>
+                                        {auth.user.product_add ? (
+                                            <Link to="/add_product"><Button variant="success"><i className="fa fa-plus"></i> Add</Button>
+                                            </Link>
+                                        ) : <Button variant="success" disabled><i className="fa fa-plus"></i> Add</Button>}
+
                                     </div>
                                     <div className="card-body">
                                         {productList ? (<TblProducts
@@ -206,6 +209,7 @@ const Product = (auth) => {
                                             listImg={listIMG}
                                             PriceList={PriceList}
                                             deleteRecord={deleteRecord}
+                                            hakAkses={auth.user}
                                         />) : (<p>Loading...</p>)}
                                     </div>
 

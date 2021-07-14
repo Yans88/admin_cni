@@ -126,13 +126,13 @@ export const SelectProducts = props => {
 
     return (
         <AsyncPaginate
-            name="id_product"
+            name={props.name ? props.name : "id_product"}
             isDisabled={loading}
             loadOptions={getData} // function that executes HTTP request and returns array of options
             defaultOptions
             value={props.myVal || ''}
             onChange={props.onChange}
-            placeholder={loading ? "Loading..." : "Select...."}
+            placeholder={loading ? "Loading ..." : "Select ..."}
             styles={customStyles}
             additional={{
                 page: 1

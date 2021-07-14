@@ -1,13 +1,14 @@
 import React, { useState, Fragment, useEffect } from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
 import AdminService from './AdminService';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Col, Form } from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-
+import { fetchData } from '../level/levelService';
+import AreaService from '../area/AreaService';
 
 // export const ToastDemo = ({ content }) => {
 //     const { addToast } = useToasts()
@@ -21,9 +22,9 @@ import { AppSwalSuccess } from '../components/modal/SwalSuccess';
 //     )
 // }
 
-const UserList = (auth) => {
+const UserList = (auth, onUserLogin) => {
 
-    const initAdmin = { id_admin: '', username: '', pass: '', name: '' };
+    const initAdmin = { id_admin: '', username: '', pass: '', name: '', id_level: '' };
     const [selected, setSelected] = useState(initAdmin);
     const [admin, setAdmin] = useState([]);
     const [totalData, setTotalData] = useState(0);
@@ -39,8 +40,11 @@ const UserList = (auth) => {
     const [errMsg, setErrMsg] = useState('');
     const [actionForm, setActionForm] = useState(null);
     const [showSwalSuccess, setshowSwalSuccess] = useState(false);
+    const [adminWH, setAdminWH] = useState([]);
+    const [totalDataWh, setTotalDataWH] = useState(0);
 
     const handleClose = () => {
+        setSelected(initAdmin);
         setShow(false);
         setdeleteForm(false);
     };
@@ -70,17 +74,33 @@ const UserList = (auth) => {
         {
             key: "name",
             text: "Name",
+            align: "center",
             sortable: true
         },
         {
             key: "username",
             text: "Username",
+            align: "center",
+            sortable: true
+        },
+        {
+            key: "level_name",
+            text: "Level",
+            align: "center",
+            sortable: true
+        },
+        {
+            key: "wh_name",
+            text: "Warehouse",
+            align: "center",
+            width: 170,
             sortable: true
         },
         {
             key: "action",
             text: "Action",
-            width: 122,
+            width: 123,
+            align: "center",
             sortable: false,
             cell: record => {
                 return (
@@ -168,6 +188,27 @@ const UserList = (auth) => {
             });
     };
 
+    const getDataWH = (param) => {
+        AreaService.postData(param, "GET_WH")
+            .then(response => {
+                setTimeout(() => {
+                    if (response.data.err_code === "00") {
+                        setAdminWH(response.data.data);
+                        setTotalDataWH(response.data.total_data);
+
+                    }
+                    if (response.data.err_code === "04") {
+                        setAdminWH([]);
+                        setTotalDataWH(0);
+                    }
+
+                }, 400);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+
     const handleSave = async (userPost) => {
         let err_code = '';
         let contentSwal = '-';
@@ -216,6 +257,7 @@ const UserList = (auth) => {
             per_page: pageSize
         }
         getData(param);
+        getDataWH();
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
     const formik = useFormik({
@@ -260,24 +302,62 @@ const UserList = (auth) => {
                 (<span className="float-right text-error badge badge-danger">{formik.errors.name}</span>) : null}
             <Form.Control name="name" size="sm" value="test val" type="text" placeholder="Fullname" {...formik.getFieldProps('name')} />
         </Form.Group>
-        <Form.Group controlId="username">
-            <Form.Label>Username</Form.Label>
-            {formik.touched.username && formik.errors.username ?
-                (<span className="float-right text-error badge badge-danger">{formik.errors.username}</span>) : null}
-            <Form.Control size="sm" type="text" placeholder="Username" {...formik.getFieldProps('username')} />
+
+        <Form.Group controlId="id_level">
+            <Form.Label>Level</Form.Label>
+            {formik.touched.id_level && formik.errors.id_level ?
+                (<span className="float-right text-error badge badge-danger">{formik.errors.id_level}</span>) : null}
+            <Form.Control size="sm" as="select" {...formik.getFieldProps('id_level')}  >
+                <option value="">Pilih Level ...</option>
+                {auth.level ? (
+                    auth.level.map(function (level) {
+                        return <option value={level.id_level} key={level.id_level}>{level.level_name}</option>
+                    })
+
+                ) : ''}
+
+            </Form.Control>
         </Form.Group>
-        <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            {formik.touched.pass && formik.errors.pass ?
-                (<span className="float-right text-error badge badge-danger">{formik.errors.pass}</span>) : null}
-            <Form.Control size="sm" type="text" placeholder="Password" {...formik.getFieldProps('pass')} />
+
+        <Form.Row>
+            <Form.Group as={Col} controlId="username">
+                <Form.Label>Username</Form.Label>
+                {formik.touched.username && formik.errors.username ?
+                    (<span className="float-right text-error badge badge-danger">{formik.errors.username}</span>) : null}
+                <Form.Control size="sm" type="text" placeholder="Username" {...formik.getFieldProps('username')} />
+            </Form.Group>
+            <Form.Group as={Col} controlId="password">
+                <Form.Label>Password</Form.Label>
+                {formik.touched.pass && formik.errors.pass ?
+                    (<span className="float-right text-error badge badge-danger">{formik.errors.pass}</span>) : null}
+                <Form.Control size="sm" type="text" placeholder="Password" {...formik.getFieldProps('pass')} />
+            </Form.Group>
+        </Form.Row>
+
+        <Form.Group controlId="id_wh">
+            <Form.Label>Warehouse</Form.Label>
+            {formik.touched.id_wh && formik.errors.id_wh ?
+                (<span className="float-right text-error badge badge-danger">{formik.errors.id_wh}</span>) : null}
+            <Form.Control size="sm" as="select" {...formik.getFieldProps('id_wh')}  >
+                <option>Pilih Warehouse ...</option>
+                {adminWH ? (
+                    adminWH.map(function (wh) {
+                        return <option value={wh.id_wh} key={wh.id_wh}>{wh.wh_name}</option>
+                    })
+
+                ) : ''}
+
+            </Form.Control>
         </Form.Group>
+
     </Form>;
 
     const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
 
     return (
+
         <div>
+
             <div className="content-wrapper">
                 {/* Content Header (Page header) */}
                 <div className="content-header">
@@ -373,8 +453,15 @@ const UserList = (auth) => {
         </div>
     )
 }
-const mapStateToProps = (state) => ({
-    user: state.auth.currentUser
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.currentUser,
+        level: state.level.data || []
+    }
+}
+const mapDispatchToProps = (dispatch) => ({
+    onUserLogin: dispatch(fetchData())
 });
-export default connect(mapStateToProps, '')(UserList);
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);
 

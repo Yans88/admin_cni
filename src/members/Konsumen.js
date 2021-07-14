@@ -98,9 +98,7 @@ const Members = (auth) => {
         getData(param);
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
-    const editRecord = (record) => {
-        console.log(record)
-    }
+   
 
     const tableChangeHandler = (data) => {
         Object.keys(data).map((key) => {

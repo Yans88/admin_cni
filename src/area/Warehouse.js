@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AreaService from './AreaService';
-import { Button, Form, OverlayTrigger, Spinner, Tooltip } from 'react-bootstrap';
+import { Form, OverlayTrigger, Spinner, Tooltip } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { BsFillTrashFill } from "react-icons/bs";
 import { FaEdit } from 'react-icons/fa';
@@ -380,7 +380,7 @@ class Warehouse extends Component {
 
         return (
             <div>
-                {console.log(this.state)}
+
                 <div className="content-wrapper">
                     <div className="content-header">
                         <div className="container-fluid">
@@ -396,18 +396,20 @@ class Warehouse extends Component {
                     <section className="content">
                         <div className="container-fluid">
                             <div className="row">
-                                <div className="col-lg-6">
+                                <div className={this.props.user.coverage_area_view ? "col-lg-6" : "col-lg-12"}>
                                     <div className="card shadow-lg">
                                         <div className="card-header card-header-custom">
                                             <h1 className="card-title card-title-custom">List Warehouse</h1>
                                             <div className="tools">
-                                                <AppButton
-                                                    className="float-right btn-sm"
-                                                    onClick={this.discardChanges}
-                                                    icon="add"
-                                                    theme="info"
-                                                    isLoading={this.state.loadWH}>Add Warehouse
-                                                </AppButton>
+                                                {this.props.user.warehouse_add ? (
+                                                    <AppButton
+                                                        className="float-right btn-sm"
+                                                        onClick={this.discardChanges}
+                                                        icon="add"
+                                                        theme="info"
+                                                        isLoading={this.state.loadWH}>Add Warehouse
+                                                    </AppButton>
+                                                ) : ''}
                                             </div>
                                         </div>
 
@@ -424,30 +426,32 @@ class Warehouse extends Component {
                                                                 <span className="text">{dt.wh_name}</span><br />
                                                                 <span className="text-second-li">Origin : {dt.provinsi_name}({dt.kode_jne + '/' + dt.kode_lp})</span>
                                                                 <div className="tools">
-                                                                    <OverlayTrigger
-                                                                        placement="left"
-                                                                        // id={`tooltip-${placement}`}
-                                                                        overlay={
-                                                                            <Tooltip id="tooltip-left">
-                                                                                Edit
+                                                                    {this.props.user.warehouse_edit ? (
+                                                                        <OverlayTrigger
+                                                                            placement="left"
+                                                                            // id={`tooltip-${placement}`}
+                                                                            overlay={
+                                                                                <Tooltip id="tooltip-left">
+                                                                                    Edit
                                                                         </Tooltip>
-                                                                        }
-                                                                    >
-                                                                        <i className="fas">{<FaEdit onClick={this.editRecord.bind(this, dt)} />}</i>
-                                                                    </OverlayTrigger>
-
-                                                                    <OverlayTrigger
-                                                                        placement="right"
-                                                                        // id={`tooltip-${placement}`}
-                                                                        overlay={
-                                                                            <Tooltip id="tooltip-right">
-                                                                                Delete
+                                                                            }
+                                                                        >
+                                                                            <i className="fas">{<FaEdit onClick={this.editRecord.bind(this, dt)} />}</i>
+                                                                        </OverlayTrigger>
+                                                                    ) : ''}
+                                                                    {this.props.user.warehouse_del ? (
+                                                                        <OverlayTrigger
+                                                                            placement="right"
+                                                                            // id={`tooltip-${placement}`}
+                                                                            overlay={
+                                                                                <Tooltip id="tooltip-right">
+                                                                                    Delete
                                                                         </Tooltip>
-                                                                        }
-                                                                    >
-                                                                        <i className="fas">{<BsFillTrashFill onClick={this.deleteRecord.bind(this, dt)} />}</i>
-                                                                    </OverlayTrigger>
-
+                                                                            }
+                                                                        >
+                                                                            <i className="fas">{<BsFillTrashFill onClick={this.deleteRecord.bind(this, dt)} />}</i>
+                                                                        </OverlayTrigger>
+                                                                    ) : ''}
 
                                                                 </div>
                                                             </li>
@@ -461,84 +465,86 @@ class Warehouse extends Component {
 
                                     </div>
                                 </div>
-                                <div className="col-lg-6">
-                                    <div className="card shadow-lg">
-                                        <div className="card-header card-header-custom">
-                                            <h1 className="card-title card-title-custom">Coverage Area
+                                {this.props.user.coverage_area_view ? (
+                                    <div className="col-lg-6">
+                                        <div className="card shadow-lg">
+                                            <div className="card-header card-header-custom">
+                                                <h1 className="card-title card-title-custom">Coverage Area
                                             <span className="area" style={{ "fontWeight": "600", "color": "green" }}> {this.state.selected['wh_name']}</span></h1>
-                                            {this.state.selected['id_wh'] ? (
-                                                <div className="tools">
-                                                    <AppButton
-                                                        className="float-right btn-sm"
-                                                        onClick={this.showFormArea.bind(this)}
-                                                        icon={this.state.showFormAreaa ? "times" : "add"}
-                                                        theme={this.state.showFormAreaa ? "danger" : "warning"}
-                                                        isLoading={this.state.loadDataArea}>{this.state.showFormAreaa ? "Close" : "Add Area"}
-                                                    </AppButton>
-                                                </div>
-                                            ) : ''}
+                                                {this.state.selected['id_wh'] && this.props.user.coverage_area_add ? (
+                                                    <div className="tools">
+                                                        <AppButton
+                                                            className="float-right btn-sm"
+                                                            onClick={this.showFormArea.bind(this)}
+                                                            icon={this.state.showFormAreaa ? "times" : "add"}
+                                                            theme={this.state.showFormAreaa ? "danger" : "warning"}
+                                                            isLoading={this.state.loadDataArea}>{this.state.showFormAreaa ? "Close" : "Add Area"}
+                                                        </AppButton>
+                                                    </div>
+                                                ) : ''}
 
-                                        </div>
+                                            </div>
 
-                                        <div className="card-body inbox_chat">
-                                            {this.state.showFormAreaa ?
-                                                <React.Fragment>
-                                                    < SelectProvMulti
-                                                        myVal={this.state.multiValue && this.state.multiValue}
-                                                        getData={this.state.selectOptions}
-                                                        isLoading={this.state.loadArea}
-                                                        onChange={this.handleMultiChange.bind(this)}
-                                                    />
+                                            <div className="card-body inbox_chat">
+                                                {this.state.showFormAreaa ?
+                                                    <React.Fragment>
+                                                        <SelectProvMulti
+                                                            myVal={this.state.multiValue && this.state.multiValue}
+                                                            getData={this.state.selectOptions}
+                                                            isLoading={this.state.loadArea}
+                                                            onChange={this.handleMultiChange.bind(this)}
+                                                        />
 
-                                                    <AppButton
-                                                        style={{ "marginTop": "3px", "marginBottom": "15px" }}
-                                                        className="btn-block btn-sm"
-                                                        onClick={this.handleSaveArea.bind(this)}
-                                                        theme="warning"
-                                                        disabled={this.state.multiValue.length > 0 ? false : true}
-                                                        isLoading={this.state.loadDataArea}>Save
-                                                    </AppButton>
-                                                </React.Fragment> : ''}
+                                                        <AppButton
+                                                            style={{ "marginTop": "3px", "marginBottom": "15px" }}
+                                                            className="btn-block btn-sm"
+                                                            onClick={this.handleSaveArea.bind(this)}
+                                                            theme="warning"
+                                                            disabled={this.state.multiValue.length > 0 ? false : true}
+                                                            isLoading={this.state.loadDataArea}>Save
+                                                        </AppButton>
+                                                    </React.Fragment> : ''}
 
-                                            {this.state.loadDataArea ? (
-                                                <div className="loadings text-center">
-                                                    <Spinner animation="border" variant="secondary" />
-                                                    <br />
+                                                {this.state.loadDataArea ? (
+                                                    <div className="loadings text-center">
+                                                        <Spinner animation="border" variant="secondary" />
+                                                        <br />
                                              Loading ...
-                                                </div>
-                                            ) : (<ul className="todo-list ui-sortable" data-widget="todo-list">
-                                                {this.state.dtArea.length > 0 ? (
-                                                    this.state.dtArea.map((dt, i) => (
-                                                        <li key={dt.id_provinsi} className={dt.origin_utama ? "li_wh_origin" : "li_wh_area"} >
-                                                            <span className="text">{dt.provinsi_name}</span>
-                                                            {dt.origin_utama === 0 ? (
-                                                                <div className="tools">
-                                                                    <OverlayTrigger
-                                                                        placement="top"
-                                                                        // id={`tooltip-${placement}`}
-                                                                        overlay={
-                                                                            <Tooltip id="tooltip-top">
-                                                                                Remove Area
+                                                    </div>
+                                                ) : (<ul className="todo-list ui-sortable" data-widget="todo-list">
+                                                    {this.state.dtArea.length > 0 ? (
+                                                        this.state.dtArea.map((dt, i) => (
+                                                            <li key={dt.id_provinsi} className={dt.origin_utama ? "li_wh_origin" : "li_wh_area"} >
+                                                                <span className="text">{dt.provinsi_name}</span>
+                                                                {dt.origin_utama === 0 && this.props.user.coverage_area_del ? (
+                                                                    <div className="tools">
+                                                                        <OverlayTrigger
+                                                                            placement="top"
+                                                                            // id={`tooltip-${placement}`}
+                                                                            overlay={
+                                                                                <Tooltip id="tooltip-top">
+                                                                                    Remove Area
                                                                     </Tooltip>
-                                                                        }
-                                                                    >
-                                                                        <i className="fas">{<BsFillTrashFill onClick={this.removeArea.bind(this, dt)} />}</i>
-                                                                    </OverlayTrigger>
-                                                                </div>
-                                                            ) : ''}
-                                                        </li>
-                                                    ))
+                                                                            }
+                                                                        >
+                                                                            <i className="fas">{<BsFillTrashFill onClick={this.removeArea.bind(this, dt)} />}</i>
+                                                                        </OverlayTrigger>
+                                                                    </div>
+                                                                ) : ''}
+                                                            </li>
+                                                        ))
 
-                                                ) : (<li className="li_wh_nodata" key="no_data">
-                                                    <span className="text">{this.state.notFound}</span>
-                                                </li>)}
-                                            </ul>)}
+                                                    ) : (<li className="li_wh_nodata" key="no_data">
+                                                        <span className="text">{this.state.notFound}</span>
+                                                    </li>)}
+                                                </ul>)}
+
+                                            </div>
+
 
                                         </div>
-
-
                                     </div>
-                                </div>
+                                ) : ''}
                             </div>
                         </div>
                     </section>

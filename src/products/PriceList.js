@@ -414,12 +414,14 @@ class PriceList extends Component {
                         <div style={{ textAlign: "center" }}>
                             <Fragment>
                                 <button
+                                    disabled={!this.props.user.pricelist_edit}
                                     className="btn btn-xs btn-success"
                                     onClick={() => this.editRecord(record)}
                                     style={{ marginBottom: '5px', width: '58px' }}>
                                     <i className="fa fa-edit"></i> Edit
                                 </button>
                                 <button
+                                    disabled={!this.props.user.pricelist_del}
                                     className="btn btn-danger btn-xs"
                                     onClick={() => this.deleteRecord(record)}>
                                     <i className="fa fa-trash"></i> Delete
@@ -470,7 +472,7 @@ class PriceList extends Component {
                                         <div className="card-header card-header-custom">
                                             <h1 className="card-title card-title-custom">{this.state.productName}</h1>
                                             <div className="tools">
-                                                {!this.state.show ? (
+                                                {!this.state.show && this.props.user.pricelist_add ? (
                                                     <AppButton
                                                         className="float-right btn-sm"
                                                         onClick={this.discardChanges}

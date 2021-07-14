@@ -4,6 +4,7 @@ import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
+
 export const TblProducts = props => {
 
     const columns = [
@@ -37,27 +38,38 @@ export const TblProducts = props => {
             sortable: true,
             width: 120,
             cell: record => {
-                return (<div style={{ textAlign: "right" }}><Fragment>
-                    <OverlayTrigger
-                        placement="left"
-                        overlay={
-                            <Tooltip id="tooltip-left">
-                                Pricelist
-                            </Tooltip>
-                        }
-                    >
-                        <Link to='/pricelist' onClick={() => props.PriceList(record)}>
+                return (<div style={{ textAlign: "right" }}>
+                    <Fragment>
+                        {props.hakAkses.pricelist_view ? (
+                            <OverlayTrigger
+                                placement="left"
+                                overlay={
+                                    <Tooltip id="tooltip-left">
+                                        Pricelist
+                                     </Tooltip>
+                                }
+                            >
+                                <Link to='/pricelist' onClick={() => props.PriceList(record)}>
+                                    <NumberFormat
+                                        value={record.harga_member}
+                                        thousandSeparator={true}
+                                        decimalScale={2}
+                                        displayType={'text'}
+                                    />
+                                </Link>
+                            </OverlayTrigger>
+                        ) : (
                             <NumberFormat
                                 value={record.harga_member}
                                 thousandSeparator={true}
                                 decimalScale={2}
                                 displayType={'text'}
                             />
-                        </Link>
-                    </OverlayTrigger>
-                </Fragment></div>)
+                        )}
+                    </Fragment>
+                </div>)
             }
-            
+
         },
         {
             key: "harga_konsumen",
@@ -66,25 +78,37 @@ export const TblProducts = props => {
             sortable: true,
             width: 120,
             cell: record => {
-                return (<div style={{ textAlign: "right" }}><Fragment>
-                    <OverlayTrigger
-                        placement="left"
-                        overlay={
-                            <Tooltip id="tooltip-left">
-                                Pricelist
+                return (<div style={{ textAlign: "right" }}>
+                    <Fragment>
+                        {props.hakAkses.pricelist_view ? (
+                            <OverlayTrigger
+                                placement="left"
+                                overlay={
+                                    <Tooltip id="tooltip-left">
+                                        Pricelist
                             </Tooltip>
-                        }
-                    >
-                        <Link to='/pricelist' onClick={() => props.PriceList(record)}>
+                                }
+                            >
+                                <Link to='/pricelist' onClick={() => props.PriceList(record)}>
+                                    <NumberFormat
+                                        value={record.harga_konsumen}
+                                        thousandSeparator={true}
+                                        decimalScale={2}
+                                        displayType={'text'}
+                                    />
+                                </Link>
+                            </OverlayTrigger>
+                        ) : (
                             <NumberFormat
                                 value={record.harga_konsumen}
                                 thousandSeparator={true}
                                 decimalScale={2}
                                 displayType={'text'}
                             />
-                        </Link>
-                    </OverlayTrigger>
-                </Fragment></div>)
+                        )}
+
+                    </Fragment>
+                </div>)
             }
         },
 
@@ -122,12 +146,14 @@ export const TblProducts = props => {
                                 <i className="fa fa-list"></i> Image
                             </button>
                             <button
+                                disabled={!props.hakAkses.product_edit}
                                 className="btn btn-xs btn-success"
                                 onClick={() => props.editRecord(record)}
                                 style={{ marginRight: '5px' }}>
                                 <i className="fa fa-edit"></i> Edit
                             </button>
                             <button
+                                disabled={!props.hakAkses.product_del}
                                 className="btn btn-danger btn-xs"
                                 onClick={() => props.deleteRecord(record)}>
                                 <i className="fa fa-trash"></i> Delete
@@ -162,7 +188,7 @@ export const TblProducts = props => {
             dynamic={true}
             onChange={props.onChange}
             total_record={props.total_record}
-            loading={props.loadTbl}
+            loading={props.loading}
         />
     )
 

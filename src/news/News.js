@@ -175,7 +175,7 @@ class News extends Component {
     }
 
     render() {
-        const { data } = this.props;
+        const { data, user } = this.props;
         const { selected, errMsg } = this.state;
         const columns = [
             {
@@ -234,17 +234,31 @@ class News extends Component {
                     return (
                         <div style={{ textAlign: "center" }}>
                             <Fragment>
-                                <button
+                                {this.props.user.news_edit ? (<button
                                     className="btn btn-xs btn-success"
                                     onClick={e => this.editRecord(record)}
                                     style={{ marginRight: '5px' }}>
                                     <i className="fa fa-edit"></i> Edit
-                                </button>
-                                <button
-                                    className="btn btn-danger btn-xs"
-                                    onClick={() => this.deleteRecord(record)}>
-                                    <i className="fa fa-trash"></i> Delete
-                            </button>
+                                </button>) : (<button
+                                    className="btn btn-xs btn-success"
+                                    disabled
+                                    style={{ marginRight: '5px' }}>
+                                    <i className="fa fa-edit"></i> Edit
+                                </button>)}
+                                {this.props.user.news_del ? (
+                                    <button
+                                        className="btn btn-danger btn-xs"
+                                        onClick={() => this.deleteRecord(record)}>
+                                        <i className="fa fa-trash"></i> Delete
+                                    </button>
+                                ) : (
+                                    <button
+                                        className="btn btn-danger btn-xs"
+                                        disabled>
+                                        <i className="fa fa-trash"></i> Delete
+                                    </button>
+                                )}
+
                             </Fragment>
                         </div>
                     );
@@ -343,7 +357,9 @@ class News extends Component {
                                     {/* card start */}
                                     <div className="card card-success shadow-lg" style={{ "minHeight": "470px" }}>
                                         <div className="card-header">
-                                            <Button variant="success" onClick={this.discardChanges}><i className="fa fa-plus"></i> Add</Button>
+                                            {user.news_add ? (<Button variant="success" onClick={this.discardChanges}><i className="fa fa-plus"></i> Add</Button>
+                                            ) : (<Button variant="success" disabled><i className="fa fa-plus"></i> Add</Button>
+                                            )}
 
                                         </div>
 

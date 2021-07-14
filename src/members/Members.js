@@ -3,7 +3,6 @@ import ReactDatatable from '@ashvin27/react-datatable';
 import { Badge } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import MemberService from './MemberService';
-import NumberFormat from 'react-number-format';
 
 const Members = (auth) => {
     const [memberList, setMemberList] = useState([]);
@@ -99,10 +98,6 @@ const Members = (auth) => {
         }
         getData(param);
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
-
-    const editRecord = (record) => {
-        console.log(record)
-    }
 
     const tableChangeHandler = (data) => {
         Object.keys(data).map((key) => {

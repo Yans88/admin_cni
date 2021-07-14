@@ -22,6 +22,7 @@ class ListTrans extends Component {
                 sort_column: "id_transaksi",
                 keyword: "",
                 status: 0,
+                id_operator: 0,
             },
 
         }
@@ -34,7 +35,9 @@ class ListTrans extends Component {
 
     getData = () => {
         this.setState({ loadTbl: true });
-        TransService.postData(this.state.queryString, "GET_DATA")
+        const { queryString } = this.state;
+        queryString.id_operator = this.props.user.id_operator;
+        TransService.postData(queryString, "GET_DATA")
             .then(response => {
                 setTimeout(() => {
                     if (response.data.err_code === "00") {
@@ -80,9 +83,9 @@ class ListTrans extends Component {
         this.getData();
     }
 
-    rowClickedHandler = async (event, data, rowIndex) => {        
+    rowClickedHandler = async (event, data, rowIndex) => {
         await sessionStorage.setItem('idTransCNI', data.id_transaksi);
-        this.props.history.push("/trans_detail");       
+        this.props.history.push("/trans_detail");
     }
 
     render() {
@@ -103,7 +106,7 @@ class ListTrans extends Component {
                 text: "Date",
                 align: "center",
                 sortable: true,
-                width:130,
+                width: 130,
                 cell: record => {
                     return (moment(new Date(record.created_at)).format('DD-MM-YYYY HH:mm'))
                 }
@@ -114,7 +117,7 @@ class ListTrans extends Component {
                 align: "center",
                 width: 130,
                 sortable: true,
-                
+
             },
             {
                 key: "nama_member",
@@ -142,7 +145,7 @@ class ListTrans extends Component {
                 width: 100,
                 sortable: true,
                 cell: record => {
-                    return (<div style={{ textAlign: "right" }}><Fragment>                     
+                    return (<div style={{ textAlign: "right" }}><Fragment>
                         <NumberFormat
                             value={record.ttl_price}
                             thousandSeparator={true}
@@ -189,13 +192,13 @@ class ListTrans extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="card shadow-lg">
-                                    <div className="card-header">
+                                        <div className="card-header">
                                             <h1 className="card-title card-title-custom">Waiting Payment</h1>
                                         </div>
 
                                         <div className="card-body">
                                             {this.state.dtRes ? (<ReactDatatable
-                                            className="table table-striped table-hover table-bordered"
+                                                className="table table-striped table-hover table-bordered"
                                                 config={config}
                                                 records={this.state.dtRes}
                                                 columns={columns}

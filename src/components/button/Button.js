@@ -17,12 +17,14 @@ const AppButton = ({
     children,
     isLoading,
     icon,
+
     theme = 'primary',
     disabled,
     ...otherProps
 }) => {
     let spinnerTemplate;
     let iconTemplate;
+    let myClass;
 
     if (isLoading) {
         spinnerTemplate = (
@@ -41,17 +43,19 @@ const AppButton = ({
         iconTemplate = <i className={`${icons[icon]} mr-2`} />;
     }
 
+
     return (
         // eslint-disable-next-line react/button-has-type
         <Button
             {...otherProps}
             variant={theme}
             disabled={isLoading || disabled}
+
         >
             {iconTemplate}
             {children}
             {spinnerTemplate}
-        </Button>
+        </Button >
     );
 };
 

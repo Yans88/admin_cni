@@ -522,7 +522,7 @@ class ProductForm extends Component {
                                                         <Form.Group as={Col} controlId="deskripsi">
                                                             <Form.Label>Description</Form.Label>
                                                             <SunEditor
-
+                                                                
                                                                 defaultValue={this.state.deskripsi}
                                                                 setContents={this.state.deskripsi}
                                                                 onChange={this.handleChangeDesk}

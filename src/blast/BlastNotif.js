@@ -209,6 +209,7 @@ class BlastNotif extends Component {
 const mapStateToProps = (state) => {
     return {
         data: state.blast.data || [],
+		totalData:state.blast.totalData,
         isLoading: state.blast.isLoading,
         user: state.auth.currentUser
     }

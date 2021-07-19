@@ -8,6 +8,8 @@ import { Button, Col, Form } from 'react-bootstrap'
 import AppButton from '../components/button/Button';
 import axios from 'axios';
 import { addData, addDataSuccess } from './blastService';
+import { ExcelRenderer } from 'react-excel-renderer';
+import AppModal from '../components/modal/MyModal';
 
 class BlastForm extends Component {
     constructor(props) {
@@ -16,7 +18,8 @@ class BlastForm extends Component {
             tujuan: null,
             member: null,
             id_product: null,
-            content: null
+            content: null,
+            file_import: null,
         }
         this.state = {
             isLoading: false,
@@ -29,7 +32,9 @@ class BlastForm extends Component {
             errMsg: this.initValue,
             tujuan: '',
             multiValue: [],
-            selectOptions: []
+            selectOptions: [],
+            showConfirm: false,
+            uploadedFileName: null
         };
     }
 
@@ -42,7 +47,7 @@ class BlastForm extends Component {
         const name = evt.target.name;
         var value = evt.target.value;
         if (name === 'tujuan' && value === 'Pengguna tertentu') {
-            this.setState({ loadArea: true });
+            this.setState({ loadArea: true, multiValue: [] });
             this.getOptions();
         }
         if (name === 'tujuan' && value === 'Semua pengguna') {
@@ -50,6 +55,13 @@ class BlastForm extends Component {
                 multiValue: [],
                 loadArea: true,
                 errMsg: { ...this.state.errMsg, member: '' }
+            })
+        }
+
+        if (name === 'tujuan' && value === 'Import pengguna') {
+            this.setState({
+                showConfirm: true,
+                uploadedFileName: ""
             })
         }
 
@@ -133,7 +145,6 @@ class BlastForm extends Component {
             });
             console.error('Invalid Form')
         }
-
     }
 
     handleSave() {
@@ -164,11 +175,84 @@ class BlastForm extends Component {
         this.props.history.push('/blast');
     }
 
+    handleClose = () => {
+        this.setState({
+            ...this.state,
+            showConfirm: false,
+            errMsg: this.initValue,
+            tujuan: ""
+        });
+    };
+
+    fileHandler = (event) => {
+        if (event.target.files.length) {
+            let fileObj = event.target.files[0];
+            let fileName = fileObj.name;
+            var errors = this.state.errMsg;
+            errors.file_import = "";
+            //check for file extension and pass only if it is .xlsx and display error message otherwise
+            if (fileName.slice(fileName.lastIndexOf('.') + 1) === "xlsx") {
+                this.renderFile(fileObj)
+                this.setState({
+                    uploadedFileName: fileName,
+                    showConfirm: false
+                });
+            }
+            else {
+                errors.file_import = "Extension invalid";
+                this.setState({
+                    uploadedFileName: ""
+                })
+            }
+        }
+    }
+
+    renderFile = (fileObj) => {
+        //just pass the fileObj as parameter
+        let opt = [];
+        ExcelRenderer(fileObj, (err, resp) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                resp.rows.map((dt, i) => {
+                    if (i > 0) {
+                        opt[i] = {
+                            "value": dt[0],
+                            "label": dt[1]
+                        }
+                    }
+                    return opt;
+                })
+                this.setState({
+                    ...this.state,
+                    multiValue: opt
+                })
+            }
+        });
+
+    }
+
     render() {
+
         const { errMsg } = this.state;
+        const frmUser2 = <Form id="myForm">
+            <Form.Group controlId="import_pengguna">
+                <Form.Label>File(.xlsx)</Form.Label>
+                {this.state.errMsg.file_import ? (<span className="float-right text-error badge badge-danger">{this.state.errMsg.file_import}</span>) : ''}
+                <Form.File
+                    setfieldvalue={this.state.uploadedFileName}
+                    onChange={this.fileHandler.bind(this)}
+                    size="sm"
+                    name="import_pengguna"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    style={{ "color": "rgba(0, 0, 0, 0)" }} />
+                <em>File : {this.state.uploadedFileName ? this.state.uploadedFileName : "-"}</em>
+            </Form.Group>
+
+        </Form>;
         return (
             <div>
-
                 <div className="content-wrapper">
                     {/* Content Header (Page header) */}
                     <div className="content-header">
@@ -208,6 +292,7 @@ class BlastForm extends Component {
                                                                 <option value="">Select ...</option>
                                                                 <option value="Semua pengguna">Semua pengguna</option>
                                                                 <option value="Pengguna tertentu">Pengguna tertentu</option>
+                                                                <option value="Import pengguna">Import Pengguna</option>
                                                             </Form.Control>
 
                                                         </Form.Group>
@@ -252,7 +337,7 @@ class BlastForm extends Component {
 
                                                 <div className="card-footer">
                                                     <Link to="/blast">
-                                                        <Button style={{marginRight:5}} variant="danger">Cancel</Button>
+                                                        <Button style={{ marginRight: 5 }} variant="danger">Cancel</Button>
                                                     </Link>
                                                     <AppButton
                                                         isLoading={this.state.isLoading}
@@ -270,6 +355,17 @@ class BlastForm extends Component {
                             </div>
                         </div>
                     </section>
+
+                    <AppModal
+                        show={this.state.showConfirm}
+                        size="sm"
+                        form={frmUser2}
+                        handleClose={this.handleClose.bind(this)}
+                        backdrop="static"
+                        keyboard={false}
+                        title="Import"
+                        hideBtn={1}
+                    ></AppModal>
 
                     {this.props.showFormSuccess ? (<AppSwalSuccess
                         show={this.props.showFormSuccess}

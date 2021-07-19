@@ -44,7 +44,9 @@ const customStyles = {
     }),
     menuList: (styles) => ({
         ...styles,
-        maxHeight: '185px'
+        maxHeight: '105px',
+        zIndex:100,
+        
     })
 }
 
@@ -79,7 +81,8 @@ const customStylesMulti = {
     }),
     menuList: (styles) => ({
         ...styles,
-        maxHeight: '185px'
+        maxHeight: '185px',
+        zIndex:2       
     })
 }
 export const SelectProducts = props => {

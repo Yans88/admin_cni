@@ -11,6 +11,7 @@ const AppModal = ({
     formSubmit,
     titleButton,
     themeButton,
+    hideBtn,
     ...otherProps
 }) => {
     return (
@@ -26,14 +27,19 @@ const AppModal = ({
             <Modal.Footer>
                 <Button theme="info" onClick={handleClose}>
                     Close
-          </Button>
-                <Button
-                    isLoading={isLoading}
-                    theme={themeButton}
-                    onClick={formSubmit}
-                >
-                    {titleButton ? titleButton : "Yes"}
                 </Button>
+                {hideBtn !== 1 ? (
+                    <Button
+                        isLoading={isLoading}
+                        theme={themeButton}
+                        onClick={formSubmit}
+                    >
+                        {titleButton ? titleButton : "Yes"}
+                    </Button>
+                ) : ''}
+
+
+
             </Modal.Footer>
         </Modal>
     );

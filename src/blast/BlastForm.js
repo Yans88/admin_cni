@@ -15,11 +15,11 @@ class BlastForm extends Component {
     constructor(props) {
         super(props);
         this.initValue = {
-            tujuan: null,
-            member: null,
-            id_product: null,
-            content: null,
-            file_import: null,
+            tujuan: '',
+            member: '',
+            id_product: '',
+            content: '',
+            file_import: '',
         }
         this.state = {
             isLoading: false,
@@ -133,9 +133,9 @@ class BlastForm extends Component {
         errors.id_product = !this.state.id_product ? "Produk required" : '';
         errors.content = !this.state.content ? "Pesan required" : '';
         errors.member = this.state.tujuan === 'Pengguna tertentu' && this.state.multiValue.length === 0 ? "Member required" : '';
-        if (!this.state.id_operator) this.setState({ ...this.state, id_operator: this.props.user.id_operator });
-
+        
         this.setState({ errors });
+        
         if (this.validateForm(this.state.errMsg)) {
             this.handleSave();
         } else {
@@ -145,6 +145,8 @@ class BlastForm extends Component {
             });
             console.error('Invalid Form')
         }
+        if (!this.state.id_operator) this.setState({ ...this.state, id_operator: this.props.user.id_operator });
+
     }
 
     handleSave() {

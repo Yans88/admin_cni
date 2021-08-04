@@ -45,8 +45,8 @@ const customStyles = {
     menuList: (styles) => ({
         ...styles,
         maxHeight: '105px',
-        zIndex:100,
-        
+        zIndex: 100,
+
     })
 }
 
@@ -82,7 +82,7 @@ const customStylesMulti = {
     menuList: (styles) => ({
         ...styles,
         maxHeight: '185px',
-        zIndex:2       
+        zIndex: 2
     })
 }
 export const SelectProducts = props => {
@@ -106,8 +106,12 @@ export const SelectProducts = props => {
             setLoading(false);
             if (result.err_code === '00') {
                 const ttlDataShow = param.page_number * param.per_page;
+                var options = [{
+                    value: -1,
+                    label: "Tidak ada"
+                }, ...result.data]
                 return {
-                    options: result.data,
+                    options: options,
                     hasMore: ttlDataShow < result.total_data ? true : false,
                     additional: {
                         page: page + 1
@@ -208,7 +212,7 @@ export const SelectCategory = props => {
 
 export const SelectProv = props => {
     return (
-        <Select       
+        <Select
             onChange={props.onChange}
             options={props.getData || [{ value: 0, label: "Loading..." }]}
             placeholder={props.isLoading ? "No Option..." : "Select...."}

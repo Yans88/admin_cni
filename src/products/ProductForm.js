@@ -48,6 +48,7 @@ class ProductForm extends Component {
             qty: '',
             special_promo: '',
             favourite: '',
+            priority_number_favourite:'',
             start_date: '',
             end_date: '',
             id_operator: ''
@@ -78,6 +79,7 @@ class ProductForm extends Component {
             qty: '',
             special_promo: '',
             favourite: '',
+            priority_number_favourite:'',
             start_date: '',
             end_date: '',
             id_operator: '',
@@ -141,6 +143,7 @@ class ProductForm extends Component {
         }
         if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
     }
+
     handleChangeEndDate(date) {
         if (date) {
             const selectedDate = new Date(date);
@@ -151,7 +154,7 @@ class ProductForm extends Component {
         }
         if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
     }
-    
+
     handleChange(evt) {
         const name = evt.target.name;
         var value = evt.target.value;
@@ -233,6 +236,8 @@ class ProductForm extends Component {
                 err_code = res.data.err_code;
                 if (err_code === '00') {
                     this.setState({ showSwalSuccess: true })
+                }else if(err_code === '07'){
+                    this.setState({ ...this, errMsg: { ...this, priority_number_favourite: res.data.err_msg } })
                 } else {
                     this.setState({ ...this, errMsg: { ...this, product_code: res.data.err_msg } })
                 }
@@ -282,7 +287,7 @@ class ProductForm extends Component {
 
 
     render() {
-
+console.log(this.state);
         let contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil disimpan</div>' }} />;
         // const withValueCap = (inputObj) => {
         //     const { value } = inputObj;
@@ -500,6 +505,23 @@ class ProductForm extends Component {
                                                                 placeholder="URL Video" />
                                                         </Form.Group>
 
+                                                        <Form.Group as={Col} xs={2} controlId="priority_number_favourite">
+                                                            <Form.Label>Number Favourite</Form.Label>
+                                                            <NumberFormat
+                                                                value={this.state.priority_number_favourite ? this.state.priority_number_favourite : ''}
+                                                                onChange={this.handleChange}
+                                                                className="form-control form-control-sm"
+                                                                name="priority_number_favourite"
+                                                                type="text"
+                                                                thousandSeparator={true}
+                                                                decimalScale={2}
+                                                                inputMode="numeric"
+                                                                autoComplete="off"
+                                                                disabled={this.state.favourite > 0 ? false : true}
+                                                                placeholder="Number Favourite" />
+                                                                {this.state.errMsg.priority_number_favourite ? (<span className="text-error badge badge-danger">{this.state.errMsg.priority_number_favourite}</span>) : ''}
+                                                        </Form.Group>
+
                                                         <Form.Group as={Col} xs={2} controlId="favourite">
                                                             <Form.Label>Favourite</Form.Label>
                                                             <Row>
@@ -522,7 +544,7 @@ class ProductForm extends Component {
                                                         <Form.Group as={Col} controlId="deskripsi">
                                                             <Form.Label>Description</Form.Label>
                                                             <SunEditor
-                                                                
+
                                                                 defaultValue={this.state.deskripsi}
                                                                 setContents={this.state.deskripsi}
                                                                 onChange={this.handleChangeDesk}

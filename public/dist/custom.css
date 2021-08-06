@@ -149,6 +149,10 @@ navbar-nav>li>.dropdown-menu {
   padding-bottom: 0px !important;
 }
 
+input:read-only {
+  background-color: #FFF !important;
+}
+
 .my-card-body{
   padding-bottom: 0px !important;
 }

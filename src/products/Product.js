@@ -7,6 +7,7 @@ import ProductService from './ProductService';
 import { TblProducts } from './TblProducts';
 import AppModal from '../components/modal/MyModal';
 import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import { array } from 'yup/lib/locale';
 
 const Product = (auth) => {
     const [productList, setProductList] = useState([]);
@@ -152,6 +153,34 @@ const Product = (auth) => {
         history.push('/edit_product');
     }
 
+    const setActive = async (record) => {
+        const isActive = record.is_active === 1 ? 0 : 1;
+        const dt = productList;
+        let _dt = array;
+        let dtt = [];
+        dt.map((x, key) => {
+            if (x.id_product === record.id_product) {
+                _dt = { ...x, is_active: isActive }
+            } else {
+                _dt = { ...x };
+            }
+            dtt[key] = _dt;
+        });
+        let _data = {
+            id_product: record.id_product,
+            status: isActive,
+            id_operator: auth.user.id_operator
+        }
+        setProductList(dtt);
+
+        await ProductService.postData(_data, "ACTIVE_DATA").then((res) => {
+
+        }).catch((error) => {
+            console.log(error);
+            setProductList(dt);
+        });
+    }
+
     const listIMG = async (record) => {
         await cookie.set('imageIdCNI', record.id_product);
         history.push('/list_img');
@@ -209,6 +238,7 @@ const Product = (auth) => {
                                             listImg={listIMG}
                                             PriceList={PriceList}
                                             deleteRecord={deleteRecord}
+                                            onSetActive={setActive}
                                             hakAkses={auth.user}
                                         />) : (<p>Loading...</p>)}
                                     </div>

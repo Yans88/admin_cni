@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
 import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 
 export const TblProducts = props => {
@@ -46,7 +46,7 @@ export const TblProducts = props => {
                                 overlay={
                                     <Tooltip id="tooltip-left">
                                         Pricelist
-                                     </Tooltip>
+                                    </Tooltip>
                                 }
                             >
                                 <Link to='/pricelist' onClick={() => props.PriceList(record)}>
@@ -86,7 +86,7 @@ export const TblProducts = props => {
                                 overlay={
                                     <Tooltip id="tooltip-left">
                                         Pricelist
-                            </Tooltip>
+                                    </Tooltip>
                                 }
                             >
                                 <Link to='/pricelist' onClick={() => props.PriceList(record)}>
@@ -130,9 +130,32 @@ export const TblProducts = props => {
             }
         },
         {
+            key: "is_active",
+            text: "Active",
+            width: 50,
+            sortable: false,
+            align: "center",
+            cell: record => {
+                return (
+                    <div style={{ textAlign: "center" }}>
+                        <Fragment>
+                            <Form.Check
+                                id={record.id_product}
+                                checked={record.is_active > 0 ? ("checked") : ""}
+                                type="switch"
+                                className="chk_isactive"
+                                custom
+                                onChange={() => props.onSetActive(record)}
+                            />
+                        </Fragment>
+                    </div>
+                );
+            }
+        },
+        {
             key: "action",
             text: "Action",
-            width: 190,
+            width: 130,
             sortable: false,
             align: "center",
             cell: record => {
@@ -152,12 +175,12 @@ export const TblProducts = props => {
                                 style={{ marginRight: '5px' }}>
                                 <i className="fa fa-edit"></i> Edit
                             </button>
-                            <button
+                            {/*  <button
                                 disabled={!props.hakAkses.product_del}
                                 className="btn btn-danger btn-xs"
                                 onClick={() => props.deleteRecord(record)}>
                                 <i className="fa fa-trash"></i> Delete
-                            </button>
+                            </button> */}
 
                         </Fragment>
                     </div>

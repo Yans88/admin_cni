@@ -711,3 +711,7 @@ body > .print-source {
   height: initial !important;
   overflow: initial !important;
 }
+
+.chk_isactive{
+  padding-left: 2.7rem !important;
+}

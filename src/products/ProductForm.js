@@ -287,7 +287,6 @@ class ProductForm extends Component {
 
 
     render() {
-console.log(this.state);
         let contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil disimpan</div>' }} />;
         // const withValueCap = (inputObj) => {
         //     const { value } = inputObj;

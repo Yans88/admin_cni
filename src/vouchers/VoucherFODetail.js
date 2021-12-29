@@ -398,6 +398,11 @@ class VoucherFODetail extends Component {
                                                             {this.state.website ? (<BiCheck style={{ color: "#2E997B", fontSize: 20 }} />) : (<BiX style={{ color: "red", fontSize: 20 }} />)}
                                                         </div>
                                                     </li>
+                                                    <li className="list-group-item">
+                                                        <b>Is Show</b> <div className="float-right">
+                                                            {this.state.is_show ? (<BiCheck style={{ color: "#2E997B", fontSize: 20 }} />) : (<BiX style={{ color: "red", fontSize: 20 }} />)}
+                                                        </div>
+                                                    </li>
                                                 </ul>
 
                                             </div>
@@ -410,7 +415,7 @@ class VoucherFODetail extends Component {
                                     {this.state.appsLoading ? (
                                         <Loading />
                                     ) : (
-                                        <div className="card shadow-lg" style={{ minHeight: 755, maxHeight: 755 }}>
+                                        <div className="card shadow-lg" style={{ minHeight: 820, maxHeight: 820 }}>
                                             <div className="card-header p-2">
                                                 <ul className="nav nav-pills">
                                                     <li className="nav-item"><a className="nav-link active" href="#activity" data-toggle="tab">Main</a></li>

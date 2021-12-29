@@ -286,6 +286,7 @@ class Warehouse extends Component {
                 "value": d.id_provinsi,
                 "label": d.provinsi_name
             }))
+            console.log(options);
             setTimeout(() => {
                 this.setState({
                     ...this.state,

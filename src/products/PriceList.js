@@ -421,7 +421,7 @@ class PriceList extends Component {
                                     <i className="fa fa-edit"></i> Edit
                                 </button>
                                 <button
-                                    disabled={!this.props.user.pricelist_del}
+                                    disabled={!this.props.user.pricelist_del || record.id_product === 1}
                                     className="btn btn-danger btn-xs"
                                     onClick={() => this.deleteRecord(record)}>
                                     <i className="fa fa-trash"></i> Delete
@@ -472,7 +472,7 @@ class PriceList extends Component {
                                         <div className="card-header card-header-custom">
                                             <h1 className="card-title card-title-custom">{this.state.productName}</h1>
                                             <div className="tools">
-                                                {!this.state.show && this.props.user.pricelist_add ? (
+                                                {!this.state.show && this.props.user.pricelist_add && this.state.id_product > 1 ? (
                                                     <AppButton
                                                         className="float-right btn-sm"
                                                         onClick={this.discardChanges}
@@ -665,7 +665,7 @@ class PriceList extends Component {
                                                         type="submit"
                                                         theme="success">
                                                         Simpan
-                                                </AppButton>
+                                                    </AppButton>
                                                 </div>
 
                                             </Collapse>

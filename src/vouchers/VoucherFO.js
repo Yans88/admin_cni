@@ -142,7 +142,7 @@ class VoucherFO extends Component {
                 this.setState({ img: value, imgUpload: reader.result })
             };
         }
-        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen') {
+        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen' || name === 'is_show') {
             value = evt.target.checked ? 1 : 0;
         }
         this.setState({
@@ -426,6 +426,22 @@ class VoucherFO extends Component {
                                                                 autoComplete="off"
                                                                 placeholder="Short Description" />
                                                             {errMsg.short_description && (<span className="text-error badge badge-danger">{errMsg.short_description}</span>)}
+                                                        </Form.Group>
+
+                                                        <Form.Group as={Col} xs={2} controlId="is_show">
+                                                            <Form.Label>Is Show</Form.Label>
+                                                            <Row>
+                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                    <Form.Check
+                                                                        onChange={this.handleChange}
+                                                                        checked={this.state.is_show > 0 ? ("checked") : ""}
+                                                                        label={this.state.is_show > 0 ? ("Yes") : "No"}
+                                                                        type="switch"
+                                                                        name="is_show"
+                                                                        custom
+                                                                    />
+                                                                </Col>
+                                                            </Row>
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} xs={2} controlId="website">

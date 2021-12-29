@@ -231,6 +231,26 @@ class Setting extends Component {
                                                         <br />
 
                                                         <Form.Row>
+                                                            <Form.Group as={Col} xs={12} controlId="content_reg">
+                                                                <Form.Label>Content Email OTP Mitra</Form.Label>
+                                                                <SunEditor
+                                                                    defaultValue={data.content_email_otp_mitra}
+                                                                    setContents={data.content_email_otp_mitra}
+                                                                    onChange={this.handleChangeDesk.bind(this, 'content_email_otp_mitra')}
+                                                                    setOptions={{
+                                                                        placeholder: "Content Email OTP Mitra ...",
+                                                                        maxHeight: 250,
+                                                                        height: 250,
+                                                                        buttonList: [
+                                                                            ['fontSize', 'formatBlock', 'bold', 'underline', 'italic', 'align', 'horizontalRule', 'list', 'lineHeight', 'link', 'strike', 'subscript', 'superscript', 'codeView', 'undo', 'redo', 'fontColor', 'hiliteColor', 'textStyle', 'paragraphStyle', 'blockquote', 'removeFormat']
+                                                                        ]
+                                                                    }}
+                                                                />
+                                                            </Form.Group>
+                                                        </Form.Row>
+                                                        <br />
+
+                                                        <Form.Row>
                                                             <Form.Group as={Col} xs={12} controlId="policy">
                                                                 <Form.Label>Policy</Form.Label>
                                                                 <SunEditor

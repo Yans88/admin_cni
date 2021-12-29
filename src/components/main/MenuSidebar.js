@@ -12,7 +12,7 @@ import {
 
 import { FaList, FaGripHorizontal } from "react-icons/fa";
 import 'react-pro-sidebar/dist/css/styles.css';
-import { BsLightningFill, BsFillExclamationCircleFill, BsChatSquareDots, BsAwardFill, BsCursorFill, BsNewspaper, BsClipboardData, BsCardText, BsCardList, BsCardChecklist, BsFillPersonLinesFill, BsFillPeopleFill, BsFillBookmarksFill, BsFillImageFill, BsFillPersonCheckFill, BsGearFill, BsFillPersonDashFill } from "react-icons/bs";
+import { BsGraphUp,BsGraphDown,BsLayoutTextWindowReverse,BsLightningFill, BsFillExclamationCircleFill, BsChatSquareDots, BsAwardFill, BsCursorFill, BsNewspaper, BsClipboardData, BsCardText, BsCardList, BsCardChecklist, BsFillPersonLinesFill, BsFillPeopleFill, BsFillBookmarksFill, BsFillImageFill, BsFillPersonCheckFill, BsGearFill, BsFillPersonDashFill } from "react-icons/bs";
 import { ImLocation2, ImHome } from "react-icons/im";
 import { MdAccountBalance, MdRemoveShoppingCart } from "react-icons/md";
 import { FiRefreshCw } from "react-icons/fi";
@@ -21,14 +21,16 @@ import { connect } from "react-redux";
 
 const MenuSidebar = ({ menuCollapse, user }) => {
     const menuMasterData = ["banners", "users", "setting", "provinsi", "city", "kecamatan", "warehouse", "level", "permission"];
-    const menuProducts = ["products", "add_product", "edit_product", "list_img", "pricelist"];
-    const menuBlast = ["blast", "add_blast","blast_detail"];
+    const menuProducts = ["products", "add_product", "edit_product", "list_img", "pricelist", "limit_beli"];
+    const menuBlast = ["blast", "add_blast", "blast_detail"];
     const dataPelanggan = ["members", "konsumen"];
     const menuvouchers = ["vouchers", "free_ongkir"];
     const menuArea = ["provinsi", "city", "kecamatan"];
     const menuLevel = ["level", "permission"];
     const dataTrans = ["waiting_payment", "payment", "completed", "trans_detail", "onprocess", "dikirim", "expired", "hold"];
+    const dataSimp = ["waiting_simpatik", "diterima", "approved_simpatik", "rejected_simpatik", "completed_simpatik","simpatik_detail"];
     const dataUlasan = ["waiting_approve", "approved", "rejected", "detail_ulasan"];
+    const dataReport = ["report_header", "report_detail"];
     const location = useLocation();
     const lastPathName = location.pathname.replace("/", "");
     const [isActiveMenu, setIssActiveMenu] = useState({});
@@ -36,6 +38,8 @@ const MenuSidebar = ({ menuCollapse, user }) => {
     const [isOpenDataPelanggan, setIsOpenDataPelanggan] = useState(false);
     const [isOpenDataTrans, setIsOpenDataTrans] = useState(false);
     const [isOpenDataUlasan, setIsOpenDataUlasan] = useState(false);
+    const [isOpenDataHeader, setIsOpenDataHeader] = useState(false);
+	const [isOpenDataSimp, setIsOpenDataSimp] = useState(false);
     let menuActive = menuProducts.includes(lastPathName) ? menuProducts[0] : lastPathName;
     menuActive = menuArea.includes(lastPathName) ? menuArea[0] : menuActive;
     menuActive = menuLevel.includes(lastPathName) ? menuLevel[0] : menuActive;
@@ -46,6 +50,8 @@ const MenuSidebar = ({ menuCollapse, user }) => {
     subMenuOpen = dataPelanggan.includes(lastPathName) ? "dataPelanggan" : subMenuOpen;
     subMenuOpen = dataTrans.includes(lastPathName) ? "dataTrans" : subMenuOpen;
     subMenuOpen = dataUlasan.includes(lastPathName) ? "dataUlasan" : subMenuOpen;
+    subMenuOpen = dataReport.includes(lastPathName) ? "dataReport" : subMenuOpen;
+    subMenuOpen = dataSimp.includes(lastPathName) ? "dataSimp" : subMenuOpen;
 
     useEffect(() => {
         setIsOpenMasterData(e => {
@@ -59,6 +65,12 @@ const MenuSidebar = ({ menuCollapse, user }) => {
         })
         setIsOpenDataUlasan(e => {
             return subMenuOpen === "dataUlasan" ? true : false;
+        })
+        setIsOpenDataHeader(e => {
+            return subMenuOpen === "dataReport" ? true : false;
+        })
+		setIsOpenDataSimp(e => {
+            return subMenuOpen === "dataSimp" ? true : false;
         })
         setIssActiveMenu({ [menuActive]: true });
     }, [menuActive, subMenuOpen]);
@@ -81,6 +93,14 @@ const MenuSidebar = ({ menuCollapse, user }) => {
         setIsOpenDataUlasan(prevState => {
             const isOpen = prevState;
             return name === "dataUlasan" ? !isOpen : isOpen;
+        })
+        setIsOpenDataHeader(prevState => {
+            const isOpen = prevState;
+            return name === "dataReport" ? !isOpen : isOpen;
+        })
+		setIsOpenDataSimp(prevState => {
+            const isOpen = prevState;
+            return name === "dataSimp" ? !isOpen : isOpen;
         })
         //return name;
     };
@@ -184,10 +204,54 @@ const MenuSidebar = ({ menuCollapse, user }) => {
 
                                 </SubMenu>) : ''}
 
+                            <SubMenu title="Report" onClick={handleClickSubmenu("dataReport")} open={isOpenDataHeader} icon={<BsLayoutTextWindowReverse />}>
+                                <MenuItem active={isActiveMenu.report_header} style={{ "paddingLeft": "27px" }} icon={<BsGraphUp />}>
+                                    <NavLink to='/report_header' /> Header
+                                </MenuItem>
+                                <MenuItem active={isActiveMenu.report_detail} style={{ "paddingLeft": "27px" }} icon={<BsGraphDown />}>
+                                    <NavLink to='/report_detail' />
+                                    Detail
+                                </MenuItem>
+
+
+                            </SubMenu>
+
+                            <MenuItem active={isActiveMenu.reg_mitra} icon={<FaList />}>
+                                    <NavLink to='/reg_mitra' />Registrasi Mitra
+                                </MenuItem>
+								
+							 <SubMenu title="Simpatik" onClick={handleClickSubmenu("dataSimp")} open={isOpenDataSimp} icon={<BsClipboardData />}>
+                                    <MenuItem active={isActiveMenu.waiting_simpatik} style={{ "paddingLeft": "27px" }} icon={<BsCardText />}>
+                                        <NavLink to='/waiting_simpatik' /> Waiting ...
+                                    </MenuItem>
+                                    <MenuItem active={isActiveMenu.diterima} style={{ "paddingLeft": "27px" }} icon={<BsCardList />}>
+                                        <NavLink to='/diterima' />
+                                        Diterima
+                                    </MenuItem>
+                                    <MenuItem active={isActiveMenu.approved_simpatik} style={{ "paddingLeft": "27px" }} icon={<FiRefreshCw />}>
+                                        <NavLink to='/approved_simpatik' />
+                                        Approved
+                                    </MenuItem>
+
+                                    <MenuItem active={isActiveMenu.rejected_simpatik} style={{ "paddingLeft": "27px" }} icon={<BsFillExclamationCircleFill />}>
+                                        <NavLink to='/rejected_simpatik' />
+                                        Rejected
+                                    </MenuItem>
+
+                                    
+                                    <MenuItem active={isActiveMenu.completed_simpatik} style={{ "paddingLeft": "27px" }} icon={<BsCardChecklist />}>
+                                        <NavLink to='/completed_simpatik' />
+                                        Completed
+                                    </MenuItem>
+                                   
+                                </SubMenu>
+
                             {user.vouchers_view ? (
                                 <MenuItem active={isActiveMenu.vouchers} icon={<BsAwardFill />}>
                                     <NavLink to='/vouchers' />Vouchers
                                 </MenuItem>) : ''}
+								
+							
 
 
                             {user.news_view ? (

@@ -246,50 +246,55 @@ class TransDetail extends Component {
                                                                 <td>{this.state.dtRes.payment === 2 ? this.state.dtRes.key_payment : "-"}</td>
 
                                                             </tr>
-                                                            <tr>
-                                                                <td><strong>Pengiriman</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>
-                                                                    {this.state.dtRes.tipe_pengiriman === 1 ? "Ambil dari DC terdekat" : ""}
-                                                                    {this.state.dtRes.tipe_pengiriman === 2 ? "Kirim dari DC terdekat" : ""}
-                                                                    {this.state.dtRes.tipe_pengiriman === 3 ? "Dikirim dari sales counter CNI" : ""}
-                                                                </td>
-                                                                <td><strong>CNOTE</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.cnote_no && this.state.dtRes.tipe_pengiriman !== 1 ? this.state.dtRes.cnote_no : "-"}</td>
-                                                                <td><strong>Layanan</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                {this.state.dtRes.tipe_pengiriman !== 1 ? (<td>{this.state.dtRes.logistic_name + " - " + this.state.dtRes.service_code}</td>) : (<td>-</td>)}
+                                                            {this.state.dtRes.tipe_pengiriman > 0 ? (
+                                                                <tr>
+                                                                    <td><strong>Pengiriman</strong></td>
+                                                                    <td><strong>:</strong></td>
+                                                                    <td>
+                                                                        {this.state.dtRes.tipe_pengiriman === 1 ? "Ambil dari DC terdekat" : ""}
+                                                                        {this.state.dtRes.tipe_pengiriman === 2 ? "Kirim dari DC terdekat" : ""}
+                                                                        {this.state.dtRes.tipe_pengiriman === 3 ? "Dikirim dari sales counter CNI" : ""}
+                                                                    </td>
+                                                                    <td><strong>CNOTE</strong></td>
+                                                                    <td><strong>:</strong></td>
+                                                                    <td>{this.state.dtRes.cnote_no && this.state.dtRes.tipe_pengiriman !== 1 ? this.state.dtRes.cnote_no : "-"}</td>
+                                                                    <td><strong>Layanan</strong></td>
+                                                                    <td><strong>:</strong></td>
+                                                                    {this.state.dtRes.tipe_pengiriman !== 1 ? (<td>{this.state.dtRes.logistic_name + " - " + this.state.dtRes.service_code}</td>) : (<td>-</td>)}
 
-                                                            </tr>
-                                                            <tr>
-                                                                <td><strong>{this.state.dtRes.tipe_pengiriman !== 1 ? "Origin" : "DC Name"}</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                {this.state.dtRes.tipe_pengiriman !== 1 ? (
-                                                                    <Fragment>
-                                                                        <td>{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin + "(" + this.state.dtRes.kode_origin + ")"}</td>
-                                                                        <td><strong>Alamat Pengiriman</strong></td>
-                                                                        <td><strong>:</strong></td>
-                                                                        <td colSpan="4">{this.state.dtRes.nama_penerima + ", "
-                                                                            + this.state.dtRes.alamat + ", " + this.state.dtRes.kec_name + ", "
-                                                                            + this.state.dtRes.city_name + ", " + this.state.dtRes.provinsi_name + ", "
-                                                                            + this.state.dtRes.kode_pos + ", " + this.state.dtRes.phone_penerima}
-                                                                            {this.state.dtRes.is_dropship ? (<span className="badge bg-warning">Dropship</span>) : ""}
-                                                                        </td>
-                                                                    </Fragment>
-                                                                ) : <td colSpan="7">{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin}</td>}
+                                                                </tr>) : ''}
+                                                            {this.state.dtRes.tipe_pengiriman > 0 ? (
+                                                                <tr>
+                                                                    <td><strong>{this.state.dtRes.tipe_pengiriman !== 1 ? "Origin" : "DC Name"}</strong></td>
+                                                                    <td><strong>:</strong></td>
+                                                                    {this.state.dtRes.tipe_pengiriman !== 1 ? (
+                                                                        <Fragment>
+                                                                            <td>{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin + "(" + this.state.dtRes.kode_origin + ")"}</td>
+                                                                            <td><strong>Alamat Pengiriman</strong></td>
+                                                                            <td><strong>:</strong></td>
+                                                                            <td colSpan="4">{this.state.dtRes.nama_penerima + ", "
+                                                                                + this.state.dtRes.alamat + ", " + this.state.dtRes.kec_name + ", "
+                                                                                + this.state.dtRes.city_name + ", " + this.state.dtRes.provinsi_name + ", "
+                                                                                + this.state.dtRes.kode_pos + ", " + this.state.dtRes.phone_penerima}
+                                                                                {this.state.dtRes.is_dropship ? (<span className="badge bg-warning">Dropship</span>) : ""}
+                                                                            </td>
+                                                                        </Fragment>
+                                                                    ) : <td colSpan="7">{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin}</td>}
 
-                                                            </tr>
-                                                            <tr>
-                                                                <td><strong>Remark Hold</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td colSpan="7">{this.state.dtRes.remark_hold ? this.state.dtRes.remark_hold : '-'}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><strong>Remark Onprocess</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td colSpan="7">{this.state.dtRes.remark_onprocess ? this.state.dtRes.remark_onprocess : '-'}</td>
-                                                            </tr>
+                                                                </tr>) : ''}
+                                                            {this.state.dtRes.tipe_pengiriman > 0 ? (
+                                                                <tr>
+                                                                    <td><strong>Remark Hold</strong></td>
+                                                                    <td><strong>:</strong></td>
+                                                                    <td colSpan="7">{this.state.dtRes.remark_hold ? this.state.dtRes.remark_hold : '-'}</td>
+                                                                </tr>) : ''}
+                                                            {this.state.dtRes.tipe_pengiriman > 0 ? (
+                                                                <tr>
+                                                                    <td><strong>Remark Onprocess</strong></td>
+                                                                    <td><strong>:</strong></td>
+                                                                    <td colSpan="7">{this.state.dtRes.remark_onprocess ? this.state.dtRes.remark_onprocess : '-'}</td>
+                                                                </tr>
+                                                            ) : ''}
                                                             <tr>
                                                                 <td style={{ "backgroundColor": "rgba(0,0,0,.08)", "fontWeight": "bold", "fontSize": "16px" }} colSpan="9" align="center">List Item</td>
                                                             </tr>

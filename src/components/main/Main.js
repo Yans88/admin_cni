@@ -23,6 +23,7 @@ import TransDetail from '../../transaksi/TransDetail';
 import ListTransPayment from '../../transaksi/ListTransPayment';
 import ListTransCompleted from '../../transaksi/ListTransCompleted';
 import PriceList from '../../products/PriceList'
+import LimitBeli from '../../products/LimitBeli'
 import News from '../../news/News';
 import ListTransProcess from '../../transaksi/ListTransProcess';
 import ListTransDikirim from '../../transaksi/ListTransDikirim';
@@ -44,6 +45,15 @@ import UlasanDetail from '../../ulasan/UlasanDetail';
 import BlastNotif from '../../blast/BlastNotif';
 import BlastForm from '../../blast/BlastForm';
 import BlastDetail from '../../blast/BlastDetail';
+import ReportHeader from '../../reports/Header';
+import ReportDetail from '../../reports/Detail';
+import Mitra from '../../mitra/RegMitra';
+import ListSimpatik from '../../simpatik/ListSimpatik';
+import SimpatikDetail from '../../simpatik/SimpatikDetail';
+import ListSimpatikDiterima from '../../simpatik/ListSimpatikDiterima';
+import ListSimpatikApproved from '../../simpatik/ListSimpatikApproved';
+import ListSimpatikRejected from '../../simpatik/ListSimpatikRejected';
+import ListSimpatikCompleted from '../../simpatik/ListSimpatikCompleted';
 
 const City = React.lazy(() => import('../../area/City'));
 const Kecamatan = React.lazy(() => import('../../area/Kecamatan'));
@@ -141,6 +151,7 @@ const Main = ({ onUserLoad, user }) => {
                         <Route path="/hold" component={user.transaksi_view ? ListTransHold : Forbidden} />
                         <Route path="/trans_detail" component={user.transaksi_view ? TransDetail : Forbidden} />
                         <Route path='/pricelist' component={user.pricelist_view ? PriceList : Forbidden} />
+                        <Route path='/limit_beli' component={user.pricelist_view ? LimitBeli : Forbidden} />
                         <Route path='/setting' component={user.setting_view ? Setting : Forbidden} />
                         <Route path='/news' component={user.news_view ? News : Forbidden} />
                         <Route path='/level' component={user.level_view ? Level : Forbidden} />
@@ -157,6 +168,15 @@ const Main = ({ onUserLoad, user }) => {
                         <Route path='/blast' component={BlastNotif} />
                         <Route path='/add_blast' component={BlastForm} />
                         <Route path='/blast_detail' component={BlastDetail} />
+                        <Route path='/report_header' component={ReportHeader} />
+                        <Route path='/report_detail' component={ReportDetail} />
+                        <Route path='/reg_mitra' component={Mitra} />
+                        <Route path='/waiting_simpatik' component={ListSimpatik} />
+                        <Route path='/simpatik_detail' component={SimpatikDetail} />
+                        <Route path='/diterima' component={ListSimpatikDiterima} />
+                        <Route path='/approved_simpatik' component={ListSimpatikApproved} />
+                        <Route path='/rejected_simpatik' component={ListSimpatikRejected} />
+                        <Route path='/completed_simpatik' component={ListSimpatikCompleted} />
                     </Switch>
                 </React.Suspense>
 

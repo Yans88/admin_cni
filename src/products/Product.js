@@ -20,6 +20,7 @@ const Product = (auth) => {
     const [filterValue, setFilterValue] = useState("");
     const [isLoading, setLoading] = useState(false);
     const [deleteForm, setdeleteForm] = useState(false);
+    const [soldOutForm, setSoldOutForm] = useState(false);
     const [loadTbl, setLoadTbl] = useState(true);
     const [showSwalSuccess, setshowSwalSuccess] = useState(false);
     const [errMsg, setErrMsg] = useState(null);
@@ -28,6 +29,7 @@ const Product = (auth) => {
 
     const handleClose = () => {
         setdeleteForm(false);
+        setSoldOutForm(false);
     };
 
     const closeSwal = () => {
@@ -39,7 +41,7 @@ const Product = (auth) => {
             page_number: pageNumb,
             per_page: pageSize
         }
-        getData(param);
+        //getData(param);
     }
     const getData = async (queryString) => {
         cookie.remove('selectedIdCNI');
@@ -181,6 +183,37 @@ const Product = (auth) => {
         });
     }
 
+    const setSoldout = async () => {
+        const isSoldOut = selected.is_sold_out === 1 ? 0 : 1;
+        const dt = productList;
+        let _dt = array;
+        let dtt = [];
+        dt.map((x, key) => {
+            if (x.id_product === selected.id_product) {
+                _dt = { ...x, is_sold_out: isSoldOut }
+            } else {
+                _dt = { ...x };
+            }
+            dtt[key] = _dt;
+        });
+        let _data = {
+            id_product: selected.id_product,
+            is_sold_out: isSoldOut,
+            id_operator: auth.user.id_operator
+        }
+		const contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>' }} />;
+        setProductList(dtt);
+		setErrMsg(contentSwal);
+		setshowSwalSuccess(true);
+		setSoldOutForm(false);
+        await ProductService.postData(_data, "SOLD_OUT").then((res) => {
+
+        }).catch((error) => {
+            console.log(error);
+            setProductList(dt);
+        });
+    }
+
     const listIMG = async (record) => {
         await cookie.set('imageIdCNI', record.id_product);
         history.push('/list_img');
@@ -191,11 +224,24 @@ const Product = (auth) => {
         history.push('/pricelist');
     }
 
+    const LimitBeli = async (record) => {
+        await cookie.set('pricelistIdCNI', record.id_product);
+        history.push('/limit_beli');
+    }
+
     const deleteRecord = (record) => {
         setSelected(record)
         setdeleteForm(true);
     }
+
+    const soldOut = (record) => {
+        setSelected(record)
+        setSoldOutForm(true);
+    }
     const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+    const contentSoldOut = <div dangerouslySetInnerHTML={{
+        __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin akan <strong>mengubah status</strong> produk <br/><strong>' + selected.product_name + '</strong>?</div>'
+    }} />;
 
     return (
         <div>
@@ -237,6 +283,8 @@ const Product = (auth) => {
                                             editRecord={EditRecord}
                                             listImg={listIMG}
                                             PriceList={PriceList}
+                                            SoldOut={soldOut}
+                                            LimitBeli={LimitBeli}
                                             deleteRecord={deleteRecord}
                                             onSetActive={setActive}
                                             hakAkses={auth.user}
@@ -262,6 +310,20 @@ const Product = (auth) => {
                     themeButton="danger"
                     isLoading={isLoading}
                     formSubmit={handleSave}
+                ></AppModal>
+
+                <AppModal
+                    show={soldOutForm}
+                    size="sm"
+                    form={contentSoldOut}
+                    handleClose={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                    title="Sold out?"
+                    titleButton={selected.is_sold_out ? "Set available" : "Set sold out"}
+                    themeButton={selected.is_sold_out ? "success" : "danger"}
+                    isLoading={isLoading}
+                    formSubmit={setSoldout}
                 ></AppModal>
 
                 {showSwalSuccess ? (<AppSwalSuccess

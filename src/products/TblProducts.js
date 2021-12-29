@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
 import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
-import { Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Badge, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 
 export const TblProducts = props => {
@@ -116,23 +116,53 @@ export const TblProducts = props => {
             key: "qty",
             text: "Stok",
             align: "center",
-            width: 70,
+            width: 40,
             sortable: true,
             cell: record => {
                 return (
-                    <NumberFormat
-                        value={record.qty}
-                        thousandSeparator={true}
-                        decimalScale={2}
-                        displayType={'text'}
-                    />
+                    <Fragment>
+                        {record.id_product > 1 ? (
+                            <OverlayTrigger
+                                placement="left"
+                                delay={{ hide: 50 }}
+                                overlay={
+                                    <Tooltip id="tooltip-left">
+                                        Set is sold out ?
+                                    </Tooltip>
+                                }
+                            >
+                                <Link to='#' onClick={() => props.SoldOut(record)}>
+                                    {record.is_sold_out === 1 ? (
+                                        <Badge variant="danger"><NumberFormat
+                                            value={record.qty}
+                                            thousandSeparator={true}
+                                            decimalScale={2}
+                                            displayType={'text'}
+                                        /> - Sold out</Badge>) : (
+                                        <NumberFormat
+                                            value={record.qty}
+                                            thousandSeparator={true}
+                                            decimalScale={2}
+                                            displayType={'text'}
+                                        />
+                                    )}
+                                </Link>
+                            </OverlayTrigger>
+                        ) : (<NumberFormat
+                            value={record.qty}
+                            thousandSeparator={true}
+                            decimalScale={2}
+                            displayType={'text'}
+                        />)}
+
+                    </Fragment >
                 )
             }
         },
         {
             key: "is_active",
             text: "Active",
-            width: 50,
+            width: 40,
             sortable: false,
             align: "center",
             cell: record => {
@@ -140,6 +170,7 @@ export const TblProducts = props => {
                     <div style={{ textAlign: "center" }}>
                         <Fragment>
                             <Form.Check
+                                disabled={record.id_product === 1 ? true : false}
                                 id={record.id_product}
                                 checked={record.is_active > 0 ? ("checked") : ""}
                                 type="switch"
@@ -155,7 +186,7 @@ export const TblProducts = props => {
         {
             key: "action",
             text: "Action",
-            width: 130,
+            width: 210,
             sortable: false,
             align: "center",
             cell: record => {
@@ -174,6 +205,11 @@ export const TblProducts = props => {
                                 onClick={() => props.editRecord(record)}
                                 style={{ marginRight: '5px' }}>
                                 <i className="fa fa-edit"></i> Edit
+                            </button>
+                            <button
+                                className="btn btn-xs btn-danger"
+                                onClick={() => props.LimitBeli(record)}>
+                                <i className="fa fa-edit"></i> Limit Beli
                             </button>
                             {/*  <button
                                 disabled={!props.hakAkses.product_del}

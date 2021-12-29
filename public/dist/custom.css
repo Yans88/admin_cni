@@ -138,7 +138,7 @@ navbar-nav>li>.dropdown-menu {
 }
 
 .main-sidebar{
-  height: 160vh !important;
+  height: 200vh !important;
 }
 
 .bg-sidebar{
@@ -714,4 +714,9 @@ body > .print-source {
 
 .chk_isactive{
   padding-left: 2.7rem !important;
+}
+
+.tbl_report{
+  width:max-content !important;
+  
 }

@@ -223,6 +223,8 @@ class Voucher extends Component {
                             />) : ''}
                             {record.tipe === 3 ? ('Produk Utama : ') : ''}
                             {record.tipe === 3 ? (record.produk_utama_name) : ''}
+							<br/>
+							{record.new_konsumen === 1 && (<Badge variant="primary">New Konsumen</Badge>)}
                         </Fragment>
                     )
                 }
@@ -268,6 +270,7 @@ class Voucher extends Component {
                         {record.tipe === 1 && <Badge variant="success">Free Ongkir</Badge>}
                         {record.tipe === 2 && <Badge variant="info">Potongan/Diskon</Badge>}
                         {record.tipe === 3 && <Badge variant="warning">Bonus Produk</Badge>}
+                        
                     </Fragment>)
                 }
             },

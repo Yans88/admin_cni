@@ -560,7 +560,7 @@ class ProductForm extends Component {
 
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="img">
-                                                            <Form.Label>Image</Form.Label>
+                                                            <Form.Label>Image(500x500)</Form.Label>
                                                             {this.state.errMsg.img ? (<span className="float-right text-error badge badge-danger">{this.state.errMsg.img}</span>) : ''}
                                                             <Form.File
                                                                 setfieldvalue={this.state.img}
@@ -594,8 +594,9 @@ class ProductForm extends Component {
                                                         <Button variant="danger">Cancel</Button>{' '}
                                                     </Link>
                                                     <AppButton
+														disabled={this.state.id_product === 1 || this.state.id_product === 65 || this.state.id_product === 64 || this.state.id_product === 66 ? true : false}
                                                         isLoading={this.state.isLoading}
-                                                        type="submit"
+                                                        type={this.state.id_product === 1 || this.state.id_product === 65 || this.state.id_product === 64 || this.state.id_product === 66 ? "button" : "submit"}
                                                         theme="success">
                                                         Simpan
                                                     </AppButton>

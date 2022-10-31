@@ -24,9 +24,12 @@ export default class CetakResi extends Component {
             provinsi_name,
             kode_pos,
             wh_name,
+            alamat_wh,
+            phone_wh,
             service_code, list_item
         } = this.props.dataFromParent;
         var weight = ttl_weight > 1000 ? ttl_weight / 1000 : 1;
+		//const type_logistic = 2;
         const config = {
             displayValue: false,
             width: 3,
@@ -46,7 +49,7 @@ export default class CetakResi extends Component {
                             {type_logistic === 1 && (<img width={130} height={100} src={LogoJNE} />)}
                             {type_logistic === 2 && (<img width={140} height={95} src={LogoLP} />)}
                         </td>
-                        <td colSpan={4} align="center" style={{ width: "50%", fontSize: 24, paddingTop: 20 }}>No Order: MCNI/{id_transaksi}<br />
+                        <td colSpan={4} align="center" style={{ width: "50%", fontSize: 24, paddingTop: 20 }}>No Order: <b>MCNI/{id_transaksi}</b><br />
                             {type_logistic === 1 && <Barcode value={"MCNI/" + id_transaksi} {...config} />}
                         </td>
                     </tr>
@@ -59,7 +62,7 @@ export default class CetakResi extends Component {
                             <td colSpan={4}><b>{nama_penerima}</b></td>
                         </tr>
                         <tr>
-                            <td colSpan={3} valign="top">({wh_name}) Alamat Lengkap, Kota dan Provinsi Telp.031-xxxxxxx</td>
+                            <td colSpan={3} valign="top">({wh_name}) {alamat_wh} {phone_wh}</td>
                             <td colSpan={4} valign="top">{alamat} ({kode_pos}), Kec.{kec_name} {city_name} - {provinsi_name} No. Telp : {phone_penerima}</td>
                         </tr>
                         <tr>

@@ -418,7 +418,7 @@ class Provinsi extends Component {
                         backdrop="static"
                         keyboard={false}
                         title="Add/Edit Provinsi"
-                        titleButton="Save change"
+                        titleButton="ok change"
                         themeButton="success"
                         isLoading={this.state.isLoading}
                         formSubmit={this.handleSubmit}

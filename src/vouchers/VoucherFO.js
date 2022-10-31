@@ -37,6 +37,14 @@ class VoucherFO extends Component {
             imgUpload: noImg,
             errMsg: this.initSelected,
             isLoading: false,
+			user_tertentu:0,
+			is_limited:0,
+			website:0,
+			mobile:0,
+			member:0,
+			konsumen:0,
+			is_show:0,
+			new_konsumen:0,
         }
         this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
         this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
@@ -84,6 +92,8 @@ class VoucherFO extends Component {
 
         errors.title = !this.state.title ? "Title required" : '';
         errors.img = !this.state.img ? "Image required" : '';
+        errors.kode_voucher = !this.state.kode_voucher ? "Kode Voucher required" : '';
+        errors.min_pembelian = !this.state.min_pembelian ? "Minimal Pembelian required" : '';
         errors.img = !this.state.img && this.state.img.size > 2099200 ? "File size over 2MB" : errors.img;
         errors.potongan = !this.state.potongan ? "Potongan Required" : '';
         errors.short_description = !this.state.short_description ? "Short Description Required" : '';
@@ -142,7 +152,7 @@ class VoucherFO extends Component {
                 this.setState({ img: value, imgUpload: reader.result })
             };
         }
-        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen' || name === 'is_show') {
+        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen' || name === 'is_show' || name=== 'new_konsumen') {
             value = evt.target.checked ? 1 : 0;
         }
         this.setState({
@@ -303,9 +313,10 @@ class VoucherFO extends Component {
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
                                                                     <Form.Check
+																		disabled ={this.state.new_konsumen > 0 ? true :false}
                                                                         onChange={this.handleChange}
-                                                                        checked={this.state.user_tertentu > 0 ? ("checked") : ""}
-                                                                        label={this.state.user_tertentu > 0 ? ("Yes") : "No"}
+                                                                        checked={this.state.user_tertentu > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
+                                                                        label={this.state.user_tertentu > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
                                                                         type="switch"
                                                                         name="user_tertentu"
                                                                         custom
@@ -326,23 +337,9 @@ class VoucherFO extends Component {
                                                                 name="kode_voucher"
                                                                 type="text"
                                                                 placeholder="Kode Voucher" />
-
+															{errMsg.kode_voucher && (<span className="text-error badge badge-danger">{errMsg.kode_voucher}</span>)}
                                                         </Form.Group>
-                                                        <Form.Group as={Col} xs={2} controlId="min_pembelian">
-                                                            <Form.Label>Min. Pembelian(IDR)</Form.Label>
-                                                            <NumberFormat
-                                                                name="min_pembelian"
-                                                                onChange={this.handleChange}
-                                                                className="form-control form-control-sm"
-                                                                value={this.state.min_pembelian}
-                                                                thousandSeparator={true}
-                                                                decimalScale={2}
-                                                                inputMode="numeric"
-                                                                autoComplete="off"
-                                                                placeholder="Min. Pembelian(IDR)" />
-
-
-                                                        </Form.Group>
+                                                       
                                                         <Form.Group as={Col} xs={2} controlId="potongan">
                                                             <Form.Label>Potongan(IDR)</Form.Label>
                                                             <NumberFormat
@@ -415,20 +412,23 @@ class VoucherFO extends Component {
                                                     </Form.Row>
 
                                                     <Form.Row>
-                                                        <Form.Group as={Col} controlId="short_description">
-                                                            <Form.Label>Short Description</Form.Label>
-                                                            <Form.Control
-                                                                value={this.state.short_description ? this.state.short_description : ''}
+                                                        <Form.Group as={Col} xs={3} controlId="min_pembelian">
+                                                            <Form.Label>Min. Pembelian(IDR)</Form.Label>
+                                                            <NumberFormat
+                                                                name="min_pembelian"
                                                                 onChange={this.handleChange}
-                                                                size="sm"
-                                                                name="short_description"
-                                                                type="text"
+                                                                className="form-control form-control-sm"
+                                                                value={this.state.min_pembelian}
+                                                                thousandSeparator={true}
+                                                                decimalScale={2}
+                                                                inputMode="numeric"
                                                                 autoComplete="off"
-                                                                placeholder="Short Description" />
-                                                            {errMsg.short_description && (<span className="text-error badge badge-danger">{errMsg.short_description}</span>)}
+                                                                placeholder="Min. Pembelian(IDR)" />
+															{errMsg.min_pembelian && (<span className="text-error badge badge-danger">{errMsg.min_pembelian}</span>)}
+
                                                         </Form.Group>
 
-                                                        <Form.Group as={Col} xs={2} controlId="is_show">
+                                                        <Form.Group as={Col} xs={1} controlId="is_show">
                                                             <Form.Label>Is Show</Form.Label>
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
@@ -464,9 +464,10 @@ class VoucherFO extends Component {
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
                                                                     <Form.Check
+																		disabled ={this.state.new_konsumen > 0 ? true :false}
                                                                         onChange={this.handleChange}
-                                                                        checked={this.state.member > 0 ? ("checked") : ""}
-                                                                        label={this.state.member > 0 ? ("Yes") : "No"}
+                                                                        checked={this.state.member > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
+                                                                        label={this.state.member > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
                                                                         type="switch"
                                                                         name="member"
                                                                         custom
@@ -479,9 +480,10 @@ class VoucherFO extends Component {
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
                                                                     <Form.Check
+																		disabled ={this.state.new_konsumen > 0 ? true :false}
                                                                         onChange={this.handleChange}
-                                                                        checked={this.state.konsumen > 0 ? ("checked") : ""}
-                                                                        label={this.state.konsumen > 0 ? ("Yes") : "No"}
+                                                                        checked={this.state.konsumen > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
+                                                                        label={this.state.konsumen > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
                                                                         type="switch"
                                                                         name="konsumen"
                                                                         custom
@@ -489,6 +491,39 @@ class VoucherFO extends Component {
                                                                 </Col>
                                                             </Row>
                                                         </Form.Group>
+														<Form.Group as={Col} xs={2} controlId="new_konsumen">
+                                                            <Form.Label>New Konsumen</Form.Label>
+                                                            <Row>
+                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                    <Form.Check
+																		disabled ={this.state.konsumen > 0 || this.state.member > 0 || this.state.user_tertentu > 0 ? true :false}
+                                                                        onChange={this.handleChange}
+                                                                        checked={this.state.new_konsumen > 0 && this.state.konsumen === 0 && this.state.member === 0 && this.state.user_tertentu === 0 ? ("checked") : ""}
+                                                                        label={this.state.new_konsumen > 0 && this.state.konsumen === 0 && this.state.member === 0 && this.state.user_tertentu === 0 ? ("Yes") : "No"}
+                                                                        type="switch"
+                                                                        name="new_konsumen"
+                                                                        custom
+                                                                    />
+                                                                </Col>
+                                                            </Row>
+                                                        </Form.Group>
+                                                    </Form.Row>
+													
+													 <Form.Row>
+                                                        <Form.Group as={Col} controlId="short_description">
+                                                            <Form.Label>Short Description</Form.Label>
+                                                            <Form.Control
+                                                                value={this.state.short_description ? this.state.short_description : ''}
+                                                                onChange={this.handleChange}
+                                                                size="sm"
+                                                                name="short_description"
+                                                                type="text"
+                                                                autoComplete="off"
+                                                                placeholder="Short Description" />
+                                                            {errMsg.short_description && (<span className="text-error badge badge-danger">{errMsg.short_description}</span>)}
+                                                        </Form.Group>
+
+                                                        
                                                     </Form.Row>
 
                                                     <Form.Row>
@@ -512,7 +547,7 @@ class VoucherFO extends Component {
 
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="img">
-                                                            <Form.Label>Image</Form.Label>
+                                                            <Form.Label>Image(500x500)</Form.Label>
                                                             {errMsg.img ? (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
                                                             <Form.File
                                                                 setfieldvalue={this.state.img}

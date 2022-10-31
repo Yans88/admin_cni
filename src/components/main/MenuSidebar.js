@@ -16,7 +16,7 @@ import { BsGraphUp,BsGraphDown,BsLayoutTextWindowReverse,BsLightningFill, BsFill
 import { ImLocation2, ImHome } from "react-icons/im";
 import { MdAccountBalance, MdRemoveShoppingCart } from "react-icons/md";
 import { FiRefreshCw } from "react-icons/fi";
-import { BiMessageError, BiMessageAltCheck, BiMessageAltX } from "react-icons/bi";
+import { BiMessageError, BiMessageAltCheck, BiMessageAltX, BiRecycle } from "react-icons/bi";
 import { connect } from "react-redux";
 
 const MenuSidebar = ({ menuCollapse, user }) => {
@@ -27,7 +27,7 @@ const MenuSidebar = ({ menuCollapse, user }) => {
     const menuvouchers = ["vouchers", "free_ongkir"];
     const menuArea = ["provinsi", "city", "kecamatan"];
     const menuLevel = ["level", "permission"];
-    const dataTrans = ["waiting_payment", "payment", "completed", "trans_detail", "onprocess", "dikirim", "expired", "hold"];
+    const dataTrans = ["waiting_payment", "payment", "completed", "trans_detail", "onprocess", "dikirim", "expired", "hold","cancel_customer"];
     const dataSimp = ["waiting_simpatik", "diterima", "approved_simpatik", "rejected_simpatik", "completed_simpatik","simpatik_detail"];
     const dataUlasan = ["waiting_approve", "approved", "rejected", "detail_ulasan"];
     const dataReport = ["report_header", "report_detail"];
@@ -187,6 +187,10 @@ const MenuSidebar = ({ menuCollapse, user }) => {
                                         <NavLink to='/expired' />
                                         Expired
                                     </MenuItem>
+                                    <MenuItem active={isActiveMenu.cancel_customer} style={{ "paddingLeft": "27px" }} icon={<BiRecycle />}>
+                                        <NavLink to='/cancel_customer' />
+                                        Cancel by <br/>Customer
+                                    </MenuItem>
                                 </SubMenu>) : ''}
                             {user.ulasan_view ? (
                                 <SubMenu title="Ulasan" onClick={handleClickSubmenu("dataUlasan")} open={isOpenDataUlasan} icon={<BsChatSquareDots />}>
@@ -219,6 +223,10 @@ const MenuSidebar = ({ menuCollapse, user }) => {
                             <MenuItem active={isActiveMenu.reg_mitra} icon={<FaList />}>
                                     <NavLink to='/reg_mitra' />Registrasi Mitra
                                 </MenuItem>
+							
+							{user.info_bisnis_view && (<MenuItem active={isActiveMenu.info_bisnis} icon={<FaList />}>
+                                    <NavLink to='/info_bisnis' />Info Bisnis
+							</MenuItem>)}
 								
 							 <SubMenu title="Simpatik" onClick={handleClickSubmenu("dataSimp")} open={isOpenDataSimp} icon={<BsClipboardData />}>
                                     <MenuItem active={isActiveMenu.waiting_simpatik} style={{ "paddingLeft": "27px" }} icon={<BsCardText />}>

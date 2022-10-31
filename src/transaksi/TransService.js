@@ -14,6 +14,8 @@ class TransService {
                 return axios.post(API_URL + "/set_onprocess", param)
             case "KIRIM_PAKET":
                 return axios.post(API_URL + "/generate_resi", param)
+			case "KIRIM_PAKET_LP":
+                return axios.post(API_URL + "/generate_resi_lp", param)
             case "SET_HOLD":
                 return axios.post(API_URL + "/set_hold", param)
             default:

@@ -312,9 +312,12 @@ const Category = (auth) => {
             <Form.Control size="sm" name="category_name" type="text" value={selected.category_name} onChange={handleChange} placeholder="Category" />
         </Form.Group>
         <Form.Group controlId="image">
-            <Form.Label>Image</Form.Label>{errMsg.img ?
+            <Form.Label>Image(500x500)</Form.Label>{errMsg.img ?
                 (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
             <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={handleChange} />
+			<Form.Text className="text-muted" style={{textAlign:"left"}}>
+				<em>- Images *.jpg, *.jpeg, *.png dan Maks. Size 2MB</em>
+            </Form.Text>
         </Form.Group>
         {selected.imgUpload ? (<Form.Group controlId="imagePreview">
             <Figure>
@@ -326,7 +329,7 @@ const Category = (auth) => {
                 />
             </Figure>
         </Form.Group>) : ''}
-
+ 
 
     </Form>;
 

@@ -274,7 +274,7 @@ color: #FFF;
 
 #header .pro-sidebar { 
   width: 100%;
-  min-width: 100%;  
+  min-width: 100%;
 }
 
 #header .pro-sidebar.collapsed {
@@ -552,6 +552,7 @@ text-align: center;
 }
 .custom-control{
   padding-left: 1rem !important;
+  z-index: 0 !important;
 }
 #spam {
   background-color: lightgray;

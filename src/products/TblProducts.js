@@ -19,6 +19,12 @@ export const TblProducts = props => {
             </div>,
             row: 0
         },
+		{
+            key: "kode_produk",
+            text: "Kode Produk",
+            align: "center",
+            sortable: true,
+        },
         {
             key: "product_name",
             text: "Product",
@@ -170,7 +176,7 @@ export const TblProducts = props => {
                     <div style={{ textAlign: "center" }}>
                         <Fragment>
                             <Form.Check
-                                disabled={record.id_product === 1 ? true : false}
+                                disabled={record.id_product === 1 || record.id_product === 65 || record.id_product === 64 || record.id_product === 66 ? true : false}
                                 id={record.id_product}
                                 checked={record.is_active > 0 ? ("checked") : ""}
                                 type="switch"

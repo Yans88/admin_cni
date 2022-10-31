@@ -29,6 +29,7 @@ import ListTransProcess from '../../transaksi/ListTransProcess';
 import ListTransDikirim from '../../transaksi/ListTransDikirim';
 import ListTransExpired from '../../transaksi/ListTransExpired';
 import ListTransHold from '../../transaksi/ListTransHold';
+import ListTransCancelCustomer from '../../transaksi/ListTransCancelCustomer';
 import Level from '../../level/Level';
 import LevelFrm from '../../level/LevelFrm';
 import Home from './Home';
@@ -54,6 +55,7 @@ import ListSimpatikDiterima from '../../simpatik/ListSimpatikDiterima';
 import ListSimpatikApproved from '../../simpatik/ListSimpatikApproved';
 import ListSimpatikRejected from '../../simpatik/ListSimpatikRejected';
 import ListSimpatikCompleted from '../../simpatik/ListSimpatikCompleted';
+import InfoBisnis from '../../infobisnis/InfoBisnis';
 
 const City = React.lazy(() => import('../../area/City'));
 const Kecamatan = React.lazy(() => import('../../area/Kecamatan'));
@@ -149,6 +151,7 @@ const Main = ({ onUserLoad, user }) => {
                         <Route path="/dikirim" component={user.transaksi_view ? ListTransDikirim : Forbidden} />
                         <Route path="/expired" component={user.transaksi_view ? ListTransExpired : Forbidden} />
                         <Route path="/hold" component={user.transaksi_view ? ListTransHold : Forbidden} />
+                        <Route path="/cancel_customer" component={user.transaksi_view ? ListTransCancelCustomer : Forbidden} />
                         <Route path="/trans_detail" component={user.transaksi_view ? TransDetail : Forbidden} />
                         <Route path='/pricelist' component={user.pricelist_view ? PriceList : Forbidden} />
                         <Route path='/limit_beli' component={user.pricelist_view ? LimitBeli : Forbidden} />
@@ -177,6 +180,7 @@ const Main = ({ onUserLoad, user }) => {
                         <Route path='/approved_simpatik' component={ListSimpatikApproved} />
                         <Route path='/rejected_simpatik' component={ListSimpatikRejected} />
                         <Route path='/completed_simpatik' component={ListSimpatikCompleted} />
+                        <Route path='/info_bisnis' component={user.info_bisnis_view ? InfoBisnis : Forbidden} />
                     </Switch>
                 </React.Suspense>
 

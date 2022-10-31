@@ -38,6 +38,14 @@ class VoucherBP extends Component {
             imgUpload: noImg,
             errMsg: this.initSelected,
             isLoading: false,
+			user_tertentu:0,
+			is_limited:0,
+			website:0,
+			mobile:0,
+			member:0,
+			konsumen:0,
+			is_show:0,
+			new_konsumen:0,
         }
         this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
         this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
@@ -93,6 +101,7 @@ class VoucherBP extends Component {
         errors.kuota = this.state.is_limited && !this.state.kuota ? "Kuota required" : '';
         errors.start_date = !this.state.start_date && "Start date required";
         errors.end_date = !this.state.end_date && "End date required";
+		errors.kode_voucher = !this.state.kode_voucher ? "Kode Voucher required" : '';       
         this.setState({ ...this.state, id_operator: this.props.user.id_operator, isLoading: true, tipe: 1 });
         this.setState({ errors });
         if (this.validateForm(this.state.errMsg)) {
@@ -144,7 +153,7 @@ class VoucherBP extends Component {
                 this.setState({ img: value, imgUpload: reader.result })
             };
         }
-        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen' || name === 'is_show') {
+        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen' || name === 'is_show' || name=== 'new_konsumen') {
             value = evt.target.checked ? 1 : 0;
         }
         this.setState({
@@ -260,7 +269,7 @@ class VoucherBP extends Component {
                                             <Form id="myForm">
                                                 <div className="card-body my-card-body">
                                                     <Form.Row>
-                                                        <Form.Group as={Col} xs={3} controlId="title">
+                                                        <Form.Group as={Col} xs={6} controlId="title">
                                                             <Form.Label>Title</Form.Label>
 
                                                             <Form.Control
@@ -274,18 +283,7 @@ class VoucherBP extends Component {
                                                             {errMsg.title && (<span className="text-error badge badge-danger">{errMsg.title}</span>)}
 
                                                         </Form.Group>
-                                                        <Form.Group as={Col} xs={3} controlId="kode_voucher">
-                                                            <Form.Label>Kode Voucher</Form.Label>
-                                                            <Form.Control
-                                                                value={this.state.kode_voucher}
-                                                                autoComplete="off"
-                                                                onChange={this.handleChange}
-                                                                size="sm"
-                                                                name="kode_voucher"
-                                                                type="text"
-                                                                placeholder="Kode Voucher" />
-
-                                                        </Form.Group>
+                                                        
                                                         <Form.Group as={Col} xs={2} controlId="start_date">
                                                             <Form.Label>Start Date</Form.Label>
                                                             <Datetime
@@ -328,10 +326,10 @@ class VoucherBP extends Component {
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
                                                                     <Form.Check
-
+																		disabled ={this.state.new_konsumen > 0 ? true :false}
                                                                         onChange={this.handleChange}
-                                                                        checked={this.state.user_tertentu > 0 ? ("checked") : ""}
-                                                                        label={this.state.user_tertentu > 0 ? ("Yes") : "No"}
+                                                                        checked={this.state.user_tertentu > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
+                                                                        label={this.state.user_tertentu > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
                                                                         type="switch"
                                                                         name="user_tertentu"
                                                                         custom
@@ -420,20 +418,19 @@ class VoucherBP extends Component {
 
                                                     <Form.Row>
 
-                                                        <Form.Group as={Col} controlId="short_description">
-                                                            <Form.Label>Short Description</Form.Label>
+                                                         <Form.Group as={Col} xs={3} controlId="kode_voucher">
+                                                            <Form.Label>Kode Voucher</Form.Label>
                                                             <Form.Control
-                                                                value={this.state.short_description ? this.state.short_description : ''}
+                                                                value={this.state.kode_voucher}
+                                                                autoComplete="off"
                                                                 onChange={this.handleChange}
                                                                 size="sm"
-                                                                name="short_description"
+                                                                name="kode_voucher"
                                                                 type="text"
-                                                                autoComplete="off"
-                                                                placeholder="Short Description" />
-                                                            {errMsg.short_description && (<span className="text-error badge badge-danger">{errMsg.short_description}</span>)}
+                                                                placeholder="Kode Voucher" />
+															{errMsg.kode_voucher && (<span className="text-error badge badge-danger">{errMsg.kode_voucher}</span>)}
                                                         </Form.Group>
-
-                                                        <Form.Group as={Col} xs={2} controlId="is_show">
+														<Form.Group as={Col} xs={1} controlId="is_show">
                                                             <Form.Label>Is Show</Form.Label>
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
@@ -469,9 +466,10 @@ class VoucherBP extends Component {
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
                                                                     <Form.Check
+																		disabled ={this.state.new_konsumen > 0 ? true :false}
                                                                         onChange={this.handleChange}
-                                                                        checked={this.state.member > 0 ? ("checked") : ""}
-                                                                        label={this.state.member > 0 ? ("Yes") : "No"}
+                                                                        checked={this.state.member > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
+                                                                        label={this.state.member > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
                                                                         type="switch"
                                                                         name="member"
                                                                         custom
@@ -484,9 +482,10 @@ class VoucherBP extends Component {
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
                                                                     <Form.Check
+																		disabled ={this.state.new_konsumen > 0 ? true :false}
                                                                         onChange={this.handleChange}
-                                                                        checked={this.state.konsumen > 0 ? ("checked") : ""}
-                                                                        label={this.state.konsumen > 0 ? ("Yes") : "No"}
+                                                                        checked={this.state.konsumen > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
+                                                                        label={this.state.konsumen > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
                                                                         type="switch"
                                                                         name="konsumen"
                                                                         custom
@@ -494,9 +493,40 @@ class VoucherBP extends Component {
                                                                 </Col>
                                                             </Row>
                                                         </Form.Group>
+														<Form.Group as={Col} xs={2} controlId="new_konsumen">
+                                                            <Form.Label>New Konsumen</Form.Label>
+                                                            <Row>
+                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                    <Form.Check
+																		disabled ={this.state.konsumen > 0 || this.state.member > 0 || this.state.user_tertentu > 0 ? true :false}
+                                                                        onChange={this.handleChange}
+                                                                        checked={this.state.new_konsumen > 0 && this.state.konsumen === 0 && this.state.member === 0 && this.state.user_tertentu === 0 ? ("checked") : ""}
+                                                                        label={this.state.new_konsumen > 0 && this.state.konsumen === 0 && this.state.member === 0 && this.state.user_tertentu === 0 ? ("Yes") : "No"}
+                                                                        type="switch"
+                                                                        name="new_konsumen"
+                                                                        custom
+                                                                    />
+                                                                </Col>
+                                                            </Row>
+                                                        </Form.Group>
                                                     </Form.Row>
 
+ <Form.Row>
+                                                        <Form.Group as={Col} controlId="short_description">
+                                                            <Form.Label>Short Description</Form.Label>
+                                                            <Form.Control
+                                                                value={this.state.short_description ? this.state.short_description : ''}
+                                                                onChange={this.handleChange}
+                                                                size="sm"
+                                                                name="short_description"
+                                                                type="text"
+                                                                autoComplete="off"
+                                                                placeholder="Short Description" />
+                                                            {errMsg.short_description && (<span className="text-error badge badge-danger">{errMsg.short_description}</span>)}
+                                                        </Form.Group>
 
+                                                        
+                                                    </Form.Row>
 
                                                     <Form.Row>
                                                         <Form.Group as={Col} controlId="deskripsi">
@@ -519,7 +549,7 @@ class VoucherBP extends Component {
 
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="img">
-                                                            <Form.Label>Image</Form.Label>
+                                                            <Form.Label>Image(500x500)</Form.Label>
                                                             {errMsg.img ? (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
                                                             <Form.File
                                                                 setfieldvalue={this.state.img}
@@ -546,6 +576,8 @@ class VoucherBP extends Component {
                                                             </Figure>
                                                         </Form.Group>
                                                     </Form.Row>
+													
+													
                                                 </div>
                                             </Form>
                                             <div className="card-footer">

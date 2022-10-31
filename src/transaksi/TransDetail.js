@@ -1,15 +1,15 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux';
+import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux';
 import TransService from './TransService';
 import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import "moment/locale/id";
 import MyLoading from '../components/loading/MyLoading';
 import AppModal from '../components/modal/MyModal';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 import ReactToPrint from "react-to-print";
 import CetakResi from './CetakResi';
-import { Form } from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 
 class TransDetail extends Component {
     constructor(props) {
@@ -62,7 +62,7 @@ class TransDetail extends Component {
             id_operator: this.props.user.id_operator,
             remark: this.state.remark_hold
         }
-        console.log(queryString);
+
         TransService.postData(queryString, action).then((res) => {
             const err_code = res.data.err_code;
             if (err_code === '00') {
@@ -72,9 +72,10 @@ class TransDetail extends Component {
                     showConfirm: false,
                     showConfirmKirim: false,
                     showConfirmHold: false,
-                    errMsg: <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>' }} />,
+                    errMsg: <div
+                        dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>'}}/>,
                     showSwalSuccess: true,
-                    dtRes: { ...this.state.dtRes, status: 3 }
+                    dtRes: {...this.state.dtRes, status: 3}
                 });
             }
         }).catch((error) => {
@@ -91,21 +92,21 @@ class TransDetail extends Component {
     }
 
     confirmProcess = () => {
-        this.setState({ ...this.state, showConfirm: true, errMsg: null });
+        this.setState({...this.state, showConfirm: true, errMsg: null});
     }
 
     confirmKirim = () => {
-        this.setState({ ...this.state, showConfirmKirim: true, errMsg: null });
+        this.setState({...this.state, showConfirmKirim: true, errMsg: null});
     }
 
     confirmHold = () => {
-        this.setState({ ...this.state, showConfirmHold: true, errMsg: null, remark_hold: '' });
+        this.setState({...this.state, showConfirmHold: true, errMsg: null, remark_hold: ''});
     }
 
     getData = () => {
-        this.setState({ appsLoading: true });
+        this.setState({appsLoading: true});
         const selectedIdCNI = sessionStorage.getItem('idTransCNI');
-        const queryString = { id_transaksi: selectedIdCNI }
+        const queryString = {id_transaksi: selectedIdCNI}
         TransService.postData(queryString, "VIEW_DETAIL")
             .then(response => {
                 setTimeout(() => {
@@ -121,12 +122,12 @@ class TransDetail extends Component {
                             dtRes: {},
                         });
                     }
-                    this.setState({ appsLoading: false });
+                    this.setState({appsLoading: false});
                 }, 400);
             })
             .catch(e => {
                 console.log(e);
-                this.setState({ appsLoading: false });
+                this.setState({appsLoading: false});
             });
     };
 
@@ -140,26 +141,33 @@ class TransDetail extends Component {
 
 
     render() {
-        const contentConfirm = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin<br/><b>memproses</b> transaksi ini ?</div>' }} />;
-        const contentConfirmKirim = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin<br/><b>mengirimkan</b> paket ini ?</div>' }} />;
+        let action_kirim = this.state.dtRes.logistic_name === "JNE" ? "KIRIM_PAKET" : '';
+        action_kirim = this.state.dtRes.logistic_name === "Lion Parcel" ? "KIRIM_PAKET_LP" : action_kirim;
+
+        const contentConfirm = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin<br/><b>memproses</b> transaksi ini ?</div>'}}/>;
+        const contentConfirmKirim = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin<br/><b>mengirimkan</b> paket ini ?</div>'}}/>;
 
         const frmUser = <Form id="myForm">
             <div id="caption">
-                Transaksi ini akan di <b>hold</b>, <br />Apakah anda yakin ?
+                Transaksi ini akan di <b>hold</b>, <br/>Apakah anda yakin ?
             </div>
             <Form.Group controlId="remark_hold">
                 <Form.Label>Remark</Form.Label>
-                <Form.Control size="sm" name="remark_hold" as="textarea" rows={5} value={this.state.remark_hold} onChange={this.handleChange.bind(this)} placeholder="Remark . . ." />
+                <Form.Control size="sm" name="remark_hold" as="textarea" rows={5} value={this.state.remark_hold}
+                              onChange={this.handleChange.bind(this)} placeholder="Remark . . ."/>
             </Form.Group>
         </Form>;
 
         const frmUser2 = <Form id="myForm">
             <div id="caption">
-                Apakah anda yakin<br /><b>memproses</b> transaksi ini ?
+                Apakah anda yakin<br/><b>memproses</b> transaksi ini ?
             </div>
             <Form.Group controlId="remark_hold">
                 <Form.Label>Remark</Form.Label>
-                <Form.Control size="sm" name="remark_hold" as="textarea" rows={5} value={this.state.remark_hold} onChange={this.handleChange.bind(this)} placeholder="Remark . . ." />
+                <Form.Control size="sm" name="remark_hold" as="textarea" rows={5} value={this.state.remark_hold}
+                              onChange={this.handleChange.bind(this)} placeholder="Remark . . ."/>
             </Form.Group>
         </Form>;
 
@@ -185,89 +193,107 @@ class TransDetail extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         {this.state.appsLoading ? (
-                                            <MyLoading />
+                                            <MyLoading/>
                                         ) : (
                                             <div className="card shadow-lg">
                                                 <div className="card-body">
                                                     <table className="table table-condensed">
 
                                                         <tbody>
-                                                            <tr>
-                                                                <td style={{ "backgroundColor": "rgba(0,0,0,.1)", "fontWeight": "bold", "fontSize": "16px" }} colSpan="9" align="center">
-                                                                    Information </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td width="8%"><strong>Order ID</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td width="23%">
-                                                                    {this.state.dtRes.id_transaksi} {this.state.dtRes.is_dropship ? (<span className="badge bg-warning">Dropship</span>) : ""}
-                                                                </td>
-                                                                <td width="8%"><strong>Name</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td width="28%">{this.state.dtRes.nama_member}</td>
+                                                        <tr>
+                                                            <td style={{
+                                                                "backgroundColor": "rgba(0,0,0,.1)",
+                                                                "fontWeight": "bold",
+                                                                "fontSize": "16px"
+                                                            }} colSpan="9" align="center">
+                                                                Information
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="8%"><strong>Order ID</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td width="23%">
+                                                                {this.state.dtRes.id_transaksi} {this.state.dtRes.is_dropship ? (
+                                                                <span
+                                                                    className="badge bg-warning">Dropship</span>) : ""}
+                                                            </td>
+                                                            <td width="8%"><strong>Name</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td width="28%">{this.state.dtRes.nama_member}</td>
 
-                                                                <td width="12%"><strong>Payment Date</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
+                                                            <td width="12%"><strong>Payment Date</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
 
-                                                                <td width="17%">{this.state.dtRes.payment_date ? moment(new Date(this.state.dtRes.payment_date)).format('DD MMMM YYYY HH:mm') : "-"}</td>
-                                                            </tr>
+                                                            <td width="17%">{this.state.dtRes.payment_date ? moment(new Date(this.state.dtRes.payment_date)).format('DD MMMM YYYY HH:mm') : "-"}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Order Date</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{moment(new Date(this.state.dtRes.created_at)).format('DD MMMM YYYY HH:mm')}</td>
+                                                            <td><strong>Email</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.email}</td>
+                                                            <td><strong>Payment</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.payment_name}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Status</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>
+                                                                <Fragment>
+                                                                    {this.state.dtRes.status === 0 &&
+                                                                        <span className="badge bg-warning">Waiting Payment</span>}
+                                                                    {this.state.dtRes.status === 1 && <span
+                                                                        className="badge bg-info">Payment Complete</span>}
+                                                                    {this.state.dtRes.status === 2 &&
+                                                                        <span className="badge bg-danger">Expired Payment</span>}
+                                                                    {this.state.dtRes.status === 3 && <span
+                                                                        className="badge bg-warning">On Process</span>}
+                                                                    {this.state.dtRes.status === 4 &&
+                                                                        <span className="badge bg-info">Dikirim</span>}
+                                                                    {this.state.dtRes.status === 5 && <span
+                                                                        className="badge bg-success">Completed</span>}
+                                                                    {this.state.dtRes.status === 95678 &&
+                                                                        <span className="badge bg-warning">Hold</span>}
+                                                                </Fragment>
+
+
+                                                            </td>
+                                                            <td><strong>Phone</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.phone_member}</td>
+                                                            <td><strong>No.VA</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.payment === 2 ? this.state.dtRes.key_payment : "-"}</td>
+
+                                                        </tr>
+                                                        {this.state.dtRes.tipe_pengiriman > 0 ? (
                                                             <tr>
-                                                                <td><strong>Order Date</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{moment(new Date(this.state.dtRes.created_at)).format('DD MMMM YYYY HH:mm')}</td>
-                                                                <td><strong>Email</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.email}</td>
-                                                                <td><strong>Payment</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.payment_name}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><strong>Status</strong></td>
+                                                                <td><strong>Pengiriman</strong></td>
                                                                 <td><strong>:</strong></td>
                                                                 <td>
-                                                                    <Fragment>
-                                                                        {this.state.dtRes.status === 0 && <span className="badge bg-warning">Waiting Payment</span>}
-                                                                        {this.state.dtRes.status === 1 && <span className="badge bg-info">Payment Complete</span>}
-                                                                        {this.state.dtRes.status === 2 && <span className="badge bg-danger">Expired Payment</span>}
-                                                                        {this.state.dtRes.status === 3 && <span className="badge bg-warning">On Process</span>}
-                                                                        {this.state.dtRes.status === 4 && <span className="badge bg-info">Dikirim</span>}
-                                                                        {this.state.dtRes.status === 5 && <span className="badge bg-success">Completed</span>}
-                                                                        {this.state.dtRes.status === 95678 && <span className="badge bg-warning">Hold</span>}
-                                                                    </Fragment>
-
-
+                                                                    {this.state.dtRes.tipe_pengiriman === 1 ? "Ambil dari DC terdekat" : ""}
+                                                                    {this.state.dtRes.tipe_pengiriman === 2 ? "Kirim dari DC terdekat" : ""}
+                                                                    {this.state.dtRes.tipe_pengiriman === 3 ? "Dikirim dari sales counter CNI" : ""}
                                                                 </td>
-                                                                <td><strong>Phone</strong></td>
+                                                                <td><strong>CNOTE</strong></td>
                                                                 <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.phone_member}</td>
-                                                                <td><strong>No.VA</strong></td>
+                                                                <td>{this.state.dtRes.cnote_no && this.state.dtRes.tipe_pengiriman !== 1 ? this.state.dtRes.cnote_no : "-"}</td>
+                                                                <td><strong>Layanan</strong></td>
                                                                 <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.payment === 2 ? this.state.dtRes.key_payment : "-"}</td>
+                                                                {this.state.dtRes.tipe_pengiriman !== 1 ? (
+                                                                    <td>{this.state.dtRes.logistic_name + " - " + this.state.dtRes.service_code}</td>) : (
+                                                                    <td>-</td>)}
 
-                                                            </tr>
-                                                            {this.state.dtRes.tipe_pengiriman > 0 ? (
-                                                                <tr>
-                                                                    <td><strong>Pengiriman</strong></td>
-                                                                    <td><strong>:</strong></td>
-                                                                    <td>
-                                                                        {this.state.dtRes.tipe_pengiriman === 1 ? "Ambil dari DC terdekat" : ""}
-                                                                        {this.state.dtRes.tipe_pengiriman === 2 ? "Kirim dari DC terdekat" : ""}
-                                                                        {this.state.dtRes.tipe_pengiriman === 3 ? "Dikirim dari sales counter CNI" : ""}
-                                                                    </td>
-                                                                    <td><strong>CNOTE</strong></td>
-                                                                    <td><strong>:</strong></td>
-                                                                    <td>{this.state.dtRes.cnote_no && this.state.dtRes.tipe_pengiriman !== 1 ? this.state.dtRes.cnote_no : "-"}</td>
-                                                                    <td><strong>Layanan</strong></td>
-                                                                    <td><strong>:</strong></td>
-                                                                    {this.state.dtRes.tipe_pengiriman !== 1 ? (<td>{this.state.dtRes.logistic_name + " - " + this.state.dtRes.service_code}</td>) : (<td>-</td>)}
-
-                                                                </tr>) : ''}
-                                                            {this.state.dtRes.tipe_pengiriman > 0 ? (
-                                                                <tr>
-                                                                    <td><strong>{this.state.dtRes.tipe_pengiriman !== 1 ? "Origin" : "DC Name"}</strong></td>
-                                                                    <td><strong>:</strong></td>
-                                                                    {this.state.dtRes.tipe_pengiriman !== 1 ? (
+                                                            </tr>) : ''}
+                                                        {this.state.dtRes.tipe_pengiriman > 0 ? (
+                                                            <tr>
+                                                                <td>
+                                                                    <strong>{this.state.dtRes.tipe_pengiriman !== 1 ? "Origin" : "DC Name"}</strong>
+                                                                </td>
+                                                                <td><strong>:</strong></td>
+                                                                {this.state.dtRes.tipe_pengiriman !== 1 ? (
                                                                         <Fragment>
                                                                             <td>{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin + "(" + this.state.dtRes.kode_origin + ")"}</td>
                                                                             <td><strong>Alamat Pengiriman</strong></td>
@@ -276,169 +302,205 @@ class TransDetail extends Component {
                                                                                 + this.state.dtRes.alamat + ", " + this.state.dtRes.kec_name + ", "
                                                                                 + this.state.dtRes.city_name + ", " + this.state.dtRes.provinsi_name + ", "
                                                                                 + this.state.dtRes.kode_pos + ", " + this.state.dtRes.phone_penerima}
-                                                                                {this.state.dtRes.is_dropship ? (<span className="badge bg-warning">Dropship</span>) : ""}
+                                                                                {this.state.dtRes.is_dropship ? (<span
+                                                                                    className="badge bg-warning">Dropship</span>) : ""}
                                                                             </td>
                                                                         </Fragment>
-                                                                    ) : <td colSpan="7">{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin}</td>}
+                                                                    ) :
+                                                                    <td colSpan="7">{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin}</td>}
 
-                                                                </tr>) : ''}
-                                                            {this.state.dtRes.tipe_pengiriman > 0 ? (
-                                                                <tr>
-                                                                    <td><strong>Remark Hold</strong></td>
-                                                                    <td><strong>:</strong></td>
-                                                                    <td colSpan="7">{this.state.dtRes.remark_hold ? this.state.dtRes.remark_hold : '-'}</td>
-                                                                </tr>) : ''}
-                                                            {this.state.dtRes.tipe_pengiriman > 0 ? (
-                                                                <tr>
-                                                                    <td><strong>Remark Onprocess</strong></td>
-                                                                    <td><strong>:</strong></td>
-                                                                    <td colSpan="7">{this.state.dtRes.remark_onprocess ? this.state.dtRes.remark_onprocess : '-'}</td>
-                                                                </tr>
-                                                            ) : ''}
+                                                            </tr>) : ''}
+                                                        {this.state.dtRes.tipe_pengiriman > 0 ? (
                                                             <tr>
-                                                                <td style={{ "backgroundColor": "rgba(0,0,0,.08)", "fontWeight": "bold", "fontSize": "16px" }} colSpan="9" align="center">List Item</td>
+                                                                <td><strong>Remark Hold</strong></td>
+                                                                <td><strong>:</strong></td>
+                                                                <td colSpan="7">{this.state.dtRes.remark_hold ? this.state.dtRes.remark_hold : '-'}</td>
+                                                            </tr>) : ''}
+                                                        {this.state.dtRes.tipe_pengiriman > 0 ? (
+                                                            <tr>
+                                                                <td><strong>Remark Onprocess</strong></td>
+                                                                <td><strong>:</strong></td>
+                                                                <td colSpan="7">{this.state.dtRes.remark_onprocess ? this.state.dtRes.remark_onprocess : '-'}</td>
                                                             </tr>
+                                                        ) : ''}
+                                                        <tr>
+                                                            <td style={{
+                                                                "backgroundColor": "rgba(0,0,0,.08)",
+                                                                "fontWeight": "bold",
+                                                                "fontSize": "16px"
+                                                            }} colSpan="9" align="center">List Item
+                                                            </td>
+                                                        </tr>
 
                                                         </tbody>
                                                     </table>
 
-                                                    <table className="table table-bordered" style={{ borderBottom: "none", borderLeft: "none" }}>
+                                                    <table className="table table-bordered"
+                                                           style={{borderBottom: "none", borderLeft: "none"}}>
                                                         <thead>
-                                                            <tr>
-                                                                <th style={{ width: 40, textAlign: 'center' }}>No.</th>
-                                                                <th style={{ width: 400, textAlign: 'center' }}>Product</th>
-                                                                <th style={{ width: 80, textAlign: 'center' }}>PV</th>
-                                                                <th style={{ width: 80, textAlign: 'center' }}>RV</th>
-                                                                <th style={{ width: 80, textAlign: 'center' }}>Qty</th>
-                                                                <th style={{ width: 100, textAlign: 'center' }}>Weight(Gram)</th>
-                                                                <th style={{ "textAlign": "center", width: 150 }}>Price</th>
-                                                                <th style={{ "textAlign": "center", width: 150 }}>Sub Total</th>
-                                                            </tr>
+                                                        <tr>
+                                                            <th style={{width: 40, textAlign: 'center'}}>No.</th>
+                                                            <th style={{width: 400, textAlign: 'center'}}>Product</th>
+                                                            <th style={{width: 80, textAlign: 'center'}}>PV</th>
+                                                            <th style={{width: 80, textAlign: 'center'}}>RV</th>
+                                                            <th style={{width: 80, textAlign: 'center'}}>Qty</th>
+                                                            <th style={{
+                                                                width: 100,
+                                                                textAlign: 'center'
+                                                            }}>Weight(Gram)
+                                                            </th>
+                                                            <th style={{"textAlign": "center", width: 150}}>Price</th>
+                                                            <th style={{"textAlign": "center", width: 150}}>Sub Total
+                                                            </th>
+                                                        </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {this.state.dtRes.list_item.map((dt, i) => (
-                                                                <tr key={i}>
-                                                                    <td align="center">{i + 1}.</td>
-                                                                    <td>{dt.kode_produk + ' - ' + dt.product_name}</td>
-                                                                    <td align="right">
-                                                                        <NumberFormat
-                                                                            value={dt.pv}
-                                                                            thousandSeparator={true}
-                                                                            decimalScale={2}
-                                                                            displayType={'text'}
-                                                                        />
-                                                                    </td>
-                                                                    <td align="right">
-                                                                        <NumberFormat
-                                                                            value={dt.rv}
-                                                                            thousandSeparator={true}
-                                                                            decimalScale={2}
-                                                                            displayType={'text'}
-                                                                        />
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <NumberFormat
-                                                                            value={dt.jml}
-                                                                            thousandSeparator={true}
-                                                                            decimalScale={2}
-                                                                            displayType={'text'}
-                                                                        />
-                                                                    </td>
-                                                                    <td align="right">
-                                                                        <NumberFormat
-                                                                            value={dt.berat}
-                                                                            thousandSeparator={true}
-                                                                            decimalScale={2}
-                                                                            displayType={'text'}
-                                                                        />
-                                                                    </td>
-                                                                    <td align="right">
-                                                                        <NumberFormat
-                                                                            value={dt.harga}
-                                                                            thousandSeparator={true}
-                                                                            decimalScale={2}
-                                                                            displayType={'text'}
-                                                                        />
-                                                                    </td>
-                                                                    <td align="right">
-                                                                        <NumberFormat
-                                                                            value={dt.ttl_harga}
-                                                                            thousandSeparator={true}
-                                                                            decimalScale={2}
-                                                                            displayType={'text'}
-                                                                        />
-                                                                    </td>
-                                                                </tr>
-                                                            ))}
-
-                                                            <tr>
-                                                                <td align="right" colSpan="7" style={{ border: "none" }}><strong>Total Belanjaan</strong></td>
+                                                        {this.state.dtRes.list_item.map((dt, i) => (
+                                                            <tr key={i}>
+                                                                <td align="center">{i + 1}.</td>
+                                                                <td>{dt.kode_produk + ' - ' + dt.product_name}</td>
                                                                 <td align="right">
                                                                     <NumberFormat
-                                                                        value={this.state.dtRes.ttl_belanjaan}
+                                                                        value={dt.pv}
                                                                         thousandSeparator={true}
                                                                         decimalScale={2}
                                                                         displayType={'text'}
                                                                     />
                                                                 </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right" colSpan="7" style={{ border: "none" }}>
-                                                                    <strong>Ongkos Kirim({this.state.dtRes.ttl_weight / 1000}Kg)</strong></td>
                                                                 <td align="right">
                                                                     <NumberFormat
-                                                                        value={this.state.dtRes.ongkir}
+                                                                        value={dt.rv}
+                                                                        thousandSeparator={true}
+                                                                        decimalScale={2}
+                                                                        displayType={'text'}
+                                                                    />
+                                                                </td>
+                                                                <td align="center">
+                                                                    <NumberFormat
+                                                                        value={dt.jml}
+                                                                        thousandSeparator={true}
+                                                                        decimalScale={2}
+                                                                        displayType={'text'}
+                                                                    />
+                                                                </td>
+                                                                <td align="right">
+                                                                    <NumberFormat
+                                                                        value={dt.berat}
+                                                                        thousandSeparator={true}
+                                                                        decimalScale={2}
+                                                                        displayType={'text'}
+                                                                    />
+                                                                </td>
+                                                                <td align="right">
+                                                                    <NumberFormat
+                                                                        value={dt.harga}
+                                                                        thousandSeparator={true}
+                                                                        decimalScale={2}
+                                                                        displayType={'text'}
+                                                                    />
+                                                                </td>
+                                                                <td align="right">
+                                                                    <NumberFormat
+                                                                        value={dt.ttl_harga}
                                                                         thousandSeparator={true}
                                                                         decimalScale={2}
                                                                         displayType={'text'}
                                                                     />
                                                                 </td>
                                                             </tr>
+                                                        ))}
 
-                                                            <tr>
-                                                                <td align="right" colSpan="7" style={{ border: "none" }}>
-                                                                    <strong>Voucher : {this.state.dtRes.kode_voucher ? this.state.dtRes.kode_voucher : '-'}</strong></td>
-                                                                <td align="right">
-                                                                    {this.state.dtRes.type_voucher !== 3 && this.state.dtRes.kode_voucher ? (
-                                                                        <NumberFormat
-                                                                            value={- this.state.dtRes.pot_voucher}
-                                                                            thousandSeparator={true}
-                                                                            decimalScale={2}
-                                                                            displayType={'text'}
-                                                                        />) : '0'}
-                                                                </td>
-                                                            </tr>
+                                                        <tr>
+                                                            <td align="right" colSpan="7" style={{border: "none"}}>
+                                                                <strong>Total Belanjaan</strong></td>
+                                                            <td align="right">
+                                                                <NumberFormat
+                                                                    value={this.state.dtRes.ttl_belanjaan}
+                                                                    thousandSeparator={true}
+                                                                    decimalScale={2}
+                                                                    displayType={'text'}
+                                                                />
+                                                            </td>
 
-                                                            <tr>
-                                                                <td colSpan="7" style={{ border: "none" }}></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="right" colSpan="7" style={{border: "none"}}>
+                                                                <strong>Ongkos
+                                                                    Kirim({this.state.dtRes.ttl_weight / 1000}Kg)</strong>
+                                                            </td>
+                                                            <td align="right">
+                                                                <NumberFormat
+                                                                    value={this.state.dtRes.ongkir_origin ? this.state.dtRes.ongkir_origin : this.state.dtRes.ongkir}
+                                                                    thousandSeparator={true}
+                                                                    decimalScale={2}
+                                                                    displayType={'text'}
+                                                                />
+                                                            </td>
+                                                        </tr>
 
-                                                                <td align="right" style={{ "backgroundColor": "rgba(0,0,0,.04)" }}>
-                                                                    <strong><NumberFormat
-                                                                        value={this.state.dtRes.ttl_price}
+                                                        <tr>
+                                                            <td align="right" colSpan="7" style={{border: "none"}}>
+                                                                <strong>Voucher {this.state.dtRes.type_voucher === 1 ? " Potongan Ongkir" : this.state.dtRes.type_voucher === 2 ? " Potongan Harga" : this.state.dtRes.type_voucher === 2 ? " Free Produk" :""}
+                                                                    : {this.state.dtRes.kode_voucher ? this.state.dtRes.kode_voucher : '-'}</strong>
+                                                            </td>
+                                                            <td align="right">
+                                                                {this.state.dtRes.type_voucher !== 3 && this.state.dtRes.kode_voucher ? (
+                                                                    <NumberFormat
+                                                                        value={this.state.dtRes.type_voucher === 1 ? Number(this.state.dtRes.ongkir_origin) - Number(this.state.dtRes.ongkir) : -this.state.dtRes.pot_voucher}
                                                                         thousandSeparator={true}
                                                                         decimalScale={2}
                                                                         displayType={'text'}
-                                                                    /></strong></td>
-                                                            </tr>
+                                                                    />) : '0'}
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td colSpan="7" style={{border: "none"}}></td>
+
+                                                            <td align="right"
+                                                                style={{"backgroundColor": "rgba(0,0,0,.04)"}}>
+                                                                <strong><NumberFormat
+                                                                    value={this.state.dtRes.ttl_price}
+                                                                    thousandSeparator={true}
+                                                                    decimalScale={2}
+                                                                    displayType={'text'}
+                                                                /></strong></td>
+                                                        </tr>
 
 
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <div className="card-footer clearfix">
-                                                    <button type="button" onClick={() => this.props.history.goBack()} className="btn btn-flat btn-danger btn-sm">Back</button>
-                                                    {(this.state.dtRes.status === 1 || this.state.dtRes.status === 95678) && this.props.user.transaksi_setprocess > 0 && <button type="button" onClick={this.confirmProcess} style={{ marginLeft: 3 }} className="btn bnt-flat btn-warning btn-sm">Process</button>}
-                                                    {this.state.dtRes.status === 3 && this.props.user.transaksi_setkirimpaket > 0 && this.state.dtRes.tipe_pengiriman !== 1 && <button type="button" onClick={this.confirmKirim} style={{ marginLeft: 3 }} className="btn btn-flat btn-success btn-sm">Kirim Paket</button>}
-                                                    {this.state.dtRes.status === 3 && <button type="button" onClick={this.confirmHold} style={{ marginLeft: 3 }} className="btn btn-flat btn-warning btn-sm">Hold</button>}
+                                                    <button type="button" onClick={() => this.props.history.goBack()}
+                                                            className="btn btn-flat btn-danger btn-sm">Back
+                                                    </button>
+
+                                                    {(this.state.dtRes.status === 1 || this.state.dtRes.status === 95678) && this.state.dtRes.tipe_pengiriman === 3 && this.props.user.transaksi_setprocess > 0 &&
+                                                        <button type="button" onClick={this.confirmProcess}
+                                                                style={{marginLeft: 3}}
+                                                                className="btn bnt-flat btn-warning btn-sm">Process</button>}
+
+                                                    {this.state.dtRes.status === 3 && this.props.user.transaksi_setkirimpaket > 0 && this.state.dtRes.tipe_pengiriman === 3 &&
+                                                        <button type="button" onClick={this.confirmKirim}
+                                                                style={{marginLeft: 3}}
+                                                                className="btn btn-flat btn-success btn-sm">Kirim
+                                                            Paket</button>}
+
+                                                    {this.state.dtRes.status === 3 && this.state.dtRes.tipe_pengiriman === 3 &&
+                                                        <button type="button" onClick={this.confirmHold}
+                                                                style={{marginLeft: 3}}
+                                                                className="btn btn-flat btn-warning btn-sm">Hold</button>}
                                                     {this.state.dtRes.status === 4 && this.state.dtRes.tipe_pengiriman !== 1 && (
                                                         <Fragment>
                                                             <ReactToPrint
-                                                                trigger={() => <button className="btn btn-flat btn-info btn-sm" style={{ marginLeft: 3 }}>Cetak Resi</button>}
-                                                                content={() => this.componentRef} />
+                                                                trigger={() => <button
+                                                                    className="btn btn-flat btn-info btn-sm"
+                                                                    style={{marginLeft: 3}}>Cetak Resi</button>}
+                                                                content={() => this.componentRef}/>
                                                             <CetakResi
                                                                 dataFromParent={this.state.dtRes}
-                                                                ref={el => (this.componentRef = el)} />
+                                                                ref={el => (this.componentRef = el)}/>
                                                         </Fragment>
                                                     )}
                                                 </div>
@@ -482,7 +544,7 @@ class TransDetail extends Component {
                             titleButton="Ya, Kirim paket ini"
                             themeButton="warning"
                             isLoading={this.state.isLoading}
-                            formSubmit={this.handleSave.bind(this, 'KIRIM_PAKET')}
+                            formSubmit={this.handleSave.bind(this, action_kirim)}
                         ></AppModal>
 
                         <AppModal

@@ -377,6 +377,59 @@ class Warehouse extends Component {
                     onChange={this.onchangeSelect}
                 />
             </Form.Group>
+			<Form.Group controlId="alamat_wh">
+                <Form.Label>Alamat</Form.Label>
+                {this.state.errMsg.alamat_wh ?
+                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.alamat_wh}</span>) : null}
+                <Form.Control
+					 as="textarea"
+                    value={this.state.selected['alamat_wh'] && this.state.selected['alamat_wh']}
+                    name="alamat_wh"
+                    size="sm"
+                    type="text"
+                    placeholder="Alamat"
+                    onChange={this.handleChange}
+                    autoComplete="off" />
+            </Form.Group>
+			<Form.Group controlId="phone_wh">
+                <Form.Label>Phone</Form.Label>
+                {this.state.errMsg.phone_wh ?
+                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.phone_wh}</span>) : null}
+                <Form.Control
+                    value={this.state.selected['phone_wh'] && this.state.selected['phone_wh']}
+                    name="phone_wh"
+                    size="sm"
+                    type="text"
+                    placeholder="Phone"
+                    onChange={this.handleChange}
+                    autoComplete="off" />
+            </Form.Group>
+			<Form.Group controlId="email_wh">
+                <Form.Label>Email</Form.Label>
+                {this.state.errMsg.email_wh ?
+                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.email_wh}</span>) : null}
+                <Form.Control
+                    value={this.state.selected['email_wh'] && this.state.selected['email_wh']}
+                    name="email_wh"
+                    size="sm"
+                    type="text"
+                    placeholder="Email"
+                    onChange={this.handleChange}
+                    autoComplete="off" />
+            </Form.Group>
+			<Form.Group controlId="client_code">
+                <Form.Label>Client Code</Form.Label>
+                {this.state.errMsg.client_code ?
+                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.client_code}</span>) : null}
+                <Form.Control
+                    value={this.state.selected['client_code'] && this.state.selected['client_code']}
+                    name="client_code"
+                    size="sm"
+                    type="text"
+                    placeholder="Client Code"
+                    onChange={this.handleChange}
+                    autoComplete="off" />
+            </Form.Group>
         </Form>;
 
         return (
@@ -424,9 +477,10 @@ class Warehouse extends Component {
                                                     {this.state.dtRes.length > 0 ? (
                                                         this.state.dtRes.map((dt, i) => (
                                                             <li key={dt.id_wh} className={this.state.selected['id_wh'] === dt.id_wh ? 'li_wh li_active' : 'li_wh'} onClick={this.handleClose2.bind(this, dt)}>
-                                                                <span className="text">{dt.wh_name}</span><br />
-                                                                <span className="text-second-li">Origin : {dt.provinsi_name}({dt.kode_jne + '/' + dt.kode_lp})</span>
-                                                                <div className="tools">
+                                                                <span className="text">{dt.wh_name} {dt.client_code && ' - '+dt.client_code}</span><br />
+                                                                <span className="text-second-li">Origin : {dt.provinsi_name}({dt.kode_jne + '/' + dt.kode_lp})</span><br/>
+                                                                <span className="text-second-li">Alamat : {dt.alamat_wh}, {dt.phone_wh}, {dt.email_wh}</span><br/>
+                                                                <div className="tools" style={{float:"none", marginLeft:7}}>
                                                                     {this.props.user.warehouse_edit ? (
                                                                         <OverlayTrigger
                                                                             placement="left"
@@ -450,7 +504,7 @@ class Warehouse extends Component {
                                                                         </Tooltip>
                                                                             }
                                                                         >
-                                                                            <i className="fas">{<BsFillTrashFill onClick={this.deleteRecord.bind(this, dt)} />}</i>
+                                                                            <i className="fas" style={{marginLeft:5}}>{<BsFillTrashFill onClick={this.deleteRecord.bind(this, dt)} />}</i>
                                                                         </OverlayTrigger>
                                                                     ) : ''}
 

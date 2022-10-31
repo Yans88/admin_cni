@@ -23,6 +23,8 @@ class ProductService {
                 return axios.post(API_URL + "/set_stts_product", param)
 			case "SOLD_OUT":
                 return axios.post(API_URL + "/set_sold_out", param)
+			case "INFO_BISNIS":
+                return axios.post(API_URL + "/store_setting", param)
             case "GET_PRODUCT":
                 API_URL += "/product/?per_page=" + param.per_page + "&page_number=" + param.page_number + "&keyword=" + param.keyword;
                 return axios.get(API_URL + param)

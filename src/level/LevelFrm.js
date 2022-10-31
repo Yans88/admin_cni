@@ -1214,6 +1214,47 @@ class LevelFrm extends Component {
                                     </Card.Body>
 
                                 </Card>
+								
+								<Card className="mb-2">
+                                    <Card.Body>
+                                        <Card.Title><h5 className="widget-user-desc">Info Bisnis</h5></Card.Title>
+                                        <div className="row card-text">
+                                            <div className="col-sm-6 border-right">
+                                                <div className="description-block">
+                                                    <Form.Group controlId="info_bisnis_view">
+                                                        <Form.Check
+                                                            onChange={this.handleChange}
+                                                            checked={selected.info_bisnis_view > 0 ? ("checked") : ""}
+                                                            label="View"
+                                                            name="info_bisnis_view"
+                                                            custom
+                                                        />
+                                                    </Form.Group>
+
+                                                </div>
+                                                {/* /.description-block */}
+                                            </div>
+
+                                            <div className="col-sm-6">
+                                                <div className="description-block">
+                                                    <Form.Group controlId="info_bisnis_edit">
+                                                        <Form.Check
+                                                            onChange={this.handleChange}
+                                                            checked={selected.info_bisnis_edit > 0 ? ("checked") : ""}
+                                                            label="Change File"
+                                                            name="info_bisnis_edit"
+                                                            custom
+                                                        />
+                                                    </Form.Group>
+
+                                                </div>
+                                                {/* /.description-block */}
+                                            </div>
+
+                                        </div>
+                                    </Card.Body>
+
+                                </Card>
 
                                 
                             </CardColumns>

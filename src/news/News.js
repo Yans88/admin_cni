@@ -300,9 +300,12 @@ class News extends Component {
             <Row>
                 <Col xs={6}>
                     <Form.Group controlId="img">
-                        <Form.Label>Image</Form.Label>{errMsg.img ?
+                        <Form.Label>Image(500x500)</Form.Label>{errMsg.img ?
                             (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : null}
                         <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={this.handleChange.bind(this)} />
+						<Form.Text className="text-muted" style={{textAlign:"left"}}>
+							<em>- Images *.jpg, *.jpeg, *.png <br/>- Maks. Size 2MB</em>
+						</Form.Text>
                     </Form.Group>
                     {selected.imgUpload ? (<Form.Group controlId="imagePreview">
                         <Figure>
@@ -321,6 +324,7 @@ class News extends Component {
                         <Form.Label>File</Form.Label>{errMsg.path_file ?
                             (<span className="float-right text-error badge badge-danger">{errMsg.path_file}</span>) : null}
                         <Form.File size="sm" name="path_file" setfieldvalue={selected.path_file} onChange={this.handleChange.bind(this)} />
+						
                         {selected.filename ? (
                             <Fragment>
                                 <Form.Label style={{ paddingTop: 10, marginBottom: 0 }}>Current File:

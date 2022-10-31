@@ -54,7 +54,7 @@ class ProductsImg extends Component {
                     this.setState({ dtImg: dtRes, appsLoading:false });
                 }
                 if (response.data.err_code === "04") {
-                    this.setState({ isLoading: false,dtImg:[] });
+                    this.setState({ isLoading: false,dtImg:[],appsLoading:false });
                 }
             })
             .catch(e => {
@@ -224,7 +224,7 @@ class ProductsImg extends Component {
                                                         {!isDragActive && (<p style={{"fontWeight":"600"}}>Drag & drop files, or click to select files</p>)}
                                                         {isDragReject && (<p style={{"color":"red", "fontWeight":"800"}}>File not accepted, sorry!</p>)}
                                                         {isDragActive && !isDragReject && (<p style={{"color":"lightgreen", "fontWeight":"800"}}>Drop it like it's hot!</p>)}
-                                                        <em>(Only *.jpg, *.jpeg, *.png Images and Maks. size 2MB will be accepted)</em>
+                                                        <em>(Only *.jpg, *.jpeg, *.png Images, Dimension 500x500 and Maks. size 2MB will be accepted)</em>
                                                     </div>
                                                 )}
                                             </Dropzone>

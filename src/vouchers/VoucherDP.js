@@ -37,6 +37,15 @@ class VoucherDP extends Component {
             imgUpload: noImg,
             errMsg: this.initSelected,
             isLoading: false,
+			user_tertentu:0,
+			produk_tertentu:0,
+			is_limited:0,
+			website:0,
+			mobile:0,
+			member:0,
+			konsumen:0,
+			is_show:0,
+			new_konsumen:0,
         }
         this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
         this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
@@ -90,6 +99,8 @@ class VoucherDP extends Component {
         errors.kuota = this.state.is_limited && !this.state.kuota ? "Kuota required" : '';
         errors.start_date = !this.state.start_date && "Start date required";
         errors.end_date = !this.state.end_date && "End date required";
+		errors.kode_voucher = !this.state.kode_voucher ? "Kode Voucher required" : '';
+        errors.min_pembelian = !this.state.min_pembelian ? "Minimal Pembelian required" : '';
         this.setState({ ...this.state, id_operator: this.props.user.id_operator, isLoading: true, tipe: 1 });
         this.setState({ errors });
         if (this.validateForm(this.state.errMsg)) {
@@ -141,7 +152,7 @@ class VoucherDP extends Component {
                 this.setState({ img: value, imgUpload: reader.result })
             };
         }
-        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen' || name === 'produk_tertentu' || name === 'is_show') {
+        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen' || name === 'produk_tertentu' || name === 'is_show' || name=== 'new_konsumen') {
             value = evt.target.checked ? 1 : 0;
         }
         this.setState({
@@ -300,9 +311,10 @@ class VoucherDP extends Component {
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
                                                                     <Form.Check
+																		disabled ={this.state.new_konsumen > 0 ? true :false}
                                                                         onChange={this.handleChange}
-                                                                        checked={this.state.user_tertentu > 0 ? ("checked") : ""}
-                                                                        label={this.state.user_tertentu > 0 ? ("Yes") : "No"}
+                                                                        checked={this.state.user_tertentu > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
+                                                                        label={this.state.user_tertentu > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
                                                                         type="switch"
                                                                         name="user_tertentu"
                                                                         custom
@@ -323,7 +335,7 @@ class VoucherDP extends Component {
                                                                 name="kode_voucher"
                                                                 type="text"
                                                                 placeholder="Kode Voucher" />
-
+															{errMsg.kode_voucher && (<span className="text-error badge badge-danger">{errMsg.kode_voucher}</span>)}
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="min_pembelian">
                                                             <Form.Label>Min. Pembelian(IDR)</Form.Label>
@@ -337,7 +349,7 @@ class VoucherDP extends Component {
                                                                 inputMode="numeric"
                                                                 autoComplete="off"
                                                                 placeholder="Min. Pembelian(IDR)" />
-
+															{errMsg.min_pembelian && (<span className="text-error badge badge-danger">{errMsg.min_pembelian}</span>)}
 
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="satuan_potongan">
@@ -476,10 +488,11 @@ class VoucherDP extends Component {
                                                             <Form.Label>Member</Form.Label>
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
-                                                                    <Form.Check
+                                                                   <Form.Check
+																		disabled ={this.state.new_konsumen > 0 ? true :false}
                                                                         onChange={this.handleChange}
-                                                                        checked={this.state.member > 0 ? ("checked") : ""}
-                                                                        label={this.state.member > 0 ? ("Yes") : "No"}
+                                                                        checked={this.state.member > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
+                                                                        label={this.state.member > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
                                                                         type="switch"
                                                                         name="member"
                                                                         custom
@@ -492,9 +505,10 @@ class VoucherDP extends Component {
                                                             <Row>
                                                                 <Col xs={{ span: 1, offset: 2 }}>
                                                                     <Form.Check
+																		disabled ={this.state.new_konsumen > 0 ? true :false}
                                                                         onChange={this.handleChange}
-                                                                        checked={this.state.konsumen > 0 ? ("checked") : ""}
-                                                                        label={this.state.konsumen > 0 ? ("Yes") : "No"}
+                                                                        checked={this.state.konsumen > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
+                                                                        label={this.state.konsumen > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
                                                                         type="switch"
                                                                         name="konsumen"
                                                                         custom
@@ -533,6 +547,22 @@ class VoucherDP extends Component {
                                                                 </Col>
                                                             </Row>
                                                         </Form.Group>
+														<Form.Group as={Col} xs={2} controlId="new_konsumen">
+                                                            <Form.Label>New Konsumen</Form.Label>
+                                                            <Row>
+                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                    <Form.Check
+																		disabled ={this.state.konsumen > 0 || this.state.member > 0 || this.state.user_tertentu > 0 ? true :false}
+                                                                        onChange={this.handleChange}
+                                                                        checked={this.state.new_konsumen > 0 && this.state.konsumen === 0 && this.state.member === 0 && this.state.user_tertentu === 0 ? ("checked") : ""}
+                                                                        label={this.state.new_konsumen > 0 && this.state.konsumen === 0 && this.state.member === 0 && this.state.user_tertentu === 0 ? ("Yes") : "No"}
+                                                                        type="switch"
+                                                                        name="new_konsumen"
+                                                                        custom
+                                                                    />
+                                                                </Col>
+                                                            </Row>
+                                                        </Form.Group>
 
                                                     </Form.Row>
 
@@ -557,7 +587,7 @@ class VoucherDP extends Component {
 
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="img">
-                                                            <Form.Label>Image</Form.Label>
+                                                            <Form.Label>Image(500x500)</Form.Label>
                                                             {errMsg.img ? (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
                                                             <Form.File
                                                                 setfieldvalue={this.state.img}

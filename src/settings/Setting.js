@@ -97,7 +97,7 @@ class Setting extends Component {
                                                 <Form>
                                                     <div className="card-body my-card-body">
                                                         <Form.Row>
-                                                            <Form.Group as={Col} xs={6} controlId="send_mail">
+                                                            <Form.Group as={Col} xs={3} controlId="send_mail">
                                                                 {errMsg.email ?
                                                                     (<span className="float-right text-error badge badge-danger">{errMsg.email}
                                                                     </span>) : ''}
@@ -113,7 +113,7 @@ class Setting extends Component {
 
                                                             </Form.Group>
 
-                                                            <Form.Group as={Col} xs={6} controlId="mail_pass">
+                                                            <Form.Group as={Col} xs={3} controlId="mail_pass">
                                                                 <Form.Label>Password</Form.Label>
                                                                 <Form.Control
                                                                     value={data.mail_pass}
@@ -123,6 +123,28 @@ class Setting extends Component {
                                                                     name="mail_pass"
                                                                     type="text"
                                                                     placeholder="Password" />
+                                                            </Form.Group>
+															<Form.Group as={Col} xs={3} controlId="version_android">
+                                                                <Form.Label>Version Android</Form.Label>
+                                                                <Form.Control
+                                                                    value={data.version_android}
+                                                                    autoComplete="off"
+                                                                    onChange={this.handleChange.bind(this)}
+                                                                    size="sm"
+                                                                    name="version_android"
+                                                                    type="text"
+                                                                    placeholder="Version Android" />
+                                                            </Form.Group>
+															<Form.Group as={Col} xs={3} controlId="version_ios">
+                                                                <Form.Label>Version IOS</Form.Label>
+                                                                <Form.Control
+                                                                    value={data.version_ios}
+                                                                    autoComplete="off"
+                                                                    onChange={this.handleChange.bind(this)}
+                                                                    size="sm"
+                                                                    name="version_ios"
+                                                                    type="text"
+                                                                    placeholder="Version IOS" />
                                                             </Form.Group>
                                                         </Form.Row>
 
@@ -232,6 +254,26 @@ class Setting extends Component {
 
                                                         <Form.Row>
                                                             <Form.Group as={Col} xs={12} controlId="content_reg">
+                                                                <Form.Label>Content Email OTP Verify CNI ID</Form.Label>
+                                                                <SunEditor
+                                                                    defaultValue={data.content_verify_cni_id}
+                                                                    setContents={data.content_verify_cni_id}
+                                                                    onChange={this.handleChangeDesk.bind(this, 'content_verify_cni_id')}
+                                                                    setOptions={{
+                                                                        placeholder: "Content Email OTP Verify CNI ID ...",
+                                                                        maxHeight: 250,
+                                                                        height: 250,
+                                                                        buttonList: [
+                                                                            ['fontSize', 'formatBlock', 'bold', 'underline', 'italic', 'align', 'horizontalRule', 'list', 'lineHeight', 'link', 'strike', 'subscript', 'superscript', 'codeView', 'undo', 'redo', 'fontColor', 'hiliteColor', 'textStyle', 'paragraphStyle', 'blockquote', 'removeFormat']
+                                                                        ]
+                                                                    }}
+                                                                />
+                                                            </Form.Group>
+                                                        </Form.Row>
+                                                        <br />
+
+                                                        <Form.Row>
+                                                            <Form.Group as={Col} xs={12} controlId="content_reg">
                                                                 <Form.Label>Content Email OTP Mitra</Form.Label>
                                                                 <SunEditor
                                                                     defaultValue={data.content_email_otp_mitra}
@@ -319,6 +361,46 @@ class Setting extends Component {
                                                                     onChange={this.handleChangeDesk.bind(this, 'content_email_hold_admin')}
                                                                     setOptions={{
                                                                         placeholder: "Content Email Transaksi Hold ...",
+                                                                        maxHeight: 250,
+                                                                        height: 250,
+                                                                        buttonList: [
+                                                                            ['fontSize', 'formatBlock', 'bold', 'underline', 'italic', 'align', 'horizontalRule', 'list', 'lineHeight', 'link', 'strike', 'subscript', 'superscript', 'codeView', 'undo', 'redo', 'fontColor', 'hiliteColor', 'textStyle', 'paragraphStyle', 'blockquote', 'removeFormat']
+                                                                        ]
+                                                                    }}
+                                                                />
+                                                            </Form.Group>
+                                                        </Form.Row>
+														
+														<br />
+                                                        <Form.Row>
+                                                            <Form.Group as={Col} xs={12} controlId="content_email_transaksi">
+                                                                <Form.Label>Content Email Transaksi Menunggu Pembayaran</Form.Label>
+                                                                <SunEditor
+                                                                    defaultValue={data.content_email_transaksi}
+                                                                    setContents={data.content_email_transaksi}
+                                                                    onChange={this.handleChangeDesk.bind(this, 'content_email_transaksi')}
+                                                                    setOptions={{
+                                                                        placeholder: "Content Email Transaksi Menunggu Pembayaran ...",
+                                                                        maxHeight: 250,
+                                                                        height: 250,
+                                                                        buttonList: [
+                                                                            ['fontSize', 'formatBlock', 'bold', 'underline', 'italic', 'align', 'horizontalRule', 'list', 'lineHeight', 'link', 'strike', 'subscript', 'superscript', 'codeView', 'undo', 'redo', 'fontColor', 'hiliteColor', 'textStyle', 'paragraphStyle', 'blockquote', 'removeFormat']
+                                                                        ]
+                                                                    }}
+                                                                />
+                                                            </Form.Group>
+                                                        </Form.Row>
+														
+														<br />
+                                                        <Form.Row>
+                                                            <Form.Group as={Col} xs={12} controlId="content_email_payment_complete">
+                                                                <Form.Label>Content Email Payment Complete</Form.Label>
+                                                                <SunEditor
+                                                                    defaultValue={data.content_email_payment_complete}
+                                                                    setContents={data.content_email_payment_complete}
+                                                                    onChange={this.handleChangeDesk.bind(this, 'content_email_payment_complete')}
+                                                                    setOptions={{
+                                                                        placeholder: "Content Email Payment Complete ...",
                                                                         maxHeight: 250,
                                                                         height: 250,
                                                                         buttonList: [

@@ -367,7 +367,7 @@ const Banner = (auth) => {
         </Form.Group>) : ''}
 
         <Form.Group controlId="image">
-            <Form.Label>Image</Form.Label>{errMsg.img ?
+            <Form.Label>Image(1325x400)</Form.Label>{errMsg.img ?
                 (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : null}
             <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={handleChange} />
         </Form.Group>

@@ -75,6 +75,29 @@ export const fetchData = () => {
     }
 }
 
+export const fetchData2 = () => {
+    let isLoading = false;
+    const param = { cms: 1 }
+    return async (dispatch) => {
+        dispatch(fetchDataLoading(isLoading));
+        return await axios.post(API_URL + "/master_data", param)
+            .then(response => {
+                const data = {};
+                data['data'] = response.data.data
+                dispatch(fetchDataSuccess(data));
+                isLoading = false;
+                dispatch(fetchDataLoading(isLoading));
+            }).catch(error => {
+                const errorpayload = {};
+                errorpayload['message'] = 'Something wrong';
+                errorpayload['status'] = error.response ? error.response.status : 404;
+                dispatch(fetchDataError(errorpayload));
+                isLoading = false;
+                dispatch(fetchDataLoading(isLoading));
+            })
+    }
+}
+
 export const addData = (param) => {
     let isLoading = true;
     return async (dispatch) => {

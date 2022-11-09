@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux';
-import { fetchDataDetail, fetchExportDetail } from './reportService';
-import { Button, Col, Form } from 'react-bootstrap';
+import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux';
+import {fetchDataDetail, fetchExportDetail} from './reportService';
+import {Button, Col, Form} from 'react-bootstrap';
 import ReactDatatable from '@ashvin27/react-datatable';
 import moment from 'moment';
 import "moment/locale/id";
@@ -76,7 +76,7 @@ class Detail extends Component {
     }
 
     handleChange(event) {
-        const { name, value } = event.target
+        const {name, value} = event.target
         var val = value;
         this.setState({
             loadingForm: false,
@@ -87,29 +87,36 @@ class Detail extends Component {
                 [name]: ''
             }
         });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
     handleChangeEndDate(date) {
+        this.setState({page_number: 1})
         if (date) {
             const selectedDate = new Date(date);
             const _date = moment(selectedDate).format('YYYY-MM-DD');
-            this.setState({ end_date: _date })
+            this.setState({end_date: _date})
         } else {
-            this.setState({ end_date: '' })
+            this.setState({end_date: ''})
         }
-        if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
+        if (!this.state.id_operator) this.setState({id_operator: this.props.user.id_operator});
     }
 
     handleChangeStartDate(date) {
+        this.setState({page_number: 1})
         if (date) {
             const selectedDate = new Date(date);
             const _date = moment(selectedDate).format('YYYY-MM-DD');
-            this.setState({ start_date: _date })
+            this.setState({start_date: _date})
         } else {
-            this.setState({ start_date: '' })
+            this.setState({start_date: ''})
         }
-        if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
+        if (!this.state.id_operator) this.setState({id_operator: this.props.user.id_operator});
     }
 
     handleSubmit() {
@@ -149,301 +156,315 @@ class Detail extends Component {
 
 
     render() {
-        const { data, data_report } = this.props;
+        const {data, data_report} = this.props;
 
         const multiDataSet = [
             {
                 columns: [
                     {
-                        title: "", width: { wpx: 20 }
+                        title: "", width: {wpx: 20}
                     },
                     {
-                        title: "No", width: { wpx: 40 },
+                        title: "No", width: {wpx: 40},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
 
                     },
                     {
-                        title: "NomorOrder", width: { wpx: 100 },
+                        title: "NomorOrder", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
 
                     },
 
                     {
-                        title: "OrderDate", width: { wpx: 100 },
+                        title: "OrderDate", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "TipePayment", width: { wpx: 120 },
+                        title: "TipePayment", width: {wpx: 120},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "NomorN", width: { wpx: 100 },
+                        title: "NomorN", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "NamaMember", width: { wpx: 150 },
+                        title: "NamaMember", width: {wpx: 150},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "NamaKons", width: { wpx: 150 },
+                        title: "NamaKons", width: {wpx: 150},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "JasaExpedisi", width: { wpx: 100 },
+                        title: "JasaExpedisi", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "NoVaBayar", width: { wpx: 150 },
+                        title: "NoVaBayar", width: {wpx: 150},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "KodeWH", width: { wpx: 100 },
+                        title: "KodeWH", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "Statuspayment", width: { wpx: 120 },
+                        title: "Statuspayment", width: {wpx: 120},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "fgsource", width: { wpx: 100 },
+                        title: "fgsource", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "item_id", width: { wpx: 120 },
+                        title: "item_id", width: {wpx: 120},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "quantity", width: { wpx: 80 },
+                        title: "quantity", width: {wpx: 80},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "Total PV", width: { wpx: 100 },
+                        title: "Total PV", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "Total RV", width: { wpx: 100 },
+                        title: "Total RV", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "Total DP", width: { wpx: 100 },
+                        title: "Total DP", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "Total Pajak", width: { wpx: 100 },
+                        title: "Total Pajak", width: {wpx: 100},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "Total Transaksi Order", width: { wpx: 150 },
+                        title: "Total Transaksi Order", width: {wpx: 150},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     },
                     {
-                        title: "Member", width: { wpx: 80 },
+                        title: "Member", width: {wpx: 80},
                         style: {
                             border: {
-                                top: { style: "thin", color: "FFFFAA00" },
-                                bottom: { style: "thin", color: "FFFFAA00" },
-                                left: { style: "thin", color: "FFFFAA00" },
-                                right: { style: "thin", color: "FFFFAA00" }
+                                top: {style: "thin", color: "FFFFAA00"},
+                                bottom: {style: "thin", color: "FFFFAA00"},
+                                left: {style: "thin", color: "FFFFAA00"},
+                                right: {style: "thin", color: "FFFFAA00"}
                             },
-                            fill: { patternType: "solid", fgColor: { rgb: "FFFFFF00" } },
-                            font: { bold: true }
+                            fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}},
+                            font: {bold: true}
                         }
                     }
                 ],
                 ySteps: 2,
                 data: data_report.map((data) => [
-                    { value: "" },
-                    { value: data.no },
-                    { value: data.id_transaksi },
-                    { value: data.created_at },
-                    { value: data.payment_name },
-                    { value: data.type_member === 1 ? data.cni_id : data.cni_id_ref },
-                    { value: data.type_member === 1 ? data.nama_member : "" },
-                    { value: data.type_member === 2 ? data.nama_member : "" },
-                    { value: data.logistic_name ? data.logistic_name : "-" },
-                    { value: data.key_payment ? data.key_payment : "-", style: { alignment: { readingOrder: "2" }, numFmt: "0" } },
-                    { value: data.wh_name !== null ? data.wh_name : data.iddc },
-                    { value: data.status_name },
-                    { value: "" },
-                    { value: data.kode_produk !== null ? data.kode_produk : "" },
-                    { value: data.jml ? data.jml : "-", style: { alignment: { readingOrder: "2" }, numFmt: "0" } },
-                    { value: data.ttl_pv ? data.ttl_pv : "-", style: { alignment: { readingOrder: "2" }, numFmt: "0.00" } },
-                    { value: data.ttl_rv ? data.ttl_rv : "-", style: { alignment: { readingOrder: "2" }, numFmt: "0,000.00" } },
-                    { value: data.ttl_hrg_non_ppn ? data.ttl_hrg_non_ppn : "-", style: { alignment: { readingOrder: "2" }, numFmt: "0,000.00" } },
-                    { value: data.ttl_pajak ? data.ttl_pajak : "-", style: { alignment: { readingOrder: "2" }, numFmt: "0,000.00" } },
-                    { value: data.ttl_harga ? data.ttl_harga : "-", style: { alignment: { readingOrder: "2" }, numFmt: "0,000.00" } },
-                    { value: data.type_member === 1 ? "Yes" : "No" },
+                    {value: ""},
+                    {value: data.no},
+                    {value: data.id_transaksi},
+                    {value: data.created_at},
+                    {value: data.payment_name},
+                    {value: data.type_member === 1 && data.cni_id !== null ? data.cni_id : data.cni_id_ref && data.cni_id_ref !== null ? data.cni_id_ref : ""},
+                    {value: data.type_member === 1 && data.nama_member !== null ? data.nama_member : ""},
+                    {value: data.type_member === 2 && data.nama_member !== null ? data.nama_member : ""},
+                    {value: data.logistic_name ? data.logistic_name : "-"},
+                    {
+                        value: data.key_payment ? data.key_payment : "-"
+                    },
+                    {value: data.wh_name !== null ? data.wh_name : data.iddc},
+                    {value: data.status_name},
+                    {value: ""},
+                    {value: data.kode_produk !== null ? data.kode_produk : ""},
+                    {value: data.jml ? data.jml : "-", style: {alignment: {readingOrder: "2"}, numFmt: "0"}},
+                    {value: data.ttl_pv ? data.ttl_pv : "-", style: {alignment: {readingOrder: "2"}, numFmt: "0.00"}},
+                    {
+                        value: data.ttl_rv ? data.ttl_rv : "-",
+                        style: {alignment: {readingOrder: "2"}, numFmt: "0,000.00"}
+                    },
+                    {
+                        value: data.ttl_hrg_non_ppn ? data.ttl_hrg_non_ppn : "-",
+                        style: {alignment: {readingOrder: "2"}, numFmt: "0,000.00"}
+                    },
+                    {
+                        value: data.ttl_pajak ? data.ttl_pajak : "-",
+                        style: {alignment: {readingOrder: "2"}, numFmt: "0,000.00"}
+                    },
+                    {
+                        value: data.ttl_harga ? data.ttl_harga : "-",
+                        style: {alignment: {readingOrder: "2"}, numFmt: "0,000.00"}
+                    },
+                    {value: data.type_member === 1 ? "Yes" : "No"},
 
                 ])
             }
@@ -453,7 +474,7 @@ class Detail extends Component {
             {
                 key: "no",
                 text: "No. Order",
-                width: 80,
+                width: 120,
                 align: "center",
                 sortable: false,
                 cell: record => {
@@ -474,7 +495,7 @@ class Detail extends Component {
             {
                 key: "payment_name",
                 text: "Tipe Payment",
-                width: 130,
+
                 align: "center",
                 sortable: false,
 
@@ -482,7 +503,7 @@ class Detail extends Component {
             {
                 key: "cni_id",
                 text: "No.Anggota/ Referensi",
-                width: 130,
+
                 align: "center",
                 sortable: false,
                 cell: record => {
@@ -503,7 +524,7 @@ class Detail extends Component {
             {
                 key: "wh_name",
                 text: "Kode Pengiriman DC/WH",
-                width: 150,
+
                 align: "center",
                 sortable: false,
                 cell: record => {
@@ -531,7 +552,7 @@ class Detail extends Component {
                 align: "center",
                 sortable: false,
                 cell: record => {
-                    return (<div style={{ textAlign: "right" }}><Fragment>
+                    return (<div style={{textAlign: "right"}}><Fragment>
                         <NumberFormat
                             value={record.jml}
                             thousandSeparator={true}
@@ -548,7 +569,7 @@ class Detail extends Component {
                 align: "center",
                 sortable: false,
                 cell: record => {
-                    return (<div style={{ textAlign: "right" }}><Fragment>
+                    return (<div style={{textAlign: "right"}}><Fragment>
                         <NumberFormat
                             value={record.ttl_pv}
                             thousandSeparator={true}
@@ -565,7 +586,7 @@ class Detail extends Component {
                 align: "center",
                 sortable: false,
                 cell: record => {
-                    return (<div style={{ textAlign: "right" }}><Fragment>
+                    return (<div style={{textAlign: "right"}}><Fragment>
                         <NumberFormat
                             value={record.ttl_rv}
                             thousandSeparator={true}
@@ -582,7 +603,7 @@ class Detail extends Component {
                 align: "center",
                 sortable: false,
                 cell: record => {
-                    return (<div style={{ textAlign: "right" }}><Fragment>
+                    return (<div style={{textAlign: "right"}}><Fragment>
                         <NumberFormat
                             value={record.ttl_hrg_non_ppn}
                             thousandSeparator={true}
@@ -620,10 +641,13 @@ class Detail extends Component {
                             <div className="row mb-2">
                                 <div className="col-sm-6">
                                     <h1 className="m-0">Report Header</h1>
-                                </div>{/* /.col */}
+                                </div>
+                                {/* /.col */}
 
-                            </div>{/* /.row */}
-                        </div>{/* /.container-fluid */}
+                            </div>
+                            {/* /.row */}
+                        </div>
+                        {/* /.container-fluid */}
                     </div>
                     {/* /.content-header */}
                     {/* Main content */}
@@ -632,7 +656,7 @@ class Detail extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     {/* card start */}
-                                    <div className="card card-success shadow-lg" style={{ "minHeight": "470px" }}>
+                                    <div className="card card-success shadow-lg" style={{"minHeight": "470px"}}>
 
                                         <div className="card-body">
                                             <Form>
@@ -668,8 +692,10 @@ class Detail extends Component {
                                                             inputProps={{
                                                                 value: this.state.end_date ? (moment(new Date(this.state.end_date)).format('DD/MM/YYYY')) : '',
                                                                 readOnly: true,
-                                                                placeholder: 'End Date', autoComplete: "off",
-                                                                name: 'end_date', className: 'form-control form-control-sm'
+                                                                placeholder: 'End Date',
+                                                                autoComplete: "off",
+                                                                name: 'end_date',
+                                                                className: 'form-control form-control-sm'
                                                             }}
                                                             renderView={(mode, renderDefault) =>
                                                                 this.renderView(mode, renderDefault, 'end_date')
@@ -683,7 +709,7 @@ class Detail extends Component {
                                                 onClick={this.handleSubmit.bind(this)}
                                                 isLoading={this.props.isLoading}
                                                 type="button"
-                                                style={{ marginRight: 5 }}
+                                                style={{marginRight: 5}}
                                                 theme="success">
                                                 Search
                                             </AppButton>
@@ -691,7 +717,7 @@ class Detail extends Component {
                                                 onClick={this.handleReset.bind(this)}
                                                 isLoading={this.props.isLoading}
                                                 type="button"
-                                                style={{ marginRight: 5 }}
+                                                style={{marginRight: 5}}
                                                 theme="warning">
                                                 Reset
                                             </AppButton>
@@ -699,20 +725,20 @@ class Detail extends Component {
                                                 <AppButton
                                                     isLoading={this.props.isLoading}
                                                     type="button"
-                                                    style={{ marginRight: 5 }}
+                                                    style={{marginRight: 5}}
                                                     theme="info">
                                                     Export
                                                 </AppButton>}>
-                                                <ExcelSheet dataSet={multiDataSet} name="Report Detail Product" />
+                                                <ExcelSheet dataSet={multiDataSet} name="Report Detail Product"/>
                                             </ExcelFile>
 
-                                            <hr />
-                                            <br />
+                                            <hr/>
+                                            <br/>
                                             {data ? (
                                                 <Fragment>
-                                                    <div style={{ overflowX: 'auto', paddingBlockEnd: 10 }}>
+                                                    <div style={{overflowX: 'auto', paddingBlockEnd: 10}}>
                                                         <ReactDatatable
-                                                            className="table table-bordered table-striped tbl_report"
+                                                            className="table table-bordered table-striped"
                                                             config={config}
                                                             records={data}
                                                             columns={columns}

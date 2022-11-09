@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {
-    FETCH_DATA_LOADING,
-    FETCH_DATA_SUCCESS_HEADER,
     FETCH_DATA_ERROR,
+    FETCH_DATA_LOADING,
     FETCH_DATA_SUCCESS_DETAIL,
+    FETCH_DATA_SUCCESS_EXPORT_DETAIL,
     FETCH_DATA_SUCCESS_EXPORT_HEADER,
-    FETCH_DATA_SUCCESS_EXPORT_DETAIL
+    FETCH_DATA_SUCCESS_HEADER
 } from '../store/types';
 
 const API_URL = process.env.REACT_APP_URL_API;
@@ -53,7 +53,6 @@ export const fetchDataError = (data) => {
 }
 
 
-
 export const fetchDataHeader = (param) => {
     let isLoading = true;
     return async (dispatch) => {
@@ -85,10 +84,10 @@ export const fetchExportHeader = (param) => {
             .then(response => {
                 const data = {};
                 data['data_report'] = response.data.data;
-                       
+
                 dispatch(fetchDataSuccessExportHeader(data));
                 isLoading = false;
-                
+
             }).catch(error => {
                 const errorpayload = {};
                 errorpayload['message'] = 'Something wrong';
@@ -131,10 +130,10 @@ export const fetchExportDetail = (param) => {
             .then(response => {
                 const data = {};
                 data['data_report'] = response.data.data;
-                       
+
                 dispatch(fetchDataSuccessExportDetail(data));
                 isLoading = false;
-                
+
             }).catch(error => {
                 const errorpayload = {};
                 errorpayload['message'] = 'Something wrong';

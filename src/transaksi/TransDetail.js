@@ -287,6 +287,17 @@ class TransDetail extends Component {
                                                                     <td>-</td>)}
 
                                                             </tr>) : ''}
+                                                        <tr>
+                                                            <td><strong>Kode DC</strong></td>
+                                                            <td>:</td>
+                                                            <td>{this.state.dtRes.iddc}</td>
+                                                            <td><strong>Nomor N</strong></td>
+                                                            <td>:</td>
+                                                            <td>{this.state.dtRes.cni_id ? this.state.dtRes.cni_id : '-'}</td>
+                                                            <td><strong>Status Mitra</strong></td>
+                                                            <td>:</td>
+                                                            <td>?</td>
+                                                        </tr>
                                                         {this.state.dtRes.tipe_pengiriman > 0 ? (
                                                             <tr>
                                                                 <td>
@@ -431,6 +442,20 @@ class TransDetail extends Component {
                                                             <td align="right">
                                                                 <NumberFormat
                                                                     value={this.state.dtRes.ongkir_origin ? this.state.dtRes.ongkir_origin : this.state.dtRes.ongkir}
+                                                                    thousandSeparator={true}
+                                                                    decimalScale={2}
+                                                                    displayType={'text'}
+                                                                />
+                                                            </td>
+                                                        </tr>
+														
+														 <tr>
+                                                            <td align="right" colSpan="7" style={{border: "none"}}>
+                                                                <strong>eWallet</strong>
+                                                            </td>
+                                                            <td align="right">
+                                                                <NumberFormat
+                                                                    value={this.state.dtRes.ewallet ? this.state.dtRes.ewallet : '0'}
                                                                     thousandSeparator={true}
                                                                     decimalScale={2}
                                                                     displayType={'text'}

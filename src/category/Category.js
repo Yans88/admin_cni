@@ -16,7 +16,7 @@ const Category = (auth) => {
     const [pageNumb, setPageNumb] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [sortOrder, setSortOrder] = useState("ASC");
-    const [sortColumn, setSortColumn] = useState("category_name");
+    const [sortColumn, setSortColumn] = useState("id_category");
     const [filterValue, setFilterValue] = useState("");
     const [loadTbl, setLoadTbl] = useState(true);
     const [show, setShow] = useState(false);

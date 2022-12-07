@@ -604,7 +604,10 @@ class Header extends Component {
                         value: data.ewallet ? data.ewallet : "-",
                         style: {alignment: {readingOrder: "2"}, numFmt: "0,000.00"}
                     },
-                    {value: "-"},
+                    {
+                        value: data.pot_voucher ? data.pot_voucher : "-",
+                        style: {alignment: {readingOrder: "2"}, numFmt: "0,000.00"}
+                    },
                     {
                         value: data.ongkir ? data.ongkir : "-",
                         style: {alignment: {readingOrder: "2"}, numFmt: "0,000.00"}

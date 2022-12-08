@@ -294,9 +294,9 @@ class TransDetail extends Component {
                                                             <td><strong>Nomor N</strong></td>
                                                             <td>:</td>
                                                             <td>{this.state.dtRes.cni_id ? this.state.dtRes.cni_id : '-'}</td>
-                                                            <td><strong>Status Mitra</strong></td>
+                                                            <td><strong>Jenis Transaksi</strong></td>
                                                             <td>:</td>
-                                                            <td>?</td>
+                                                            <td>{parseInt(this.state.dtRes.is_regmitra) === 1 ? 'FPK' : 'Reguler'}</td>
                                                         </tr>
                                                         {this.state.dtRes.tipe_pengiriman > 0 ? (
                                                             <tr>
@@ -448,8 +448,8 @@ class TransDetail extends Component {
                                                                 />
                                                             </td>
                                                         </tr>
-														
-														 <tr>
+
+                                                        <tr>
                                                             <td align="right" colSpan="7" style={{border: "none"}}>
                                                                 <strong>eWallet</strong>
                                                             </td>
@@ -465,7 +465,7 @@ class TransDetail extends Component {
 
                                                         <tr>
                                                             <td align="right" colSpan="7" style={{border: "none"}}>
-                                                                <strong>Voucher {this.state.dtRes.type_voucher === 1 ? " Potongan Ongkir" : this.state.dtRes.type_voucher === 2 ? " Potongan Harga" : this.state.dtRes.type_voucher === 2 ? " Free Produk" :""}
+                                                                <strong>Voucher {this.state.dtRes.type_voucher === 1 ? " Potongan Ongkir" : this.state.dtRes.type_voucher === 2 ? " Potongan Harga" : this.state.dtRes.type_voucher === 2 ? " Free Produk" : ""}
                                                                     : {this.state.dtRes.kode_voucher ? this.state.dtRes.kode_voucher : '-'}</strong>
                                                             </td>
                                                             <td align="right">

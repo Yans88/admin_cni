@@ -20,7 +20,7 @@ class ListSimpatikDiterima extends Component {
                 sort_order: "DESC",
                 sort_column: "id",
                 keyword: "",
-                status: 1,
+                status: 2,
                 id_operator: 0,
             },
 

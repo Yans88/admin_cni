@@ -307,19 +307,19 @@ class TransDetail extends Component {
                                                                 {this.state.dtRes.tipe_pengiriman !== 1 ? (
                                                                         <Fragment>
                                                                             <td>{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin + "(" + this.state.dtRes.kode_origin + ")"}</td>
-                                                                            <td><strong>Alamat Pengiriman</strong></td>
-                                                                            <td><strong>:</strong></td>
-                                                                            <td colSpan="4">{this.state.dtRes.nama_penerima + ", "
-                                                                                + this.state.dtRes.alamat + ", " + this.state.dtRes.kec_name + ", "
-                                                                                + this.state.dtRes.city_name + ", " + this.state.dtRes.provinsi_name + ", "
-                                                                                + this.state.dtRes.kode_pos + ", " + this.state.dtRes.phone_penerima}
-                                                                                {this.state.dtRes.is_dropship ? (<span
-                                                                                    className="badge bg-warning">Dropship</span>) : ""}
-                                                                            </td>
+
                                                                         </Fragment>
                                                                     ) :
-                                                                    <td colSpan="7">{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin}</td>}
-
+                                                                    <td>{this.state.dtRes.wh_name + "     " + this.state.dtRes.prov_origin}</td>}
+                                                                <td><strong>Alamat Pengiriman</strong></td>
+                                                                <td><strong>:</strong></td>
+                                                                <td colSpan="4">{this.state.dtRes.nama_penerima + ", "
+                                                                    + this.state.dtRes.alamat + ", " + this.state.dtRes.kec_name + ", "
+                                                                    + this.state.dtRes.city_name + ", " + this.state.dtRes.provinsi_name + ", "
+                                                                    + this.state.dtRes.kode_pos + ", " + this.state.dtRes.phone_penerima}
+                                                                    {this.state.dtRes.is_dropship ? (<span
+                                                                        className="badge bg-warning">Dropship</span>) : ""}
+                                                                </td>
                                                             </tr>) : ''}
                                                         {this.state.dtRes.tipe_pengiriman > 0 ? (
                                                             <tr>

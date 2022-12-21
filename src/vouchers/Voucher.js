@@ -24,8 +24,8 @@ class Voucher extends Component {
             imgUpload: ''
         }
         this.state = {
-            sort_order: "ASC",
-            sort_column: "title",
+            sort_order: "DESC",
+            sort_column: "id_voucher",
             keyword: '',
             page_number: 1,
             is_cms: 1,

@@ -111,7 +111,7 @@ class ListSimpatik extends Component {
                 }
             },
             {
-                key: "nama",
+                key: "nama_mitra",
                 text: "Nama",
                 align: "center",
                 width: 130,

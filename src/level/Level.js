@@ -1,11 +1,19 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux';
-import { fetchData, addData, addForm, addDataSuccess, showConfirmDel, deleteData, clearAddDataError } from './levelService';
-import { Button, Form } from 'react-bootstrap';
+import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux';
+import {
+    addData,
+    addDataSuccess,
+    addForm,
+    clearAddDataError,
+    deleteData,
+    fetchData,
+    showConfirmDel
+} from './levelService';
+import {Button, Form} from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 import ReactDatatable from '@ashvin27/react-datatable';
-import { BsGearWideConnected } from "react-icons/bs";
+import {BsGearWideConnected} from "react-icons/bs";
 
 
 class Level extends Component {
@@ -13,8 +21,8 @@ class Level extends Component {
         super(props);
         this.initSelected = {
             id_level: '',
-            level_name: '',            
-            id_operator: '',           
+            level_name: '',
+            id_operator: '',
         }
         this.state = {
             sort_order: "ASC",
@@ -38,7 +46,7 @@ class Level extends Component {
         this.setState({
             loadingForm: false,
             errMsg: this.initSelected,
-            selected: { ...record}
+            selected: {...record}
         });
         this.props.showForm(true);
     }
@@ -50,7 +58,7 @@ class Level extends Component {
 
     deleteRecord = (record) => {
         this.setState({
-            selected: { ...record, id_operator: this.props.user.id_operator }
+            selected: {...record, id_operator: this.props.user.id_operator}
         });
         this.props.showConfirmDel(true);
     }
@@ -87,9 +95,9 @@ class Level extends Component {
     }
 
     handleChange(event) {
-        const { name, value } = event.target
+        const {name, value} = event.target
         var val = value;
-        this.props.clearErrProps();       
+        this.props.clearErrProps();
         this.setState({
             loadingForm: false,
             selected: {
@@ -101,12 +109,22 @@ class Level extends Component {
                 [name]: ''
             }
         });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
     discardChanges = () => {
-        this.setState({ errMsg: {}, selected: this.initSelected, loadingForm: false });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        this.setState({errMsg: {}, selected: this.initSelected, loadingForm: false});
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
         this.props.showForm(true);
     }
 
@@ -117,8 +135,13 @@ class Level extends Component {
             loadingForm: true,
         });
         errors.level_name = !this.state.selected.level_name ? "Level name required" : '';
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
-        this.setState({ errors });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
+        this.setState({errors});
         if (this.validateForm(this.state.errMsg)) {
             this.props.onAdd(this.state.selected);
         } else {
@@ -143,8 +166,8 @@ class Level extends Component {
     }
 
     render() {
-        const { data, user } = this.props;
-        const { selected, errMsg } = this.state;
+        const {data, user} = this.props;
+        const {selected, errMsg} = this.state;
         console.log(this.props);
         const columns = [
             {
@@ -153,7 +176,8 @@ class Level extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
+                cell: (row, index) => <div
+                    style={{textAlign: "center"}}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
                 row: 0
             },
             {
@@ -171,26 +195,26 @@ class Level extends Component {
                 sortable: false,
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Fragment>
                                 <button
                                     className="btn btn-xs btn-info"
                                     onClick={e => this.HakAkses(record)}
-                                    style={{ marginRight: '5px' }}>
-                                    <BsGearWideConnected /> Hak Akses
+                                    style={{marginRight: '5px'}}>
+                                    <BsGearWideConnected/> Hak Akses
                                 </button>
                                 {user.level_edit ? (<button
                                     className="btn btn-xs btn-success"
                                     onClick={e => this.editRecord(record)}
-                                    style={{ marginRight: '5px' }}>
+                                    style={{marginRight: '5px'}}>
                                     <i className="fa fa-edit"></i> Edit
                                 </button>) : (<button
                                     className="btn btn-xs btn-success"
                                     disabled
-                                    style={{ marginRight: '5px' }}>
+                                    style={{marginRight: '5px'}}>
                                     <i className="fa fa-edit"></i> Edit
                                 </button>)}
-                                {user.level_del && record.id_level !== 1 ? (
+                                {user.level_del && record.id_level !== 1 && record.id_level !== 25 ? (
                                     <button
                                         className="btn btn-danger btn-xs"
                                         onClick={() => this.deleteRecord(record)}>
@@ -203,7 +227,7 @@ class Level extends Component {
                                         <i className="fa fa-trash"></i> Delete
                                     </button>
                                 )}
-                                
+
                             </Fragment>
                         </div>
                     );
@@ -240,15 +264,16 @@ class Level extends Component {
                     onInput={this.handleChange.bind(this)}
                     value={selected.level_name}
                     onChange={this.handleChange.bind(this)}
-                    placeholder="Level Name" />
+                    placeholder="Level Name"/>
             </Form.Group>
-            
+
         </Form>;
 
-        const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+        const contentDelete = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
         return (
             <div>
-                
+
                 <div className="content-wrapper">
                     {/* Content Header (Page header) */}
                     <div className="content-header">
@@ -256,10 +281,13 @@ class Level extends Component {
                             <div className="row mb-2">
                                 <div className="col-sm-6">
                                     <h1 className="m-0">Level</h1>
-                                </div>{/* /.col */}
+                                </div>
+                                {/* /.col */}
 
-                            </div>{/* /.row */}
-                        </div>{/* /.container-fluid */}
+                            </div>
+                            {/* /.row */}
+                        </div>
+                        {/* /.container-fluid */}
                     </div>
                     {/* /.content-header */}
                     {/* Main content */}
@@ -268,12 +296,15 @@ class Level extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     {/* card start */}
-                                    <div className="card card-success shadow-lg" style={{ "minHeight": "470px" }}>
+                                    <div className="card card-success shadow-lg" style={{"minHeight": "470px"}}>
                                         <div className="card-header">
-                                        {user.level_add ? (<Button variant="success" onClick={this.discardChanges}><i className="fa fa-plus"></i> Add</Button>
-                                            ) : (<Button variant="success" disabled><i className="fa fa-plus"></i> Add</Button>
+                                            {user.level_add ? (
+                                                <Button variant="success" onClick={this.discardChanges}><i
+                                                    className="fa fa-plus"></i> Add</Button>
+                                            ) : (<Button variant="success" disabled><i
+                                                    className="fa fa-plus"></i> Add</Button>
                                             )}
-                                            
+
                                         </div>
 
                                         <div className="card-body">

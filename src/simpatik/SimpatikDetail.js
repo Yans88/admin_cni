@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux';
+import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux';
 import SimpatikService from './SimpatikService';
 import moment from 'moment';
 import "moment/locale/id";
 import MyLoading from '../components/loading/MyLoading';
 import AppModal from '../components/modal/MyModal';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-import { Form, Figure } from 'react-bootstrap';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
+import {Figure, Form} from 'react-bootstrap';
 import NoImg from '../assets/noPhoto.jpg'
 
 class SimpatikDetail extends Component {
@@ -82,7 +82,8 @@ class SimpatikDetail extends Component {
                     showConfirm: false,
                     showConfirmKirim: false,
                     showConfirmHold: false,
-                    errMsg: <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>' }} />,
+                    errMsg: <div
+                        dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>'}}/>,
                     showSwalSuccess: true,
                     //dtRes: { ...this.state.dtRes, status: 2 }
                 });
@@ -101,25 +102,25 @@ class SimpatikDetail extends Component {
     }
 
     confirmProcess = () => {
-        this.setState({ ...this.state, showConfirm: true, errMsg: this.initSelected, status: 2 });
+        this.setState({...this.state, showConfirm: true, errMsg: this.initSelected, status: 2});
     }
 
     confirmKirim = () => {
-        this.setState({ ...this.state, showConfirmKirim: true, errMsg: this.initSelected, status: 5, remark_hold: '' });
+        this.setState({...this.state, showConfirmKirim: true, errMsg: this.initSelected, status: 5, remark_hold: ''});
     }
 
     confirmHold = () => {
-        this.setState({ ...this.state, showConfirmHold: true, errMsg: this.initSelected, remark_hold: '', status: 3 });
+        this.setState({...this.state, showConfirmHold: true, errMsg: this.initSelected, remark_hold: '', status: 3});
     }
 
     confirmTransfer = () => {
-        this.setState({ ...this.state, showConfirmTransfer: true, errMsg: this.initSelected, remark_hold: '' });
+        this.setState({...this.state, showConfirmTransfer: true, errMsg: this.initSelected, remark_hold: ''});
     }
 
     getData = () => {
-        this.setState({ appsLoading: true });
+        this.setState({appsLoading: true});
         const selectedIdCNI = sessionStorage.getItem('idSimpatikCNI');
-        const queryString = { id: selectedIdCNI }
+        const queryString = {id: selectedIdCNI}
         SimpatikService.postData(queryString, "VIEW_DETAIL")
             .then(response => {
                 setTimeout(() => {
@@ -135,12 +136,12 @@ class SimpatikDetail extends Component {
                             dtRes: {},
                         });
                     }
-                    this.setState({ appsLoading: false });
+                    this.setState({appsLoading: false});
                 }, 400);
             })
             .catch(e => {
                 console.log(e);
-                this.setState({ appsLoading: false });
+                this.setState({appsLoading: false});
             });
     };
 
@@ -157,9 +158,14 @@ class SimpatikDetail extends Component {
                 errors.img = "File size over 2MB";
             }
         }
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
 
-        this.setState({ errors });
+        this.setState({errors});
         if (this.validateForm(this.state.errMsg)) {
             let _data = new FormData();
             _data.append('id', this.state.id);
@@ -175,7 +181,8 @@ class SimpatikDetail extends Component {
                         showConfirmKirim: false,
                         showConfirmHold: false,
                         showConfirmTransfer: false,
-                        errMsg: <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>' }} />,
+                        errMsg: <div
+                            dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>'}}/>,
                         showSwalSuccess: true,
                         //dtRes: { ...this.state.dtRes, status: 2 }
                     });
@@ -211,19 +218,27 @@ class SimpatikDetail extends Component {
     handleChange(evt) {
         const name = evt.target.name;
         var value = evt.target.value;
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
         if (name === "img") {
             value = evt.target.files[0];
-            this.setState({ selected: { ...this.state.selected, imgUpload: "", img: "" } });
+            this.setState({selected: {...this.state.selected, imgUpload: "", img: ""}});
             if (!value) return;
             if (!value.name.match(/\.(jpg|jpeg|png)$/)) {
-                this.setState({ loadingForm: true, errMsg: { ...this.state.errMsg, img: "Please select valid image(.jpg .jpeg .png)" } });
+                this.setState({
+                    loadingForm: true,
+                    errMsg: {...this.state.errMsg, img: "Please select valid image(.jpg .jpeg .png)"}
+                });
 
                 //setLoading(true);
                 return;
             }
             if (value.size > 2099200) {
-                this.setState({ loadingForm: true, errMsg: { ...this.state.errMsg, img: "File size over 2MB" } });
+                this.setState({loadingForm: true, errMsg: {...this.state.errMsg, img: "File size over 2MB"}});
 
                 //setLoading(true);
                 return;
@@ -231,7 +246,10 @@ class SimpatikDetail extends Component {
             let reader = new FileReader();
             reader.readAsDataURL(value);
             reader.onloadend = () => {
-                this.setState({ loadingForm: false, selected: { ...this.state.selected, imgUpload: reader.result, img: value } });
+                this.setState({
+                    loadingForm: false,
+                    selected: {...this.state.selected, imgUpload: reader.result, img: value}
+                });
             };
         }
         this.setState({
@@ -243,8 +261,9 @@ class SimpatikDetail extends Component {
 
 
     render() {
-        const contentConfirm = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin<br/><b>memproses</b> pengajuan ini ?</div>' }} />;
-        const { selected, errMsg } = this.state;
+        const contentConfirm = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin<br/><b>memproses</b> pengajuan ini ?</div>'}}/>;
+        const {selected, errMsg} = this.state;
 
         const frmUser = <Form id="myForm">
             <div id="caption">
@@ -252,7 +271,8 @@ class SimpatikDetail extends Component {
             </div>
             <Form.Group controlId="remark_hold">
                 <Form.Label>Keterangan</Form.Label>
-                <Form.Control size="sm" name="remark_hold" as="textarea" rows={5} value={this.state.remark_hold} onChange={this.handleChange.bind(this)} placeholder="Keterangan . . ." />
+                <Form.Control size="sm" name="remark_hold" as="textarea" rows={5} value={this.state.remark_hold}
+                              onChange={this.handleChange.bind(this)} placeholder="Keterangan . . ."/>
             </Form.Group>
         </Form>;
 
@@ -262,7 +282,8 @@ class SimpatikDetail extends Component {
             </div>
             <Form.Group controlId="remark_hold">
                 <Form.Label>Keterangan</Form.Label>
-                <Form.Control size="sm" name="remark_hold" as="textarea" rows={5} value={this.state.remark_hold} onChange={this.handleChange.bind(this)} placeholder="Keterangan . . ." />
+                <Form.Control size="sm" name="remark_hold" as="textarea" rows={5} value={this.state.remark_hold}
+                              onChange={this.handleChange.bind(this)} placeholder="Keterangan . . ."/>
             </Form.Group>
         </Form>;
 
@@ -270,10 +291,10 @@ class SimpatikDetail extends Component {
 
             <Form.Group controlId="image">
                 <Form.Label>Image</Form.Label>{errMsg.img ?
-                    (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
-                <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={this.handleChange.bind(this)} />
+                (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
+                <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={this.handleChange.bind(this)}/>
             </Form.Group>
-            {selected.imgUpload ? (<Form.Group controlId="imagePreview" style={{ marginBottom: 0 }}>
+            {selected.imgUpload ? (<Form.Group controlId="imagePreview" style={{marginBottom: 0}}>
                 <Figure>
                     <Figure.Image
                         thumbnail
@@ -308,188 +329,308 @@ class SimpatikDetail extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         {this.state.appsLoading ? (
-                                            <MyLoading />
+                                            <MyLoading/>
                                         ) : (
                                             <div className="card shadow-lg">
                                                 <div className="card-body">
                                                     <table className="table table-condensed">
 
                                                         <tbody>
-                                                            <tr>
-                                                                <td style={{ "backgroundColor": "rgba(0,0,0,.1)", "fontWeight": "bold", "fontSize": "16px" }} colSpan="9" align="center">
-                                                                    Information </td>
-                                                            </tr>
-                                                            <tr>
+                                                        <tr>
+                                                            <td style={{
+                                                                "backgroundColor": "rgba(0,0,0,.1)",
+                                                                "fontWeight": "bold",
+                                                                "fontSize": "16px"
+                                                            }} colSpan="9" align="center">
+                                                                Data Pemohon
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
 
-                                                                <td width="20%"><strong>CNI ID</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td width="29%">
-                                                                    {this.state.dtRes.cni_id}
-                                                                </td>
+                                                            <td width="20%"><strong>CNI ID</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td width="29%">
+                                                                {this.state.dtRes.cni_id}
+                                                            </td>
 
-                                                                <td width="20%"><strong>Name</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td width="29%">{this.state.dtRes.nama}</td>
-
-
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td><strong>Request Date</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{moment(new Date(this.state.dtRes.created_at)).format('DD MMMM YYYY HH:mm')}</td>
-                                                                <td><strong>Phone</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.phone}</td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td><strong>Status</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>
-                                                                    <Fragment>
-                                                                        {this.state.dtRes.status === 1 && <span className="badge bg-warning">Waiting ...</span>}
-
-                                                                        {this.state.dtRes.status === 2 && <span className="badge bg-info">Diterima </span>}
-                                                                        {this.state.dtRes.status === 3 && <span className="badge bg-warning">Approved</span>}
-                                                                        {this.state.dtRes.status === 4 && <span className="badge bg-success">completed</span>}
-                                                                        {this.state.dtRes.status === 5 && <span className="badge bg-danger">Rejected</span>}
-
-                                                                    </Fragment>
-                                                                </td>
-                                                                <td><strong>Keterangan</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.keterangan}</td>
+                                                            <td width="20%"><strong>Bank</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td width="29%">{this.state.dtRes.bank}</td>
 
 
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Request Date</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{moment(new Date(this.state.dtRes.created_at)).format('DD MMMM YYYY HH:mm')}</td>
+                                                            <td><strong>No.Rek</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.no_rek}</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Name</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.nama_mitra} </td>
+                                                            <td><strong>Atas nama</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.atas_nama}</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><strong>Phone</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.phone} </td>
+                                                            <td><strong>Status</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>
+                                                                {this.state.dtRes.status === 1 && <span
+                                                                    className="badge bg-warning">Waiting ...</span>}
+                                                                {this.state.dtRes.status === 2 &&
+                                                                    <span className="badge bg-info">Diterima </span>}
+                                                                {this.state.dtRes.status === 3 &&
+                                                                    <span className="badge bg-warning">Approved</span>}
+                                                                {this.state.dtRes.status === 4 &&
+                                                                    <span className="badge bg-success">completed</span>}
+                                                                {this.state.dtRes.status === 5 &&
+                                                                    <span className="badge bg-danger">Rejected</span>}
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><strong>Alamat</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td colSpan={4}>{this.state.dtRes.alamat} </td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><strong>Keterangan</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td colSpan={4}>{this.state.dtRes.keterangan} </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td style={{
+                                                                "backgroundColor": "rgba(0,0,0,.08)",
+                                                                "fontWeight": "bold",
+                                                                "fontSize": "16px"
+                                                            }} colSpan="6" align="center">Informasi Kecelakan
+                                                            </td>
+                                                        </tr>
 
 
+                                                        <tr>
 
-                                                            </tr>
+                                                            <td width="20%"><strong>Tanggal Kecelakan</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td width="29%">{moment(new Date(this.state.dtRes.tgl_kecelakaan)).format('DD MMMM YYYY')}
+                                                                <b>Di Kota</b> {this.state.dtRes.nama_kota_kecelakaan}
+                                                            </td>
 
-
-
-
-                                                            <tr>
-                                                                <td style={{ "backgroundColor": "rgba(0,0,0,.08)", "fontWeight": "bold", "fontSize": "16px" }} colSpan="6" align="center">Informasi Kecelakan</td>
-                                                            </tr>
-
-
-                                                            <tr>
-
-                                                                <td width="20%"><strong>Tanggal Kecelakan</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td width="29%">{moment(new Date(this.state.dtRes.tgl_kecelakaan)).format('DD MMMM YYYY')} <b>Di Kota</b> {this.state.dtRes.nama_kota_kecelakaan}</td>
-
-                                                                <td><strong>Luka yang dialami</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.luka_dialami}</td>
+                                                            <td><strong>Luka yang dialami</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.luka_dialami}</td>
 
 
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Kategori Santunan</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.kat_santunan}</td>
+                                                            <td width="20%"><strong>Lama Rawat Inap</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td width="29%">{this.state.dtRes.lama_rawat_inap}</td>
 
-                                                            </tr>
-                                                            <tr>
-                                                                <td><strong>Kategori Santunan</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.kat_santunan}</td>
-                                                                <td width="20%"><strong>Lama Rawat Inap</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td width="29%">{this.state.dtRes.lama_rawat_inap}</td>
+                                                        </tr>
 
-                                                            </tr>
+                                                        <tr>
 
-                                                            <tr>
+                                                            <td width="20%"><strong>Penyebab Kecelakan</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td colSpan="4">{this.state.dtRes.penyebab_kecelakaan}</td>
 
-                                                                <td width="20%"><strong>Penyebab Kecelakan</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td colSpan="4">{this.state.dtRes.penyebab_kecelakaan}</td>
-
-                                                            </tr>
-
+                                                        </tr>
 
 
+                                                        <tr>
 
-                                                            <tr>
+                                                            <td width="15%"><strong>Apakah pernah kecelakaan
+                                                                sebelumnya</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td width="37%">{this.state.dtRes.pernah_kecelakaan_sebelumnya}{this.state.dtRes.pernah_kecelakaan_sebelumnya === 'Ya' && moment(new Date(this.state.dtRes.tgl_pernah_kecelakaan_sebelumnya)).format('DD MMMM YYYY')}</td>
+                                                            <td><strong>Apakah berdampak cacat</strong></td>
+                                                            <td><strong>:</strong></td>
+                                                            <td>{this.state.dtRes.berdampak_cacat}</td>
+                                                        </tr>
 
-                                                                <td width="15%"><strong>Apakah pernah kecelakaan sebelumnya</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td width="37%">{this.state.dtRes.pernah_kecelakaan_sebelumnya}{this.state.dtRes.pernah_kecelakaan_sebelumnya === 'Ya' && moment(new Date(this.state.dtRes.tgl_pernah_kecelakaan_sebelumnya)).format('DD MMMM YYYY')}</td>
-                                                                <td><strong>Apakah berdampak cacat</strong></td>
-                                                                <td><strong>:</strong></td>
-                                                                <td>{this.state.dtRes.berdampak_cacat}</td>
-                                                            </tr>
+                                                        <tr>
 
-                                                            <tr>
+                                                            <td width="20%"><strong>Rincian penyebabnya</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td colSpan="4">{this.state.dtRes.rincian_penyebabnya}</td>
 
-                                                                <td width="20%"><strong>Rincian penyebabnya</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td colSpan="4">{this.state.dtRes.rincian_penyebabnya}</td>
+                                                        </tr>
+                                                        <tr>
 
-                                                            </tr>
-                                                            <tr>
+                                                            <td width="20%"><strong>Meninggal Rincian
+                                                                penyebabnya</strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td colSpan="4">{this.state.dtRes.meninggal_rincian_penyebabnya}</td>
 
-                                                                <td width="20%"><strong>Meninggal Rincian penyebabnya</strong></td>
-                                                                <td width="1%"><strong>:</strong></td>
-                                                                <td colSpan="4">{this.state.dtRes.meninggal_rincian_penyebabnya}</td>
-
-                                                            </tr>
-
+                                                        </tr>
 
 
                                                         </tbody>
+                                                        <tr>
+                                                            <td style={{
+                                                                "backgroundColor": "rgba(0,0,0,.1)",
+                                                                "fontWeight": "bold",
+                                                                "fontSize": "16px"
+                                                            }} colSpan="9" align="center">
+                                                                Data Dokter
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td width="15%"><strong>Nama Dokter
+                                                            </strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td colSpan={4}>{this.state.dtRes.nama_dokter}</td>
+
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td width="15%"><strong>Nomor HP Dokter
+                                                            </strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td colSpan={4}>{this.state.dtRes.no_hp_dokter}</td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td width="15%"><strong>Nama referensi Dokter
+                                                            </strong></td>
+                                                            <td width="1%"><strong>:</strong></td>
+                                                            <td colSpan={4}>{this.state.dtRes.no_ref_dokter}</td>
+                                                        </tr>
                                                     </table>
-                                                    <br />
+
+                                                    <br/>
                                                     <div className="row">
-                                                        <div className={this.state.dtRes.status === 4 ? "col-3" : "col-4"} style={{ textAlign: "center" }}>
+                                                        <div
+                                                            className="col-4"
+                                                            style={{textAlign: "center", marginBottom: "30px"}}>
                                                             <Figure>
                                                                 <Figure.Image
+                                                                    style={{maxHeight: '200px'}}
                                                                     thumbnail
                                                                     width={250}
                                                                     height={200}
-                                                                    alt="Nama Dokter"
-                                                                    src={this.state.dtRes.nama_dokter ? (this.state.dtRes.nama_dokter) : (NoImg)}
+                                                                    alt="Photo KTP"
+                                                                    src={this.state.dtRes.photo_ktp ? (this.state.dtRes.photo_ktp) : (NoImg)}
                                                                 />
 
                                                                 <Figure.Caption>
-                                                                    Nama Dokter
+                                                                    <strong>Photo KTP</strong>
                                                                 </Figure.Caption>
                                                             </Figure>
                                                         </div>
-                                                        <div className={this.state.dtRes.status === 4 ? "col-3" : "col-4"} style={{ textAlign: "center" }}>
+                                                        <div
+                                                            className="col-4"
+                                                            style={{textAlign: "center"}}>
                                                             <Figure>
                                                                 <Figure.Image
+                                                                    style={{maxHeight: '200px'}}
                                                                     thumbnail
                                                                     width={250}
                                                                     height={200}
-                                                                    alt="No.Ref dokter"
-                                                                    src={this.state.dtRes.no_ref_dokter ? (this.state.dtRes.no_ref_dokter) : (NoImg)}
+                                                                    alt="Photo KK"
+                                                                    src={this.state.dtRes.photo_kk ? (this.state.dtRes.photo_kk) : (NoImg)}
                                                                 />
 
                                                                 <Figure.Caption>
-                                                                    No.Ref Dokter
+                                                                    <strong>Photo KK</strong>
                                                                 </Figure.Caption>
                                                             </Figure>
 
 
                                                         </div>
 
-                                                        <div className={this.state.dtRes.status === 4 ? "col-3" : "col-4"} style={{ textAlign: "center" }}>
+                                                        <div
+                                                            className="col-4"
+                                                            style={{textAlign: "center"}}>
                                                             <Figure>
                                                                 <Figure.Image
+                                                                    style={{maxHeight: '200px'}}
                                                                     thumbnail
                                                                     width={250}
                                                                     height={200}
-                                                                    alt="No.Hp dokter"
-                                                                    src={this.state.dtRes.no_hp_dokter ? (this.state.dtRes.no_hp_dokter) : (NoImg)}
+                                                                    alt="Surat keterangan kecelakaan"
+                                                                    src={this.state.dtRes.suket_asli_kecelakaan ? (this.state.dtRes.suket_asli_kecelakaan) : (NoImg)}
                                                                 />
 
                                                                 <Figure.Caption>
-                                                                    No.Hp Dokter
+                                                                    <strong>Surat keterangan kecelakaan</strong>
+                                                                </Figure.Caption>
+                                                            </Figure>
+                                                        </div>
+                                                        <div
+                                                            className="col-4"
+                                                            style={{textAlign: "center"}}>
+                                                            <Figure>
+                                                                <Figure.Image
+                                                                    style={{maxHeight: '200px'}}
+                                                                    thumbnail
+                                                                    width={250}
+                                                                    height={200}
+                                                                    alt="Kwitansi"
+                                                                    src={this.state.dtRes.kwitansi_asli_biaya ? (this.state.dtRes.kwitansi_asli_biaya) : (NoImg)}
+                                                                />
+
+                                                                <Figure.Caption>
+                                                                    <strong>Kwitansi</strong>
+                                                                </Figure.Caption>
+                                                            </Figure>
+                                                        </div>
+                                                        <div
+                                                            className="col-4"
+                                                            style={{textAlign: "center"}}>
+                                                            <Figure>
+                                                                <Figure.Image
+                                                                    style={{maxHeight: '200px'}}
+                                                                    thumbnail
+                                                                    width={250}
+                                                                    height={200}
+                                                                    alt="Resep dokter"
+                                                                    src={this.state.dtRes.resep_dokter ? (this.state.dtRes.resep_dokter) : (NoImg)}
+                                                                />
+
+                                                                <Figure.Caption>
+                                                                    <strong>Resep dokter</strong>
+                                                                </Figure.Caption>
+                                                            </Figure>
+                                                        </div>
+                                                        <div
+                                                            className="col-4"
+                                                            style={{textAlign: "center"}}>
+                                                            <Figure>
+                                                                <Figure.Image
+                                                                    style={{maxHeight: '200px'}}
+                                                                    thumbnail
+                                                                    width={250}
+                                                                    height={200}
+                                                                    alt="Surat keterangan meninggal"
+                                                                    src={this.state.dtRes.suket_meninggal ? (this.state.dtRes.suket_meninggal) : (NoImg)}
+                                                                />
+
+                                                                <Figure.Caption>
+                                                                    <strong>Surat keterangan meninggal</strong>
                                                                 </Figure.Caption>
                                                             </Figure>
                                                         </div>
                                                         {this.state.dtRes.status === 4 && (
-                                                            <div className="col-3" style={{ textAlign: "center" }}>
+                                                            <div className="col-4" style={{textAlign: "center"}}>
                                                                 <Figure>
                                                                     <Figure.Image
                                                                         thumbnail
@@ -500,7 +641,7 @@ class SimpatikDetail extends Component {
                                                                     />
 
                                                                     <Figure.Caption>
-                                                                        Bukti Transfer
+                                                                        <strong>Bukti Transfer</strong>
                                                                     </Figure.Caption>
                                                                 </Figure>
                                                             </div>
@@ -508,17 +649,31 @@ class SimpatikDetail extends Component {
                                                     </div>
 
 
-
                                                 </div>
                                                 <div className="card-footer clearfix">
-                                                    <button type="button" onClick={() => this.props.history.goBack()} className="btn btn-flat btn-danger btn-sm">Back</button>
-                                                    {(this.state.dtRes.status === 1) && <button type="button" onClick={this.confirmProcess} style={{ marginLeft: 3 }} className="btn bnt-flat btn-warning btn-sm">Diterima</button>}
+                                                    <button type="button" onClick={() => this.props.history.goBack()}
+                                                            className="btn btn-flat btn-danger btn-sm">Back
+                                                    </button>
+                                                    {(this.state.dtRes.status === 1) &&
+                                                        <button type="button" onClick={this.confirmProcess}
+                                                                style={{marginLeft: 3}}
+                                                                className="btn bnt-flat btn-warning btn-sm">Diterima</button>}
                                                     {this.state.dtRes.status === 2 &&
                                                         <Fragment>
-                                                            <button type="button" onClick={this.confirmHold} style={{ marginLeft: 3 }} className="btn bnt-flat btn-success btn-sm">Approve</button> 	<button type="button" onClick={this.confirmKirim} className="btn bnt-flat btn-warning btn-sm">Reject</button>
+                                                            <button type="button" onClick={this.confirmHold}
+                                                                    style={{marginLeft: 3}}
+                                                                    className="btn bnt-flat btn-success btn-sm">Approve
+                                                            </button>
+                                                            <button type="button" onClick={this.confirmKirim} style={{marginLeft: 3}}
+                                                                    className="btn bnt-flat btn-warning btn-sm">Reject
+                                                            </button>
                                                         </Fragment>
                                                     }
-                                                    {(this.state.dtRes.status === 3) && <button type="button" onClick={this.confirmTransfer} style={{ marginLeft: 3 }} className="btn bnt-flat btn-warning btn-sm">Upload bukti transfer</button>}
+                                                    {(this.state.dtRes.status === 3) &&
+                                                        <button type="button" onClick={this.confirmTransfer}
+                                                                style={{marginLeft: 3}}
+                                                                className="btn bnt-flat btn-warning btn-sm">Upload bukti
+                                                            transfer</button>}
                                                 </div>
 
 
@@ -596,9 +751,9 @@ class SimpatikDetail extends Component {
 
                     </div>
 
-                </div >
+                </div>
 
-            </div >
+            </div>
         )
     }
 }

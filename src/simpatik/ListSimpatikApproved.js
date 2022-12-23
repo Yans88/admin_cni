@@ -17,7 +17,7 @@ class ListSimpatikApproved extends Component {
             queryString: {
                 page_number: 1,
                 per_page: 10,
-                sort_order: "DESC",
+                sort_order: "ASC",
                 sort_column: "id",
                 keyword: "",
                 status: 3,

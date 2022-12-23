@@ -424,8 +424,8 @@ class SimpatikDetail extends Component {
 
                                                             <td width="20%"><strong>Tanggal Kecelakan</strong></td>
                                                             <td width="1%"><strong>:</strong></td>
-                                                            <td width="29%">{moment(new Date(this.state.dtRes.tgl_kecelakaan)).format('DD MMMM YYYY')}
-                                                                <b>Di Kota</b> {this.state.dtRes.nama_kota_kecelakaan}
+                                                            <td width="29%">{moment(new Date(this.state.dtRes.tgl_kecelakaan)).format('DD MMMM YYYY') + ' '}
+                                                                Di Kota {this.state.dtRes.nama_kota_kecelakaan}
                                                             </td>
 
                                                             <td><strong>Luka yang dialami</strong></td>
@@ -458,7 +458,7 @@ class SimpatikDetail extends Component {
                                                             <td width="15%"><strong>Apakah pernah kecelakaan
                                                                 sebelumnya</strong></td>
                                                             <td width="1%"><strong>:</strong></td>
-                                                            <td width="37%">{this.state.dtRes.pernah_kecelakaan_sebelumnya}{this.state.dtRes.pernah_kecelakaan_sebelumnya === 'Ya' && moment(new Date(this.state.dtRes.tgl_pernah_kecelakaan_sebelumnya)).format('DD MMMM YYYY')}</td>
+                                                            <td width="37%">{this.state.dtRes.pernah_kecelakaan_sebelumnya} {this.state.dtRes.pernah_kecelakaan_sebelumnya === 'Ya' && '(' + moment(new Date(this.state.dtRes.tgl_pernah_kecelakaan_sebelumnya)).format('DD MMMM YYYY') + ')'}</td>
                                                             <td><strong>Apakah berdampak cacat</strong></td>
                                                             <td><strong>:</strong></td>
                                                             <td>{this.state.dtRes.berdampak_cacat}</td>
@@ -664,7 +664,8 @@ class SimpatikDetail extends Component {
                                                                     style={{marginLeft: 3}}
                                                                     className="btn bnt-flat btn-success btn-sm">Approve
                                                             </button>
-                                                            <button type="button" onClick={this.confirmKirim} style={{marginLeft: 3}}
+                                                            <button type="button" onClick={this.confirmKirim}
+                                                                    style={{marginLeft: 3}}
                                                                     className="btn bnt-flat btn-warning btn-sm">Reject
                                                             </button>
                                                         </Fragment>

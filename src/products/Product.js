@@ -34,16 +34,16 @@ const Product = (auth) => {
 
     const closeSwal = () => {
         setshowSwalSuccess(false);
-        const param = {
+       /* const param = {
             sort_order: sortOrder,
             sort_column: sortColumn,
             keyword: filterValue,
             page_number: pageNumb,
             per_page: pageSize
-        }
+        }*/
         //getData(param);
     }
-    const getData = async (queryString) => {
+    /*const getData = async (queryString) => {
         cookie.remove('selectedIdCNI');
         cookie.remove('imageIdCNI');
         cookie.remove('pricelistIdCNI');
@@ -66,7 +66,7 @@ const Product = (auth) => {
             .catch(e => {
                 console.log(e);
             });
-    };
+    };*/
 
     const handleSave = async () => {
         let err_code = '';

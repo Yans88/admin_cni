@@ -5,3 +5,10 @@ build
 # misc
 .env.production
 .env
+
+.idea
+/.idea
+/admin_cni.zip
+/node_modules.zip
+
+/package-lock.json

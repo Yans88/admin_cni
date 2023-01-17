@@ -46,8 +46,8 @@ export default class CetakResi extends Component {
                 <table className="tbl_cetak_resi">
                     <tbody><tr>
                         <td colSpan={3} align="center" style={{ width: "50%" }}>
-                            {type_logistic === 1 && (<img width={130} height={100} src={LogoJNE} />)}
-                            {type_logistic === 2 && (<img width={140} height={95} src={LogoLP} />)}
+                            {type_logistic === 1 && (<img width={130} height={100} src={LogoJNE} alt="JNE" />)}
+                            {type_logistic === 2 && (<img width={140} height={95} src={LogoLP} alt="Lion Parcels" />)}
                         </td>
                         <td colSpan={4} align="center" style={{ width: "50%", fontSize: 24, paddingTop: 20 }}>No Order: <b>MCNI/{id_transaksi}</b><br />
                             {type_logistic === 1 && <Barcode value={"MCNI/" + id_transaksi} {...config} />}

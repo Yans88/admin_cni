@@ -24,7 +24,6 @@ const AppButton = ({
 }) => {
     let spinnerTemplate;
     let iconTemplate;
-    let myClass;
 
     if (isLoading) {
         spinnerTemplate = (

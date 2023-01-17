@@ -11,4 +11,4 @@ build
 /admin_cni.zip
 /node_modules.zip
 
-/package-lock.json
+package-lock.json

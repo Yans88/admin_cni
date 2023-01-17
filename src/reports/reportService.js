@@ -5,7 +5,9 @@ import {
     FETCH_DATA_SUCCESS_DETAIL,
     FETCH_DATA_SUCCESS_EXPORT_DETAIL,
     FETCH_DATA_SUCCESS_EXPORT_HEADER,
-    FETCH_DATA_SUCCESS_HEADER
+    FETCH_DATA_SUCCESS_HEADER,
+    FETCH_DATA_SUCCESS_EXPORT_LOGISTIK,
+    FETCH_DATA_SUCCESS_LOGISTIK
 } from '../store/types';
 
 const API_URL = process.env.REACT_APP_URL_API;
@@ -52,7 +54,19 @@ export const fetchDataError = (data) => {
     }
 }
 
+export const fetchDataSuccessLogistik = (data) => {
+    return {
+        type: FETCH_DATA_SUCCESS_LOGISTIK,
+        payload: data
+    }
+}
 
+export const fetchDataSuccessExportLogistik = (data) => {
+    return {
+        type: FETCH_DATA_SUCCESS_EXPORT_LOGISTIK,
+        payload: data
+    }
+}
 export const fetchDataHeader = (param) => {
     let isLoading = true;
     return async (dispatch) => {
@@ -132,6 +146,52 @@ export const fetchExportDetail = (param) => {
                 data['data_report'] = response.data.data;
 
                 dispatch(fetchDataSuccessExportDetail(data));
+                isLoading = false;
+
+            }).catch(error => {
+                const errorpayload = {};
+                errorpayload['message'] = 'Something wrong';
+                errorpayload['status'] = error.response ? error.response.status : 404;
+                dispatch(fetchDataError(errorpayload));
+                isLoading = false;
+                dispatch(fetchDataLoading(isLoading));
+            })
+    }
+}
+
+export const fetchDataLogistik = (param) => {
+    let isLoading = true;
+    return async (dispatch) => {
+        dispatch(fetchDataLoading(isLoading));
+        return await axios.post(API_URL + "/report_logistik", param)
+            .then(response => {
+                const data = {};
+                data['data_logistik'] = response.data.data
+                data['total_data'] = response.data.total_data
+                dispatch(fetchDataSuccessLogistik(data));
+                isLoading = false;
+                dispatch(fetchDataLoading(isLoading));
+            }).catch(error => {
+                const errorpayload = {};
+                errorpayload['message'] = 'Something wrong';
+                errorpayload['status'] = error.response ? error.response.status : 404;
+                dispatch(fetchDataError(errorpayload));
+                isLoading = false;
+                dispatch(fetchDataLoading(isLoading));
+            })
+    }
+}
+
+export const fetchExportLogistik = (param) => {
+    let isLoading = true;
+    return async (dispatch) => {
+        dispatch(fetchDataLoading(isLoading));
+        return await axios.post(API_URL + "/export_logistik", param)
+            .then(response => {
+                const data = {};
+                data['data_report_logistik'] = response.data.data;
+
+                dispatch(fetchDataSuccessExportLogistik(data));
                 isLoading = false;
 
             }).catch(error => {

@@ -48,6 +48,7 @@ import BlastForm from '../../blast/BlastForm';
 import BlastDetail from '../../blast/BlastDetail';
 import ReportHeader from '../../reports/Header';
 import ReportDetail from '../../reports/Detail';
+import ReportLogistik from '../../reports/Logistik';
 import Mitra from '../../mitra/RegMitra';
 import ListSimpatik from '../../simpatik/ListSimpatik';
 import SimpatikDetail from '../../simpatik/SimpatikDetail';
@@ -173,6 +174,7 @@ const Main = ({ onUserLoad, user }) => {
                         <Route path='/blast_detail' component={BlastDetail} />
                         <Route path='/report_header' component={ReportHeader} />
                         <Route path='/report_detail' component={ReportDetail} />
+                        <Route path='/report_logistik' component={ReportLogistik} />
                         <Route path='/reg_mitra' component={Mitra} />
                         <Route path='/waiting_simpatik' component={ListSimpatik} />
                         <Route path='/simpatik_detail' component={SimpatikDetail} />

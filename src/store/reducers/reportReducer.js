@@ -1,17 +1,21 @@
 import {
-    FETCH_DATA_SUCCESS_EXPORT_DETAIL,
-    FETCH_DATA_LOADING,
-    FETCH_DATA_SUCCESS_HEADER,
     FETCH_DATA_ERROR,
+    FETCH_DATA_LOADING,
     FETCH_DATA_SUCCESS_DETAIL,
-    FETCH_DATA_SUCCESS_EXPORT_HEADER
+    FETCH_DATA_SUCCESS_EXPORT_DETAIL,
+    FETCH_DATA_SUCCESS_EXPORT_HEADER,
+    FETCH_DATA_SUCCESS_EXPORT_LOGISTIK,
+    FETCH_DATA_SUCCESS_HEADER,
+    FETCH_DATA_SUCCESS_LOGISTIK
 } from '../types';
 
 const defaultState = {
     data: [],
     data_report: [],
     data_detail: [],
-    data_report_detail:[],
+    data_report_detail: [],
+    data_logistik: [],
+    data_report_logistik: [],
     totalData: 0,
     error: null,
     isLoading: false,
@@ -27,17 +31,21 @@ const defaultState = {
 const reportReducer = (state = defaultState, action) => {
     switch (action.type) {
         case FETCH_DATA_SUCCESS_HEADER:
-            return { ...state, data: action.payload.data, totalData: action.payload.total_data }
+            return {...state, data: action.payload.data, totalData: action.payload.total_data}
         case FETCH_DATA_SUCCESS_EXPORT_HEADER:
-            return { ...state, data_report: action.payload.data_report }
+            return {...state, data_report: action.payload.data_report}
         case FETCH_DATA_SUCCESS_EXPORT_DETAIL:
-            return { ...state, data_report_detail: action.payload.data_report }
+            return {...state, data_report_detail: action.payload.data_report}
         case FETCH_DATA_SUCCESS_DETAIL:
-            return { ...state, data_detail: action.payload.data, totalData: action.payload.total_data }
+            return {...state, data_detail: action.payload.data, totalData: action.payload.total_data}
+        case FETCH_DATA_SUCCESS_LOGISTIK:
+            return {...state, data_logistik: action.payload.data_logistik, totalData: action.payload.total_data}
+        case FETCH_DATA_SUCCESS_EXPORT_LOGISTIK:
+            return {...state, data_report_logistik: action.payload.data_report_logistik}
         case FETCH_DATA_LOADING:
-            return { ...state, isLoading: action.payload }
+            return {...state, isLoading: action.payload}
         case FETCH_DATA_ERROR:
-            return { ...state, error: action.payload }
+            return {...state, error: action.payload}
         default:
             return state
     }

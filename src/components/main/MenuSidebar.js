@@ -30,7 +30,7 @@ const MenuSidebar = ({ menuCollapse, user }) => {
     const dataTrans = ["waiting_payment", "payment", "completed", "trans_detail", "onprocess", "dikirim", "expired", "hold","cancel_customer"];
     const dataSimp = ["waiting_simpatik", "diterima", "approved_simpatik", "rejected_simpatik", "completed_simpatik","simpatik_detail"];
     const dataUlasan = ["waiting_approve", "approved", "rejected", "detail_ulasan"];
-    const dataReport = ["report_header", "report_detail"];
+    const dataReport = ["report_header", "report_detail","report_logistik"];
     const location = useLocation();
     const lastPathName = location.pathname.replace("/", "");
     const [isActiveMenu, setIssActiveMenu] = useState({});
@@ -216,7 +216,10 @@ const MenuSidebar = ({ menuCollapse, user }) => {
                                     <NavLink to='/report_detail' />
                                     Detail
                                 </MenuItem>
-
+                                <MenuItem active={isActiveMenu.report_logistik} style={{ "paddingLeft": "27px" }} icon={<BsGraphDown />}>
+                                    <NavLink to='/report_logistik' />
+                                    Logistik
+                                </MenuItem>
 
                             </SubMenu>
 

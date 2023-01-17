@@ -264,6 +264,7 @@ class SimpatikDetail extends Component {
         const contentConfirm = <div
             dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin<br/><b>memproses</b> pengajuan ini ?</div>'}}/>;
         const {selected, errMsg} = this.state;
+        const {user} = this.props;
 
         const frmUser = <Form id="myForm">
             <div id="caption">
@@ -654,11 +655,11 @@ class SimpatikDetail extends Component {
                                                     <button type="button" onClick={() => this.props.history.goBack()}
                                                             className="btn btn-flat btn-danger btn-sm">Back
                                                     </button>
-                                                    {(this.state.dtRes.status === 1) &&
+                                                    {(this.state.dtRes.status === 1 && user.simpatik_diterima) &&
                                                         <button type="button" onClick={this.confirmProcess}
                                                                 style={{marginLeft: 3}}
                                                                 className="btn bnt-flat btn-warning btn-sm">Diterima</button>}
-                                                    {this.state.dtRes.status === 2 &&
+                                                    {(this.state.dtRes.status === 2 && user.simpatik_upd_status) &&
                                                         <Fragment>
                                                             <button type="button" onClick={this.confirmHold}
                                                                     style={{marginLeft: 3}}
@@ -670,7 +671,7 @@ class SimpatikDetail extends Component {
                                                             </button>
                                                         </Fragment>
                                                     }
-                                                    {(this.state.dtRes.status === 3) &&
+                                                    {(this.state.dtRes.status === 3 && user.simpatik_set_bukti_transfer) &&
                                                         <button type="button" onClick={this.confirmTransfer}
                                                                 style={{marginLeft: 3}}
                                                                 className="btn bnt-flat btn-warning btn-sm">Upload bukti

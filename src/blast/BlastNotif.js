@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import { fetchData } from './blastService';
-import { Button } from 'react-bootstrap';
+import React, {Component} from 'react'
+import {connect} from 'react-redux';
+import {fetchData} from './blastService';
+import {Button} from 'react-bootstrap';
 import ReactDatatable from '@ashvin27/react-datatable';
 import moment from 'moment';
 import "moment/locale/id";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 class BlastNotif extends Component {
     constructor(props) {
@@ -55,7 +55,7 @@ class BlastNotif extends Component {
     }
 
     handleChange(event) {
-        const { name, value } = event.target
+        const {name, value} = event.target
         var val = value;
         this.setState({
             loadingForm: false,
@@ -68,12 +68,22 @@ class BlastNotif extends Component {
                 [name]: ''
             }
         });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
     discardChanges = () => {
-        this.setState({ errMsg: {}, selected: this.initSelected, loadingForm: false });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        this.setState({errMsg: {}, selected: this.initSelected, loadingForm: false});
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
         this.props.showForm(true);
     }
 
@@ -83,7 +93,7 @@ class BlastNotif extends Component {
     }
 
     render() {
-        const { data } = this.props;
+        const {data, user} = this.props;
         const columns = [
             {
                 key: "no",
@@ -91,7 +101,8 @@ class BlastNotif extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
+                cell: (row, index) => <div
+                    style={{textAlign: "center"}}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
                 row: 0
             },
             {
@@ -154,10 +165,13 @@ class BlastNotif extends Component {
                             <div className="row mb-2">
                                 <div className="col-sm-6">
                                     <h1 className="m-0">Blast Notification</h1>
-                                </div>{/* /.col */}
+                                </div>
+                                {/* /.col */}
 
-                            </div>{/* /.row */}
-                        </div>{/* /.container-fluid */}
+                            </div>
+                            {/* /.row */}
+                        </div>
+                        {/* /.container-fluid */}
                     </div>
                     {/* /.content-header */}
                     {/* Main content */}
@@ -166,10 +180,14 @@ class BlastNotif extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     {/* card start */}
-                                    <div className="card card-success shadow-lg" style={{ "minHeight": "470px" }}>
+                                    <div className="card card-success shadow-lg" style={{"minHeight": "470px"}}>
                                         <div className="card-header">
-                                            <Link to="/add_blast"><Button variant="success"><i className="fa fa-plus"></i> Add</Button>
-                                            </Link>
+                                            {user.blast_notification_add ?
+                                                <Link to="/add_blast"><Button variant="success"><i
+                                                    className="fa fa-plus"></i> Add</Button>
+                                                </Link> : <Button variant="success" disabled><i
+                                                    className="fa fa-plus"></i> Add</Button>
+                                            }
                                         </div>
 
                                         <div className="card-body">
@@ -209,7 +227,7 @@ class BlastNotif extends Component {
 const mapStateToProps = (state) => {
     return {
         data: state.blast.data || [],
-		totalData:state.blast.totalData,
+        totalData: state.blast.totalData,
         isLoading: state.blast.isLoading,
         user: state.auth.currentUser
     }

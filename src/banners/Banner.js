@@ -1,11 +1,11 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
 import BannerService from './BannerService';
-import { Button, Form, Figure, Col } from 'react-bootstrap';
+import {Button, Col, Figure, Form} from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
-import { connect } from 'react-redux';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-import { SelectProducts } from '../components/modal/MySelect';
+import {connect} from 'react-redux';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
+import {SelectProducts} from '../components/modal/MySelect';
 
 // export const ToastDemo = ({ content }) => {
 //     const { addToast } = useToasts()
@@ -21,8 +21,8 @@ import { SelectProducts } from '../components/modal/MySelect';
 
 const Banner = (auth) => {
 
-    const initData = { id_banner: '', id_product: '', img: '', type: '', url: '', priority_number: '', imgUpload: '' };
-    const errorValidate = { img: '', priority_number: '', type: '' };
+    const initData = {id_banner: '', id_product: '', img: '', type: '', url: '', priority_number: '', imgUpload: ''};
+    const errorValidate = {img: '', priority_number: '', type: ''};
     const [selected, setSelected] = useState(initData);
     const [bannerList, setBannerList] = useState([]);
     const [totalData, setTotalData] = useState(0);
@@ -63,7 +63,8 @@ const Banner = (auth) => {
             width: 20,
             align: "center",
             sortable: false,
-            cell: (row, index) => <div style={{ textAlign: "center" }}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
+            cell: (row, index) => <div
+                style={{textAlign: "center"}}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
             row: 0
         },
         {
@@ -79,17 +80,19 @@ const Banner = (auth) => {
             sortable: false,
             cell: record => {
                 return (
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{textAlign: "center"}}>
                         <Figure>
                             <Figure.Image
                                 thumbnail
                                 width={150}
                                 height={120}
-                                alt={record.type === 1 ? record.product_name : <a href={record.url} target="_blank" rel="noopener noreferrer">{record.url}</a>}
+                                alt={record.type === 1 ? record.product_name :
+                                    <a href={record.url} target="_blank" rel="noopener noreferrer">{record.url}</a>}
                                 src={record.img}
                             />
                             <Figure.Caption>
-                                {record.type === 1 ? record.product_name : <a href={record.url} target="_blank" rel="noopener noreferrer">{record.url}</a>}
+                                {record.type === 1 ? record.product_name :
+                                    <a href={record.url} target="_blank" rel="noopener noreferrer">{record.url}</a>}
                             </Figure.Caption>
                         </Figure></div>
                 )
@@ -103,19 +106,19 @@ const Banner = (auth) => {
             sortable: false,
             cell: record => {
                 return (
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{textAlign: "center"}}>
                         <Fragment>
                             <button
                                 className="btn btn-xs btn-success"
                                 onClick={e => editRecord(record)}
-                                style={{ marginRight: '5px' }}>
+                                style={{marginRight: '5px'}}>
                                 <i className="fa fa-edit"></i> Edit
-                        </button>
+                            </button>
                             <button
                                 className="btn btn-danger btn-xs"
                                 onClick={() => deleteRecord(record)}>
                                 <i className="fa fa-trash"></i> Delete
-                        </button>
+                            </button>
                         </Fragment>
                     </div>
                 );
@@ -139,7 +142,7 @@ const Banner = (auth) => {
     }
 
     const editRecord = (record) => {
-        setSelected({ ...record, imgUpload: record.img })
+        setSelected({...record, imgUpload: record.img})
         setShow(true);
         setActionForm("EDIT_DATA")
         setErrMsg(errorValidate);
@@ -206,12 +209,14 @@ const Banner = (auth) => {
         if (actionForm === "ADD_DATA") {
             _data.append('img', userPost.img);
             _data.append('id_operator', auth.user.id_operator);
-            contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil ditambahkan</div>' }} />;
+            contentSwal = <div
+                dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil ditambahkan</div>'}}/>;
         }
         if (actionForm === "EDIT_DATA") {
             _data.append('img', userPost.img);
             _data.append('id_operator', auth.user.id_operator);
-            contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil diubah</div>' }} />;
+            contentSwal = <div
+                dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil diubah</div>'}}/>;
         }
         if (actionForm === "DELETE_DATA") {
             _data = {};
@@ -219,14 +224,15 @@ const Banner = (auth) => {
                 id_banner: selected.id_banner,
                 id_operator: auth.user.id_operator
             }
-            contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+            contentSwal = <div
+                dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>'}}/>;
         }
 
         await BannerService.postData(_data, actionForm).then((res) => {
             err_code = res.data.err_code;
             setLoading(false);
             if (err_code === '06') {
-                setErrMsg({ priority_number: "Number already exist" });
+                setErrMsg({priority_number: "Number already exist"});
             }
             if (err_code === '00') {
                 setShow(false);
@@ -253,27 +259,27 @@ const Banner = (auth) => {
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
     const handleChange = event => {
-        const { name, value } = event.target
+        const {name, value} = event.target
         var val = value;
         setErrMsg(errorValidate);
         if (event.target.name === "img") {
             val = event.target.files[0];
-            setSelected({ ...selected, imgUpload: "", img: "" })
+            setSelected({...selected, imgUpload: "", img: ""})
             if (!val) return;
             if (!val.name.match(/\.(jpg|jpeg|png)$/)) {
-                setErrMsg({ img: "Please select valid image(.jpg .jpeg .png)" });
+                setErrMsg({img: "Please select valid image(.jpg .jpeg .png)"});
                 setLoading(true);
                 return;
             }
             if (val.size > 2099200) {
-                setErrMsg({ img: "File size over 2MB" });
+                setErrMsg({img: "File size over 2MB"});
                 setLoading(true);
                 return;
             }
             let reader = new FileReader();
             reader.readAsDataURL(val);
             reader.onloadend = () => {
-                setSelected({ ...selected, imgUpload: reader.result, img: val })
+                setSelected({...selected, imgUpload: reader.result, img: val})
             };
         }
         setSelected({
@@ -283,23 +289,23 @@ const Banner = (auth) => {
     }
 
     const onchangeSelect = (item) => {
-        setSelected({ ...selected, id_product: item.value, product_name: item.label })
+        setSelected({...selected, id_product: item.value, product_name: item.label})
     };
 
     const handleChangeNumberOnly = evt => {
         const number = (evt.target.validity.valid) ? evt.target.value : selected.priority_number;
-        setSelected({ ...selected, priority_number: number })
+        setSelected({...selected, priority_number: number})
     }
 
     const handleSubmit = () => {
         var fileSize = selected.img.size;
         var error = null;
         if (selected.type === null || selected.type === "") {
-            error = { ...error, type: "Please select type" };
+            error = {...error, type: "Please select type"};
         }
         if (selected.img) {
             if (fileSize > 2099200) { // satuan bytes 2099200 => 2MB
-                error = { ...error, img: "File size over 2MB" };
+                error = {...error, img: "File size over 2MB"};
             }
         }
         setErrMsg(error);
@@ -317,11 +323,11 @@ const Banner = (auth) => {
     const frmUser = <Form id="myForm">
         <Form.Row>
             <Form.Group controlId="id_banner">
-                <Form.Control type="hidden" defaultValue={selected.id_banner} />
+                <Form.Control type="hidden" defaultValue={selected.id_banner}/>
             </Form.Group>
             <Form.Group as={Col} controlId="type">
                 <Form.Label>Type</Form.Label>{errMsg.type ?
-                    (<span className="float-right text-error badge badge-danger">{errMsg.type}</span>) : ''}
+                (<span className="float-right text-error badge badge-danger">{errMsg.type}</span>) : ''}
                 <Form.Control
                     name="type"
                     size="sm"
@@ -335,7 +341,7 @@ const Banner = (auth) => {
             </Form.Group>
             <Form.Group as={Col} controlId="priority_number">
                 <Form.Label>Priority Number</Form.Label>{errMsg.priority_number ?
-                    (<span className="float-right text-error badge badge-danger">{errMsg.priority_number}</span>) : ''}
+                (<span className="float-right text-error badge badge-danger">{errMsg.priority_number}</span>) : ''}
                 <Form.Control
                     size="sm"
                     autoComplete="off"
@@ -344,7 +350,7 @@ const Banner = (auth) => {
                     onInput={handleChangeNumberOnly}
                     value={selected.priority_number}
                     onChange={handleChangeNumberOnly}
-                    placeholder="Priority Number" />
+                    placeholder="Priority Number"/>
             </Form.Group>
         </Form.Row>
         {selected.type === 2 || selected.type === "2" ? (<Form.Group controlId="url">
@@ -356,20 +362,20 @@ const Banner = (auth) => {
                 name="url"
                 value={selected.url}
                 onChange={handleChange}
-                placeholder="URL" />
+                placeholder="URL"/>
         </Form.Group>) : ''}
 
         {selected.type === 1 || selected.type === "1" ? (<Form.Group controlId="id_product">
             <Form.Label>Product</Form.Label>
             <SelectProducts
-                myVal={selected.id_product ? ({ value: selected.id_product, label: selected.product_name }) : ''}
-                onChange={onchangeSelect} />
+                myVal={selected.id_product ? ({value: selected.id_product, label: selected.product_name}) : ''}
+                onChange={onchangeSelect}/>
         </Form.Group>) : ''}
 
         <Form.Group controlId="image">
             <Form.Label>Image(1325x400)</Form.Label>{errMsg.img ?
-                (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : null}
-            <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={handleChange} />
+            (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : null}
+            <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={handleChange}/>
         </Form.Group>
         {selected.imgUpload ? (<Form.Group controlId="imagePreview">
             <Figure>
@@ -384,7 +390,8 @@ const Banner = (auth) => {
         </Form.Group>) : ''}
     </Form>;
 
-    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+    const contentDelete = <div
+        dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
 
     return (
         <div>
@@ -395,10 +402,13 @@ const Banner = (auth) => {
                         <div className="row mb-2">
                             <div className="col-sm-6">
                                 <h1 className="m-0">Banner</h1>
-                            </div>{/* /.col */}
+                            </div>
+                            {/* /.col */}
 
-                        </div>{/* /.row */}
-                    </div>{/* /.container-fluid */}
+                        </div>
+                        {/* /.row */}
+                    </div>
+                    {/* /.container-fluid */}
                 </div>
                 {/* /.content-header */}
                 {/* Main content */}
@@ -409,7 +419,8 @@ const Banner = (auth) => {
                                 {/* card start */}
                                 <div className="card card-success shadow-lg">
                                     <div className="card-header">
-                                        <Button variant="success" onClick={discardChanges}><i className="fa fa-plus"></i> Add</Button>
+                                        <Button variant="success" onClick={discardChanges}><i
+                                            className="fa fa-plus"></i> Add</Button>
                                         {/* <ToastProvider
                                             placement="bottom-right" autoDismiss
                                             autoDismissTimeout={2000}

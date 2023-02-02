@@ -10,7 +10,7 @@ const Helpers = {
             tgl = tgl.setDate(tgl.getDate() + 1);
             tgl = tgl.setHours(tgl.getHours() + jam_exp);
         }
-        let tgl_expired = tgl.toLocaleString("ID", { hour12: false });        
+        let tgl_expired = tgl.toLocaleString("ID", {hour12: false});
         let token = id_admin + 'Þ' + tgl_expired;
         if (token) {
             const encrypted = CryptoJS.AES.encrypt(token, secretKey).toString();
@@ -24,7 +24,7 @@ const Helpers = {
             const dt = CryptoJS.AES.decrypt(token, secretKey);
             const dt_res = dt.toString(CryptoJS.enc.Utf8);
             let _dt = dt_res.split('Þ');
-            let tgl_now = new Date().toLocaleString("ID", { timeZone: "Asia/Jakarta", hour12: false });
+            let tgl_now = new Date().toLocaleString("ID", {timeZone: "Asia/Jakarta", hour12: false});
             let tgl_expired = _dt[1];
             localStorage.setItem("idCNI", CryptoJS.AES.encrypt(_dt[0], secretKey).toString());
             sessionStorage.setItem("nama", 'ert');

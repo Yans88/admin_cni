@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react'
-import { Breadcrumb, Button, Form } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import React, {Component, Fragment} from 'react'
+import {Breadcrumb, Button, Form} from 'react-bootstrap';
+import {connect} from 'react-redux';
 import AreaService from './AreaService';
 import ReactDatatable from '@ashvin27/react-datatable';
 import AppModal from '../components/modal/MyModal';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 
 class Kecamatan extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class Kecamatan extends Component {
             kode_jne: "",
             kode_lp: "",
             id_operator: "",
-            id_kec_cni:"",
+            id_kec_cni: "",
             id_city: sessionStorage.getItem('idCityCNI'),
         }
         this.state = {
@@ -47,12 +47,14 @@ class Kecamatan extends Component {
         this.handleSave = this.handleSave.bind(this);
 
     }
+
     componentDidMount() {
         this.getData();
-        this.setState({ id_operator: this.props.user.id_operator });
+        this.setState({id_operator: this.props.user.id_operator});
     }
+
     getData = () => {
-        this.setState({ loadTbl: true });
+        this.setState({loadTbl: true});
         AreaService.postData(this.state.queryString, "GET_KEC")
             .then(response => {
                 setTimeout(() => {
@@ -74,7 +76,7 @@ class Kecamatan extends Component {
                             city_name: response.data.city,
                         });
                     }
-                    this.setState({ loadTbl: false });
+                    this.setState({loadTbl: false});
                 }, 400);
             })
             .catch(e => {
@@ -83,7 +85,7 @@ class Kecamatan extends Component {
     };
 
     handleClose = () => {
-        this.setState({ show: false, deleteForm: false });
+        this.setState({show: false, deleteForm: false});
     };
 
     closeSwal = () => {
@@ -113,12 +115,12 @@ class Kecamatan extends Component {
             isLoading: false,
             errMsg: {},
             actionForm: "ADD_KEC",
-            selected: { ...record }
+            selected: {...record}
         });
     }
 
     handleChange(evt) {
-        const { name, value } = evt.target;
+        const {name, value} = evt.target;
         this.setState({
             selected: {
                 ...this.state.selected,
@@ -138,8 +140,13 @@ class Kecamatan extends Component {
         errors.kec_name = !this.state.selected.kec_name ? "Kecamatan required" : '';
         errors.kode_jne = !this.state.selected.kode_jne ? "Kode JNE required" : '';
         errors.kode_lp = !this.state.selected.kode_lp ? "Kode Lion Parcel required" : '';
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
-        this.setState({ errors, isLoading: false })
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
+        this.setState({errors, isLoading: false})
         this.handleSave();
     }
 
@@ -157,10 +164,12 @@ class Kecamatan extends Component {
             let err_code = '';
 
             if (this.state.actionForm === "ADD_KEC") {
-                contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil disimpan</div>' }} />;
+                contentSwal = <div
+                    dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil disimpan</div>'}}/>;
             }
             if (this.state.actionForm === "DEL_KEC") {
-                contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+                contentSwal = <div
+                    dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>'}}/>;
             }
             await AreaService.postData(this.state.selected, this.state.actionForm).then((res) => {
                 err_code = res.data.err_code;
@@ -215,9 +224,9 @@ class Kecamatan extends Component {
         this.setState({
             ...this.state,
             deleteForm: true,
-            errMsg: { id_kec: '' },
+            errMsg: {id_kec: ''},
             actionForm: "DEL_KEC",
-            selected: { ...record, id_operator: this.props.user.id_operator }
+            selected: {...record, id_operator: this.props.user.id_operator}
         });
     }
 
@@ -231,7 +240,7 @@ class Kecamatan extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>
+                cell: (row, index) => <div style={{textAlign: "center"}}>
                     {((this.state.queryString.page_number - 1) * this.state.queryString.per_page) + index + 1 + '.'}
                 </div>,
                 row: 0
@@ -269,12 +278,12 @@ class Kecamatan extends Component {
                 align: "center",
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Fragment>
                                 <button
                                     className="btn btn-xs btn-success"
                                     onClick={() => this.editRecord(record)}
-                                    style={{ marginRight: '5px' }}>
+                                    style={{marginRight: '5px'}}>
                                     <i className="fa fa-edit"></i> Edit
                                 </button>
                                 <button
@@ -309,7 +318,8 @@ class Kecamatan extends Component {
             <Form.Group controlId="kec_name">
                 <Form.Label>Kecamatan</Form.Label>
                 {this.state.errMsg.kec_name ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.kec_name}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.kec_name}</span>) : null}
                 <Form.Control
                     value={this.state.selected.kec_name}
                     name="kec_name"
@@ -317,24 +327,26 @@ class Kecamatan extends Component {
                     type="text"
                     placeholder="Kecamatan"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
             <Form.Group controlId="kode_jne">
                 <Form.Label>Kode JNE</Form.Label>
                 {this.state.errMsg.kode_jne ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.kode_jne}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.kode_jne}</span>) : null}
                 <Form.Control
                     value={this.state.selected.kode_jne}
                     name="kode_jne"
                     size="sm" type="text"
                     placeholder="Kode JNE"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
             <Form.Group controlId="kode_lp">
                 <Form.Label>Kode Lion Parcel</Form.Label>
                 {this.state.errMsg.kode_lp ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.kode_lp}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.kode_lp}</span>) : null}
                 <Form.Control
                     name="kode_lp"
                     value={this.state.selected.kode_lp}
@@ -342,7 +354,7 @@ class Kecamatan extends Component {
                     type="text"
                     placeholder="Kode Lion Parcel"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
             <Form.Group controlId="id_kec_cni">
                 <Form.Label>ID Kecamatan CNI</Form.Label>
@@ -355,13 +367,14 @@ class Kecamatan extends Component {
                     type="text"
                     placeholder="ID Kecamatan CNI"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
                 <Form.Text className="text-muted">
                     <em>Untuk keperluan mapping Distribution Center </em>
                 </Form.Text>
             </Form.Group>
         </Form>;
-        const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+        const contentDelete = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
 
         return (
 
@@ -376,9 +389,11 @@ class Kecamatan extends Component {
                                 </div>
                                 <div className="col-sm-6">
                                     <Breadcrumb className="float-right">
-                                        <Breadcrumb.Item href={getBasename(window.location.pathname) + "/provinsi"}>Provinsi</Breadcrumb.Item>
+                                        <Breadcrumb.Item
+                                            href={getBasename(window.location.pathname) + "/provinsi"}>Provinsi</Breadcrumb.Item>
 
-                                        <Breadcrumb.Item href={getBasename(window.location.pathname) + "/city"}>{this.state.provinsi_name}</Breadcrumb.Item>
+                                        <Breadcrumb.Item
+                                            href={getBasename(window.location.pathname) + "/city"}>{this.state.provinsi_name}</Breadcrumb.Item>
                                         <Breadcrumb.Item active>{this.state.city_name}</Breadcrumb.Item>
                                     </Breadcrumb>
                                 </div>
@@ -392,7 +407,8 @@ class Kecamatan extends Component {
                                 <div className="col-12">
                                     <div className="card shadow-lg">
                                         <div className="card-header">
-                                            <Button onClick={this.discardChanges} variant="success"><i className="fa fa-plus"></i> Add</Button>
+                                            <Button onClick={this.discardChanges} variant="success"><i
+                                                className="fa fa-plus"></i> Add</Button>
 
                                         </div>
 
@@ -431,7 +447,7 @@ class Kecamatan extends Component {
                         show={this.state.showSwalSucces}
                         title={this.state.successMsg}
                         type="success"
-                        handleClose={this.closeSwal} />) : ''}
+                        handleClose={this.closeSwal}/>) : ''}
                     <AppModal
                         show={this.state.deleteForm}
                         size="sm"
@@ -455,6 +471,7 @@ class Kecamatan extends Component {
         )
     }
 }
-const mapStateToProps = (state) => ({ user: state.auth.currentUser });
+
+const mapStateToProps = (state) => ({user: state.auth.currentUser});
 
 export default connect(mapStateToProps, '')(Kecamatan)

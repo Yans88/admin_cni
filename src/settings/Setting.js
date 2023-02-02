@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import { Alert, Col, Form } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import React, {Component} from 'react'
+import {Alert, Col, Form} from 'react-bootstrap';
+import {connect} from 'react-redux';
 import AppButton from '../components/button/Button';
 import Loading from '../components/loading/MyLoading';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-import { fetchData, addData, chgProps, addDataSuccess } from './settingService';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
+import {addData, addDataSuccess, chgProps, fetchData} from './settingService';
 
 class Setting extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            errMsg: { email: '' },
+            errMsg: {email: ''},
         };
     }
 
@@ -21,7 +21,7 @@ class Setting extends Component {
     }
 
     handleChange(evt) {
-        this.setState({ errMsg: { email: '' } });
+        this.setState({errMsg: {email: ''}});
         const name = evt.target.name;
         var value = evt.target.value;
         const dt = {};
@@ -47,7 +47,7 @@ class Setting extends Component {
             }
         }
 
-        this.setState({ errors });
+        this.setState({errors});
         if (this.validateForm(this.state.errMsg)) {
             this.props.onAdd(this.props.data);
         } else {
@@ -70,8 +70,8 @@ class Setting extends Component {
     }
 
     render() {
-        const { data } = this.props;
-        const { errMsg } = this.state;
+        const {data} = this.props;
+        const {errMsg} = this.state;
         return (
 
             <div>
@@ -91,7 +91,7 @@ class Setting extends Component {
                         <div className="container-fluid">
                             <div className="row">
                                 <div className="col-12">
-                                    {this.props.isLoading ? (<Loading />) :
+                                    {this.props.isLoading ? (<Loading/>) :
                                         (
                                             <div className="card shadow-lg">
                                                 <Form>
@@ -99,7 +99,8 @@ class Setting extends Component {
                                                         <Form.Row>
                                                             <Form.Group as={Col} xs={3} controlId="send_mail">
                                                                 {errMsg.email ?
-                                                                    (<span className="float-right text-error badge badge-danger">{errMsg.email}
+                                                                    (<span
+                                                                        className="float-right text-error badge badge-danger">{errMsg.email}
                                                                     </span>) : ''}
                                                                 <Form.Label>Email</Form.Label>
                                                                 <Form.Control
@@ -109,7 +110,7 @@ class Setting extends Component {
                                                                     size="sm"
                                                                     name="send_mail"
                                                                     type="text"
-                                                                    placeholder="Email" />
+                                                                    placeholder="Email"/>
 
                                                             </Form.Group>
 
@@ -122,9 +123,9 @@ class Setting extends Component {
                                                                     size="sm"
                                                                     name="mail_pass"
                                                                     type="text"
-                                                                    placeholder="Password" />
+                                                                    placeholder="Password"/>
                                                             </Form.Group>
-															<Form.Group as={Col} xs={3} controlId="version_android">
+                                                            <Form.Group as={Col} xs={3} controlId="version_android">
                                                                 <Form.Label>Version Android</Form.Label>
                                                                 <Form.Control
                                                                     value={data.version_android}
@@ -133,9 +134,9 @@ class Setting extends Component {
                                                                     size="sm"
                                                                     name="version_android"
                                                                     type="text"
-                                                                    placeholder="Version Android" />
+                                                                    placeholder="Version Android"/>
                                                             </Form.Group>
-															<Form.Group as={Col} xs={3} controlId="version_ios">
+                                                            <Form.Group as={Col} xs={3} controlId="version_ios">
                                                                 <Form.Label>Version IOS</Form.Label>
                                                                 <Form.Control
                                                                     value={data.version_ios}
@@ -144,14 +145,15 @@ class Setting extends Component {
                                                                     size="sm"
                                                                     name="version_ios"
                                                                     type="text"
-                                                                    placeholder="Version IOS" />
+                                                                    placeholder="Version IOS"/>
                                                             </Form.Group>
                                                         </Form.Row>
 
                                                         <Form.Row>
                                                             <Form.Group as={Col} xs={3} controlId="contact_email">
                                                                 {errMsg.email ?
-                                                                    (<span className="float-right text-error badge badge-danger">{errMsg.email}
+                                                                    (<span
+                                                                        className="float-right text-error badge badge-danger">{errMsg.email}
                                                                     </span>) : ''}
                                                                 <Form.Label>Contact Email</Form.Label>
                                                                 <Form.Control
@@ -161,7 +163,7 @@ class Setting extends Component {
                                                                     size="sm"
                                                                     name="contact_email"
                                                                     type="text"
-                                                                    placeholder="Contact Email" />
+                                                                    placeholder="Contact Email"/>
 
                                                             </Form.Group>
 
@@ -174,7 +176,7 @@ class Setting extends Component {
                                                                     size="sm"
                                                                     name="contact_wa"
                                                                     type="text"
-                                                                    placeholder="WhatsApp" />
+                                                                    placeholder="WhatsApp"/>
                                                             </Form.Group>
                                                             <Form.Group as={Col} xs={3} controlId="contact_sms">
                                                                 <Form.Label>SMS</Form.Label>
@@ -185,7 +187,7 @@ class Setting extends Component {
                                                                     size="sm"
                                                                     name="contact_sms"
                                                                     type="text"
-                                                                    placeholder="SMS" />
+                                                                    placeholder="SMS"/>
                                                             </Form.Group>
                                                             <Form.Group as={Col} xs={3} controlId="call_center">
                                                                 <Form.Label>Call Center</Form.Label>
@@ -196,7 +198,7 @@ class Setting extends Component {
                                                                     size="sm"
                                                                     name="call_center"
                                                                     type="text"
-                                                                    placeholder="Call Center" />
+                                                                    placeholder="Call Center"/>
                                                             </Form.Group>
                                                         </Form.Row>
                                                         <Form.Row>
@@ -209,7 +211,7 @@ class Setting extends Component {
                                                                     size="sm"
                                                                     name="hold_mail_admin"
                                                                     type="text"
-                                                                    placeholder="Transaksi Hold - Email Admin" />
+                                                                    placeholder="Transaksi Hold - Email Admin"/>
                                                             </Form.Group>
                                                         </Form.Row>
                                                         <Form.Row>
@@ -230,7 +232,7 @@ class Setting extends Component {
                                                                 />
                                                             </Form.Group>
                                                         </Form.Row>
-                                                        <br />
+                                                        <br/>
 
                                                         <Form.Row>
                                                             <Form.Group as={Col} xs={12} controlId="content_forgotPass">
@@ -250,7 +252,7 @@ class Setting extends Component {
                                                                 />
                                                             </Form.Group>
                                                         </Form.Row>
-                                                        <br />
+                                                        <br/>
 
                                                         <Form.Row>
                                                             <Form.Group as={Col} xs={12} controlId="content_reg">
@@ -270,7 +272,7 @@ class Setting extends Component {
                                                                 />
                                                             </Form.Group>
                                                         </Form.Row>
-                                                        <br />
+                                                        <br/>
 
                                                         <Form.Row>
                                                             <Form.Group as={Col} xs={12} controlId="content_reg">
@@ -290,7 +292,7 @@ class Setting extends Component {
                                                                 />
                                                             </Form.Group>
                                                         </Form.Row>
-                                                        <br />
+                                                        <br/>
 
                                                         <Form.Row>
                                                             <Form.Group as={Col} xs={12} controlId="policy">
@@ -311,7 +313,7 @@ class Setting extends Component {
                                                             </Form.Group>
                                                         </Form.Row>
 
-                                                        <br />
+                                                        <br/>
                                                         <Form.Row>
                                                             <Form.Group as={Col} xs={12} controlId="terms_condition">
                                                                 <Form.Label>Terms Condition</Form.Label>
@@ -331,10 +333,12 @@ class Setting extends Component {
                                                             </Form.Group>
                                                         </Form.Row>
 
-                                                        <br />
+                                                        <br/>
                                                         <Form.Row>
-                                                            <Form.Group as={Col} xs={12} controlId="content_email_dikirimkan_cust">
-                                                                <Form.Label>Content Email Transaksi Dikirimkan</Form.Label>
+                                                            <Form.Group as={Col} xs={12}
+                                                                        controlId="content_email_dikirimkan_cust">
+                                                                <Form.Label>Content Email Transaksi
+                                                                    Dikirimkan</Form.Label>
                                                                 <SunEditor
                                                                     defaultValue={data.content_email_dikirimkan_cust}
                                                                     setContents={data.content_email_dikirimkan_cust}
@@ -351,9 +355,10 @@ class Setting extends Component {
                                                             </Form.Group>
                                                         </Form.Row>
 
-                                                        <br />
+                                                        <br/>
                                                         <Form.Row>
-                                                            <Form.Group as={Col} xs={12} controlId="content_email_hold_admin">
+                                                            <Form.Group as={Col} xs={12}
+                                                                        controlId="content_email_hold_admin">
                                                                 <Form.Label>Content Email Transaksi Hold</Form.Label>
                                                                 <SunEditor
                                                                     defaultValue={data.content_email_hold_admin}
@@ -370,11 +375,13 @@ class Setting extends Component {
                                                                 />
                                                             </Form.Group>
                                                         </Form.Row>
-														
-														<br />
+
+                                                        <br/>
                                                         <Form.Row>
-                                                            <Form.Group as={Col} xs={12} controlId="content_email_transaksi">
-                                                                <Form.Label>Content Email Transaksi Menunggu Pembayaran</Form.Label>
+                                                            <Form.Group as={Col} xs={12}
+                                                                        controlId="content_email_transaksi">
+                                                                <Form.Label>Content Email Transaksi Menunggu
+                                                                    Pembayaran</Form.Label>
                                                                 <SunEditor
                                                                     defaultValue={data.content_email_transaksi}
                                                                     setContents={data.content_email_transaksi}
@@ -390,10 +397,11 @@ class Setting extends Component {
                                                                 />
                                                             </Form.Group>
                                                         </Form.Row>
-														
-														<br />
+
+                                                        <br/>
                                                         <Form.Row>
-                                                            <Form.Group as={Col} xs={12} controlId="content_email_payment_complete">
+                                                            <Form.Group as={Col} xs={12}
+                                                                        controlId="content_email_payment_complete">
                                                                 <Form.Label>Content Email Payment Complete</Form.Label>
                                                                 <SunEditor
                                                                     defaultValue={data.content_email_payment_complete}
@@ -416,7 +424,8 @@ class Setting extends Component {
                                                 </Form>
                                                 <div className="card-footer">
                                                     {errMsg.email ?
-                                                        (<Alert variant="danger" show={true}>Error : {errMsg.email}</Alert>) : ''}
+                                                        (<Alert variant="danger" show={true}>Error
+                                                            : {errMsg.email}</Alert>) : ''}
                                                     <AppButton
                                                         onClick={this.handleSubmit.bind(this)}
                                                         isLoading={this.props.isAddLoading}

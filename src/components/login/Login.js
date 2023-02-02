@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useFormik } from 'formik';
+import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import * as AuthService from '../../services/auth';
 import Button from '../../components/button/Button';
 
-const Login = ({ onUserLogin }) => {
+const Login = ({onUserLogin}) => {
     const [isAuthLoading, setAuthLoading] = useState(false);
     const [errMsg, setErrMsg] = useState('');
     const history = useHistory();
@@ -55,7 +55,9 @@ const Login = ({ onUserLogin }) => {
             login(values.username, values.pass);
         }
     });
-    const hideAlert = () => { setErrMsg(null) }
+    const hideAlert = () => {
+        setErrMsg(null)
+    }
     document.getElementById('root').classList = 'hold-transition login-page';
 
     return (
@@ -68,7 +70,9 @@ const Login = ({ onUserLogin }) => {
 
                     {errMsg ? (
                         <div className="alert alert-danger alert-sm">
-                            <button onClick={hideAlert} type="button" className="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <button onClick={hideAlert} type="button" className="close" data-dismiss="alert"
+                                    aria-hidden="true">×
+                            </button>
                             <span className="fw-semi-bold text-error-login">Error: {errMsg}</span>
                         </div>
                     ) : (<p className='login-box-msg'>Sign in to start your session</p>)}
@@ -86,14 +90,14 @@ const Login = ({ onUserLogin }) => {
                                 {...formik.getFieldProps('username')} />
                             <div className="input-group-append">
                                 <div className="input-group-text">
-                                    <span className="fas fa-user" />
+                                    <span className="fas fa-user"/>
                                 </div>
                             </div>
 
                         </div>
 
                         {formik.touched.pass &&
-                            formik.errors.pass ? (
+                        formik.errors.pass ? (
                             <span className="float-right text-error badge badge-danger">{formik.errors.pass}</span>
                         ) : null}
                         <div className="input-group mb-3">
@@ -105,7 +109,7 @@ const Login = ({ onUserLogin }) => {
                                 {...formik.getFieldProps('pass')} />
                             <div className="input-group-append">
                                 <div className="input-group-text">
-                                    <span className="fas fa-lock" />
+                                    <span className="fas fa-lock"/>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +123,7 @@ const Login = ({ onUserLogin }) => {
                                 theme="primary"
                             >
                                 Sign in
-                        </Button>
+                            </Button>
                         </div>
                     </form>
                 </div>
@@ -130,7 +134,7 @@ const Login = ({ onUserLogin }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    onUserLogin: (token) => dispatch({ type: "LOGIN_USER", token })
+    onUserLogin: (token) => dispatch({type: "LOGIN_USER", token})
 });
 
 export default connect(null, mapDispatchToProps)(Login);

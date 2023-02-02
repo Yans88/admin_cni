@@ -4,7 +4,7 @@ let API_URL = process.env.REACT_APP_URL_API;
 
 class AreaService {
     postData(param, action) {
-       
+
         switch (action) {
             case "GET_PROV":
                 return axios.post(API_URL + "/provinsi", param)
@@ -37,11 +37,12 @@ class AreaService {
                 console.log(action);
                 return axios.post(API_URL + "/assign_area", param)
             case "REMOVE_AREA":
-                
+
                 return axios.post(API_URL + "/remove_area", param)
             default:
                 return axios.post(API_URL + "/provinsi", param)
         }
     }
 }
+
 export default new AreaService()

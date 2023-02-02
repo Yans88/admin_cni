@@ -272,37 +272,37 @@ const MenuSidebar = ({menuCollapse, user}) => {
                             </MenuItem>)}
 
                             {user.simpatik_view ? (
-                            <SubMenu title="Simpatik" onClick={handleClickSubmenu("dataSimp")} open={isOpenDataSimp}
-                                     icon={<BsClipboardData/>}>
-                                <MenuItem active={isActiveMenu.waiting_simpatik} style={{"paddingLeft": "27px"}}
-                                          icon={<BsCardText/>}>
-                                    <NavLink to='/waiting_simpatik'/> Waiting ...
-                                </MenuItem>
-                                <MenuItem active={isActiveMenu.diterima} style={{"paddingLeft": "27px"}}
-                                          icon={<BsCardList/>}>
-                                    <NavLink to='/diterima'/>
-                                    Diterima
-                                </MenuItem>
-                                <MenuItem active={isActiveMenu.approved_simpatik} style={{"paddingLeft": "27px"}}
-                                          icon={<FiRefreshCw/>}>
-                                    <NavLink to='/approved_simpatik'/>
-                                    Approved
-                                </MenuItem>
+                                <SubMenu title="Simpatik" onClick={handleClickSubmenu("dataSimp")} open={isOpenDataSimp}
+                                         icon={<BsClipboardData/>}>
+                                    <MenuItem active={isActiveMenu.waiting_simpatik} style={{"paddingLeft": "27px"}}
+                                              icon={<BsCardText/>}>
+                                        <NavLink to='/waiting_simpatik'/> Waiting ...
+                                    </MenuItem>
+                                    <MenuItem active={isActiveMenu.diterima} style={{"paddingLeft": "27px"}}
+                                              icon={<BsCardList/>}>
+                                        <NavLink to='/diterima'/>
+                                        Diterima
+                                    </MenuItem>
+                                    <MenuItem active={isActiveMenu.approved_simpatik} style={{"paddingLeft": "27px"}}
+                                              icon={<FiRefreshCw/>}>
+                                        <NavLink to='/approved_simpatik'/>
+                                        Approved
+                                    </MenuItem>
 
-                                <MenuItem active={isActiveMenu.rejected_simpatik} style={{"paddingLeft": "27px"}}
-                                          icon={<BsFillExclamationCircleFill/>}>
-                                    <NavLink to='/rejected_simpatik'/>
-                                    Rejected
-                                </MenuItem>
+                                    <MenuItem active={isActiveMenu.rejected_simpatik} style={{"paddingLeft": "27px"}}
+                                              icon={<BsFillExclamationCircleFill/>}>
+                                        <NavLink to='/rejected_simpatik'/>
+                                        Rejected
+                                    </MenuItem>
 
 
-                                <MenuItem active={isActiveMenu.completed_simpatik} style={{"paddingLeft": "27px"}}
-                                          icon={<BsCardChecklist/>}>
-                                    <NavLink to='/completed_simpatik'/>
-                                    Completed
-                                </MenuItem>
+                                    <MenuItem active={isActiveMenu.completed_simpatik} style={{"paddingLeft": "27px"}}
+                                              icon={<BsCardChecklist/>}>
+                                        <NavLink to='/completed_simpatik'/>
+                                        Completed
+                                    </MenuItem>
 
-                            </SubMenu>):''}
+                                </SubMenu>) : ''}
 
                             {user.vouchers_view ? (
                                 <MenuItem active={isActiveMenu.vouchers} icon={<BsAwardFill/>}>

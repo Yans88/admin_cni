@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 const PublicRoute = ({children, isLoggedIn, ...rest}) => {
     const isAuthenticated = isLoggedIn || localStorage.getItem('tokenCNI');
-console.log(rest);
+    console.log(rest);
     return (
         <Route
             {...rest}

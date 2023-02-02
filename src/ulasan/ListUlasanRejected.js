@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import ReactDatatable from '@ashvin27/react-datatable';
 import TransService from './TransService';
 import moment from 'moment';
 import "moment/locale/id";
-import { Figure } from 'react-bootstrap';
+import {Figure} from 'react-bootstrap';
 import NoImg from '../assets/noPhoto.jpg'
 
 class ListUlasanRejected extends Component {
@@ -38,7 +38,7 @@ class ListUlasanRejected extends Component {
     }
 
     getData = () => {
-        this.setState({ loadTbl: true });
+        this.setState({loadTbl: true});
         TransService.postData(this.state.queryString, "GET_DATA")
             .then(response => {
                 setTimeout(() => {
@@ -56,7 +56,7 @@ class ListUlasanRejected extends Component {
                             totalData: 0
                         });
                     }
-                    this.setState({ loadTbl: false });
+                    this.setState({loadTbl: false});
                 }, 400);
             })
             .catch(e => {
@@ -98,7 +98,7 @@ class ListUlasanRejected extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>
+                cell: (row, index) => <div style={{textAlign: "center"}}>
                     {((this.state.queryString.page_number - 1) * this.state.queryString.per_page) + index + 1 + '.'}
                 </div>,
                 row: 0
@@ -135,7 +135,7 @@ class ListUlasanRejected extends Component {
                 width: 60,
                 sortable: true,
                 cell: record => {
-                    return (<div style={{ textAlign: "center" }}>{record.rating}</div>)
+                    return (<div style={{textAlign: "center"}}>{record.rating}</div>)
                 }
             },
             {
@@ -146,7 +146,7 @@ class ListUlasanRejected extends Component {
                 width: 155,
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Figure>
                                 <Figure.Image
                                     thumbnail
@@ -170,12 +170,13 @@ class ListUlasanRejected extends Component {
                 sortable: false,
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <button
                                 className="btn btn-xs btn-danger"
                                 onClick={() => this.redirect_ulasan(record)}
-                                style={{ marginBottom: '3px', width: 80 }}>
-                                Rejected <br /> {moment(new Date(record.tgl_status_ulasan)).format('DD-MM-YYYY')} <br /> {moment(new Date(record.tgl_status_ulasan)).format('HH:mm')}
+                                style={{marginBottom: '3px', width: 80}}>
+                                Rejected <br/> {moment(new Date(record.tgl_status_ulasan)).format('DD-MM-YYYY')}
+                                <br/> {moment(new Date(record.tgl_status_ulasan)).format('HH:mm')}
                             </button>
                         </div>
                     );

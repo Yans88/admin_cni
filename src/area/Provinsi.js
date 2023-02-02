@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react'
-import { Button, Form } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import React, {Component, Fragment} from 'react'
+import {Button, Form} from 'react-bootstrap';
+import {connect} from 'react-redux';
 import AreaService from './AreaService';
 import ReactDatatable from '@ashvin27/react-datatable';
 import AppModal from '../components/modal/MyModal';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 
 class Provinsi extends Component {
 
@@ -15,7 +15,7 @@ class Provinsi extends Component {
             provinsi_name: "",
             kode_jne: "",
             kode_lp: "",
-            id_prov_cni:"",
+            id_prov_cni: "",
             id_operator: "",
         }
         this.state = {
@@ -45,14 +45,16 @@ class Provinsi extends Component {
         //this.tableChangeHandler = this.tableChangeHandler.bind(this);
         //this.ListCity = this.ListCity.bind(this);
     }
+
     componentDidMount() {
         sessionStorage.removeItem('idProvCNI');
         sessionStorage.removeItem('idCityCNI');
         this.getData();
-        this.setState({ id_operator: this.props.user.id_operator });
+        this.setState({id_operator: this.props.user.id_operator});
     }
+
     getData = () => {
-        this.setState({ loadTbl: true });
+        this.setState({loadTbl: true});
         AreaService.postData(this.state.queryString, "GET_PROV")
             .then(response => {
                 setTimeout(() => {
@@ -70,7 +72,7 @@ class Provinsi extends Component {
                             totalData: 0
                         });
                     }
-                    this.setState({ loadTbl: false });
+                    this.setState({loadTbl: false});
                 }, 400);
             })
             .catch(e => {
@@ -79,7 +81,7 @@ class Provinsi extends Component {
     };
 
     handleClose = () => {
-        this.setState({ show: false, deleteForm: false });
+        this.setState({show: false, deleteForm: false});
     };
 
     closeSwal = () => {
@@ -114,8 +116,8 @@ class Provinsi extends Component {
     }
 
     handleChange(evt) {
-        const { name, value } = evt.target;
-        this.setState({ selected: { ...this.state.selected, [name]: value, id_operator: this.props.user.id_operator } });
+        const {name, value} = evt.target;
+        this.setState({selected: {...this.state.selected, [name]: value, id_operator: this.props.user.id_operator}});
         // let selected = this.state.selected;
         // selected[name] = value;
         // selected['id_operator'] = this.props.user.id_operator;
@@ -131,8 +133,13 @@ class Provinsi extends Component {
         errors.provinsi_name = !this.state.selected.provinsi_name ? "Provinsi required" : '';
         errors.kode_jne = !this.state.selected.kode_jne ? "Kode JNE required" : '';
         errors.kode_lp = !this.state.selected.kode_lp ? "Kode Lion Parcel required" : '';
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
-        this.setState({ errors, isLoading: false })
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
+        this.setState({errors, isLoading: false})
         this.handleSave();
     }
 
@@ -149,10 +156,12 @@ class Provinsi extends Component {
             let contentSwal = '';
             let err_code = '';
             if (this.state.actionForm === "ADD_PROV") {
-                contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil disimpan</div>' }} />;
+                contentSwal = <div
+                    dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil disimpan</div>'}}/>;
             }
             if (this.state.actionForm === "DEL_PROV") {
-                contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+                contentSwal = <div
+                    dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>'}}/>;
             }
             await AreaService.postData(this.state.selected, this.state.actionForm).then((res) => {
                 err_code = res.data.err_code;
@@ -207,9 +216,9 @@ class Provinsi extends Component {
         this.setState({
             ...this.state,
             deleteForm: true,
-            errMsg: { id_provinsi: '' },
+            errMsg: {id_provinsi: ''},
             actionForm: "DEL_PROV",
-            selected: { ...record, id_operator: this.props.user.id_operator }
+            selected: {...record, id_operator: this.props.user.id_operator}
         });
     }
     ListCity = async (record) => {
@@ -225,7 +234,7 @@ class Provinsi extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>
+                cell: (row, index) => <div style={{textAlign: "center"}}>
                     {((this.state.queryString.page_number - 1) * this.state.queryString.per_page) + index + 1 + '.'}
                 </div>,
                 row: 0
@@ -263,18 +272,18 @@ class Provinsi extends Component {
                 align: "center",
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Fragment>
                                 <button
                                     className="btn btn-info btn-xs"
                                     onClick={(e) => this.ListCity(record)}
-                                    style={{ marginRight: '5px' }}>
+                                    style={{marginRight: '5px'}}>
                                     <i className="fa fa-list"></i> List City
                                 </button>
                                 <button
                                     className="btn btn-xs btn-success"
                                     onClick={() => this.editRecord(record)}
-                                    style={{ marginRight: '5px' }}>
+                                    style={{marginRight: '5px'}}>
                                     <i className="fa fa-edit"></i> Edit
                                 </button>
                                 <button
@@ -309,7 +318,8 @@ class Provinsi extends Component {
             <Form.Group controlId="provinsi_name">
                 <Form.Label>Provinsi</Form.Label>
                 {this.state.errMsg.provinsi_name ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.provinsi_name}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.provinsi_name}</span>) : null}
                 <Form.Control
 
                     value={this.state.selected.provinsi_name}
@@ -318,7 +328,7 @@ class Provinsi extends Component {
                     type="text"
                     placeholder="Provinsi"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
             <Form.Row>
 
@@ -326,19 +336,21 @@ class Provinsi extends Component {
             <Form.Group controlId="kode_jne">
                 <Form.Label>Kode JNE</Form.Label>
                 {this.state.errMsg.kode_jne ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.kode_jne}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.kode_jne}</span>) : null}
                 <Form.Control
                     value={this.state.selected.kode_jne}
                     name="kode_jne"
                     size="sm" type="text"
                     placeholder="Kode JNE"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
             <Form.Group controlId="kode_lp">
                 <Form.Label>Kode Lion Parcel</Form.Label>
                 {this.state.errMsg.kode_lp ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.kode_lp}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.kode_lp}</span>) : null}
                 <Form.Control
                     name="kode_lp"
                     value={this.state.selected.kode_lp}
@@ -346,7 +358,7 @@ class Provinsi extends Component {
                     type="text"
                     placeholder="Kode Lion Parcel"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
             <Form.Group controlId="id_prov_cni">
                 <Form.Label>ID Provinsi CNI</Form.Label>
@@ -359,13 +371,14 @@ class Provinsi extends Component {
                     type="text"
                     placeholder="ID Provinsi CNI"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
                 <Form.Text className="text-muted">
                     <em>Untuk keperluan mapping Distribution Center </em>
                 </Form.Text>
             </Form.Group>
         </Form>;
-        const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+        const contentDelete = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
 
         return (
 
@@ -389,7 +402,8 @@ class Provinsi extends Component {
                                 <div className="col-12">
                                     <div className="card shadow-lg">
                                         <div className="card-header">
-                                            <Button onClick={this.discardChanges} variant="success"><i className="fa fa-plus"></i> Add</Button>
+                                            <Button onClick={this.discardChanges} variant="success"><i
+                                                className="fa fa-plus"></i> Add</Button>
 
                                         </div>
 
@@ -428,7 +442,7 @@ class Provinsi extends Component {
                         show={this.state.showSwalSucces}
                         title={this.state.successMsg}
                         type="success"
-                        handleClose={this.closeSwal} />) : ''}
+                        handleClose={this.closeSwal}/>) : ''}
                     <AppModal
                         show={this.state.deleteForm}
                         size="sm"
@@ -452,6 +466,7 @@ class Provinsi extends Component {
         )
     }
 }
-const mapStateToProps = (state) => ({ user: state.auth.currentUser });
+
+const mapStateToProps = (state) => ({user: state.auth.currentUser});
 
 export default connect(mapStateToProps, '')(Provinsi)

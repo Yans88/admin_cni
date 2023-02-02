@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { AsyncPaginate } from "react-select-async-paginate";
+import React, {useState} from "react";
+import {AsyncPaginate} from "react-select-async-paginate";
 import Select from "react-select";
 import makeAnimated from 'react-select/animated';
 
@@ -96,7 +96,7 @@ export const SelectProducts = props => {
         });
     };
 
-    const getData = (search, loadedOptions, { page }) => {
+    const getData = (search, loadedOptions, {page}) => {
         let param = {
             per_page: 25,
             page_number: page,
@@ -120,7 +120,7 @@ export const SelectProducts = props => {
             } else {
 
                 return {
-                    options: [{ value: 0, label: "No Option" }],
+                    options: [{value: 0, label: "No Option"}],
                     hasMore: false,
                     additional: {
                         page: page + 1
@@ -144,7 +144,7 @@ export const SelectProducts = props => {
             additional={{
                 page: 1
             }}
-        // isDisabled={loading} // uncomment this to disable dropdown until options loaded
+            // isDisabled={loading} // uncomment this to disable dropdown until options loaded
         />
     );
 }
@@ -160,7 +160,7 @@ export const SelectCategory = props => {
         });
     };
 
-    const getDataa = (search, loadedOptions, { page }) => {
+    const getDataa = (search, loadedOptions, {page}) => {
 
         let param = {
             per_page: 25,
@@ -181,7 +181,7 @@ export const SelectCategory = props => {
             } else {
 
                 return {
-                    options: [{ value: 0, label: "No Option" }],
+                    options: [{value: 0, label: "No Option"}],
                     hasMore: false,
                     additional: {
                         page: page + 1
@@ -205,7 +205,7 @@ export const SelectCategory = props => {
             additional={{
                 page: 1
             }}
-        // isDisabled={loading} // uncomment this to disable dropdown until options loaded
+            // isDisabled={loading} // uncomment this to disable dropdown until options loaded
         />
     );
 }
@@ -214,7 +214,7 @@ export const SelectProv = props => {
     return (
         <Select
             onChange={props.onChange}
-            options={props.getData || [{ value: 0, label: "Loading..." }]}
+            options={props.getData || [{value: 0, label: "Loading..."}]}
             placeholder={props.isLoading ? "No Option..." : "Select...."}
             isDisabled={props.isLoading}
             styles={customStyles}
@@ -230,7 +230,7 @@ export const SelectProvMulti = props => {
             isMulti
             closeMenuOnSelect={false}
             components={animatedComponents}
-            options={props.getData || [{ value: 0, label: "Loading..." }]}
+            options={props.getData || [{value: 0, label: "Loading..."}]}
             placeholder={props.isLoading ? "No Option..." : "Select...."}
             isDisabled={props.isLoading}
             styles={customStylesMulti}

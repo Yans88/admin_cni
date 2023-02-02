@@ -21,9 +21,9 @@ class ProductService {
                 return axios.post(API_URL + "/del_product", param)
             case "ACTIVE_DATA":
                 return axios.post(API_URL + "/set_stts_product", param)
-			case "SOLD_OUT":
+            case "SOLD_OUT":
                 return axios.post(API_URL + "/set_sold_out", param)
-			case "INFO_BISNIS":
+            case "INFO_BISNIS":
                 return axios.post(API_URL + "/store_setting", param)
             case "GET_PRODUCT":
                 API_URL += "/product/?per_page=" + param.per_page + "&page_number=" + param.page_number + "&keyword=" + param.keyword;
@@ -33,4 +33,5 @@ class ProductService {
         }
     }
 }
+
 export default new ProductService()

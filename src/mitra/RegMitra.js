@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux';
-import { fetchData } from './mitraService';
+import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux';
+import {fetchData} from './mitraService';
 import ReactDatatable from '@ashvin27/react-datatable';
 import moment from 'moment';
 import "moment/locale/id";
@@ -54,7 +54,7 @@ class RegMitra extends Component {
     }
 
     handleChange(event) {
-        const { name, value } = event.target
+        const {name, value} = event.target
         var val = value;
         this.setState({
             loadingForm: false,
@@ -67,15 +67,17 @@ class RegMitra extends Component {
                 [name]: ''
             }
         });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
 
-
-
-
     render() {
-        const { data } = this.props;
+        const {data} = this.props;
         const columns = [
             {
                 key: "no",
@@ -83,7 +85,8 @@ class RegMitra extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
+                cell: (row, index) => <div
+                    style={{textAlign: "center"}}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
                 row: 0
             },
             {
@@ -207,10 +210,13 @@ class RegMitra extends Component {
                             <div className="row mb-2">
                                 <div className="col-sm-6">
                                     <h1 className="m-0">Registrasi Mitra</h1>
-                                </div>{/* /.col */}
+                                </div>
+                                {/* /.col */}
 
-                            </div>{/* /.row */}
-                        </div>{/* /.container-fluid */}
+                            </div>
+                            {/* /.row */}
+                        </div>
+                        {/* /.container-fluid */}
                     </div>
                     {/* /.content-header */}
                     {/* Main content */}
@@ -219,7 +225,7 @@ class RegMitra extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     {/* card start */}
-                                    <div className="card card-success shadow-lg" style={{ "minHeight": "470px" }}>
+                                    <div className="card card-success shadow-lg" style={{"minHeight": "470px"}}>
 
 
                                         <div className="card-body">

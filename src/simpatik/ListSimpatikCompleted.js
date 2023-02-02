@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import ReactDatatable from '@ashvin27/react-datatable';
 import SimpatikService from './SimpatikService';
 import moment from 'moment';
@@ -33,8 +33,8 @@ class ListSimpatikCompleted extends Component {
     }
 
     getData = () => {
-        this.setState({ loadTbl: true });
-        const { queryString } = this.state;
+        this.setState({loadTbl: true});
+        const {queryString} = this.state;
         queryString.id_operator = this.props.user.id_operator;
         SimpatikService.postData(queryString, "GET_DATA")
             .then(response => {
@@ -53,7 +53,7 @@ class ListSimpatikCompleted extends Component {
                             totalData: 0
                         });
                     }
-                    this.setState({ loadTbl: false });
+                    this.setState({loadTbl: false});
                 }, 400);
             })
             .catch(e => {
@@ -95,7 +95,7 @@ class ListSimpatikCompleted extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>
+                cell: (row, index) => <div style={{textAlign: "center"}}>
                     {((this.state.queryString.page_number - 1) * this.state.queryString.per_page) + index + 1 + '.'}
                 </div>,
                 row: 0

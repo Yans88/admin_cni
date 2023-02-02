@@ -19,4 +19,5 @@ class SimpatikService {
         }
     }
 }
+
 export default new SimpatikService()

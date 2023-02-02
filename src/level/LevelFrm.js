@@ -1439,7 +1439,8 @@ class LevelFrm extends Component {
                                     <CardColumns>
                                         <Card className="mb-2">
                                             <Card.Body>
-                                                <Card.Title><h5 className="widget-user-desc">Blast Notification</h5></Card.Title>
+                                                <Card.Title><h5 className="widget-user-desc">Blast Notification</h5>
+                                                </Card.Title>
                                                 <div className="row card-text">
                                                     <div className="col-sm-6 border-right">
                                                         <div className="description-block">
@@ -1474,14 +1475,10 @@ class LevelFrm extends Component {
                                                     </div>
 
 
-
                                                 </div>
                                             </Card.Body>
 
                                         </Card>
-
-
-
 
 
                                     </CardColumns>

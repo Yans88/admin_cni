@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {
-    FORM_DATA,
-    FORM_DELETE,
+    ADD_DATA_ERROR,
     ADD_DATA_LOADING,
     ADD_DATA_SUCCESS,
-    ADD_DATA_ERROR,
     CLEAR_ADD_DATA_ERROR,
+    FETCH_DATA_ERROR,
     FETCH_DATA_LOADING,
     FETCH_DATA_MITRA,
-    FETCH_DATA_ERROR
+    FORM_DATA,
+    FORM_DELETE
 } from '../store/types';
 
 const API_URL = process.env.REACT_APP_URL_API;
@@ -120,7 +120,8 @@ export const addData = (param) => {
                     const _data = {};
                     _data['showFormSuccess'] = param.showFormSuccess ? false : true;
                     _data['tipeSWAL'] = "success";
-                    _data['contentMsg'] = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil disimpan</div>' }} />;
+                    _data['contentMsg'] = <div
+                        dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil disimpan</div>'}}/>;
                     dispatch(addDataSuccess(_data));
                 }
 

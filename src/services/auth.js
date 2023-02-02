@@ -1,6 +1,7 @@
-import { loginAdmin } from '../components/login/LoginService'
+import {loginAdmin} from '../components/login/LoginService'
+
 export const loginByAuth = async (username, password) => {
-    const token = await loginAdmin(username,password);
+    const token = await loginAdmin(username, password);
     localStorage.setItem('tokenCNI', token);
     document.getElementById('root').classList.remove('login-page');
     document.getElementById('root').classList.remove('hold-transition');

@@ -1,14 +1,14 @@
 import {
-    FORM_DATA,
-    FORM_DELETE,
+    ADD_DATA_ERROR,
     ADD_DATA_LOADING,
     ADD_DATA_SUCCESS,
-    ADD_DATA_ERROR,
     CLEAR_ADD_DATA_ERROR,
+    CONFIRM_PUBLISH_VOUCHER,
+    FETCH_DATA_ERROR,
     FETCH_DATA_LOADING,
     FETCH_DATA_VOUCHERS,
-    FETCH_DATA_ERROR,
-    CONFIRM_PUBLISH_VOUCHER
+    FORM_DATA,
+    FORM_DELETE
 } from '../types';
 
 const defaultState = {
@@ -22,16 +22,16 @@ const defaultState = {
     showFormAdd: false,
     showFormSuccess: false,
     showFormDelete: false,
-    showFormPublish:false,
+    showFormPublish: false,
     tipeSWAL: "success"
 }
 
 const voucherReducer = (state = defaultState, action) => {
     switch (action.type) {
         case FETCH_DATA_VOUCHERS:
-            return { ...state, data: action.payload.data, totalData: action.payload.total_data }
+            return {...state, data: action.payload.data, totalData: action.payload.total_data}
         case FETCH_DATA_LOADING:
-            return { ...state, isLoading: action.payload }
+            return {...state, isLoading: action.payload}
         case FORM_DATA:
             return {
                 ...state,
@@ -54,13 +54,13 @@ const voucherReducer = (state = defaultState, action) => {
                 errorPriority: action.payload.errorPriority
             }
         case ADD_DATA_LOADING:
-            return { ...state, isAddLoading: action.payload }
+            return {...state, isAddLoading: action.payload}
         case FETCH_DATA_ERROR:
-            return { ...state, error: action.payload }
+            return {...state, error: action.payload}
         case ADD_DATA_ERROR:
-            return { ...state, errorPriority: action.payload }
+            return {...state, errorPriority: action.payload}
         case CLEAR_ADD_DATA_ERROR:
-            return { ...state, errorPriority: null, isAddLoading: false }
+            return {...state, errorPriority: null, isAddLoading: false}
         case ADD_DATA_SUCCESS:
             return {
                 ...state,

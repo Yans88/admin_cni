@@ -1,6 +1,6 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import MemberService from './MemberService';
 
 const Members = (auth) => {
@@ -41,7 +41,8 @@ const Members = (auth) => {
             width: 20,
             align: "center",
             sortable: false,
-            cell: (row, index) => <div style={{ textAlign: "center" }}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
+            cell: (row, index) => <div
+                style={{textAlign: "center"}}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
             row: 0
         },
 
@@ -51,7 +52,7 @@ const Members = (auth) => {
             align: "center",
             sortable: true,
             cell: record => {
-                return (<Fragment> {record.nama} <br />
+                return (<Fragment> {record.nama} <br/>
                     {record.status === 1 ? (<span className="badge badge-success">Verified</span>) : ''}
                 </Fragment>)
             }
@@ -98,7 +99,6 @@ const Members = (auth) => {
         getData(param);
     }, [pageNumb, pageSize, sortOrder, sortColumn, filterValue]);
 
-   
 
     const tableChangeHandler = (data) => {
         Object.keys(data).map((key) => {
@@ -127,10 +127,13 @@ const Members = (auth) => {
                         <div className="row mb-2">
                             <div className="col-sm-6">
                                 <h1 className="m-0">Konsumen</h1>
-                            </div>{/* /.col */}
+                            </div>
+                            {/* /.col */}
 
-                        </div>{/* /.row */}
-                    </div>{/* /.container-fluid */}
+                        </div>
+                        {/* /.row */}
+                    </div>
+                    {/* /.container-fluid */}
                 </div>
                 {/* /.content-header */}
                 {/* Main content */}
@@ -161,7 +164,6 @@ const Members = (auth) => {
                         </div>
                     </div>
                 </section>
-
 
 
             </div>

@@ -19,4 +19,5 @@ class TransService {
         }
     }
 }
+
 export default new TransService()

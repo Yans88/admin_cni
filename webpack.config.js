@@ -1,39 +1,39 @@
-const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
-const path = require( 'path' );
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const path = require('path');
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 module.exports = {
-   mode: 'production',
-   context: __dirname,
-   entry: './src/index.js',
-   output: {
-      path: path.resolve( __dirname, 'dist' ),
-      filename: 'main.js',
-      publicPath: '/',
-   },
-   devServer: {
-      historyApiFallback: true
-   },
-   module: {
-      rules: [
-         {
-            test: /\.(js|mjs|jsx|ts|tsx)$/,
-            use: 'babel-loader',
-         },
-         {
-            test: /\.css$/,
-            use: ['style-loader', 'css-loader'],
-         },
-         {
-            test: /\.(png|j?g|svg|gif)?$/,
-            use: 'file-loader'
-         }
-]
-   },
-   plugins: [
-      new HtmlWebPackPlugin({
-         template: path.resolve( __dirname, 'public/index.html' ),
-         filename: 'index.html'
-      })
-   ]
+    mode: 'production',
+    context: __dirname,
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'main.js',
+        publicPath: '/',
+    },
+    devServer: {
+        historyApiFallback: true
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|mjs|jsx|ts|tsx)$/,
+                use: 'babel-loader',
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(png|j?g|svg|gif)?$/,
+                use: 'file-loader'
+            }
+        ]
+    },
+    plugins: [
+        new HtmlWebPackPlugin({
+            template: path.resolve(__dirname, 'public/index.html'),
+            filename: 'index.html'
+        })
+    ]
 };

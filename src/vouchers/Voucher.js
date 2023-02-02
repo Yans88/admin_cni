@@ -1,15 +1,15 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux';
-import { fetchData, showConfirmDel, deleteData, addDataSuccess, showConfirmPublish, publishData } from './voucherService';
-import { Figure, Dropdown, Badge } from 'react-bootstrap';
+import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux';
+import {addDataSuccess, deleteData, fetchData, publishData, showConfirmDel, showConfirmPublish} from './voucherService';
+import {Badge, Dropdown, Figure} from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 import ReactDatatable from '@ashvin27/react-datatable';
 import moment from 'moment';
 import "moment/locale/id";
 import NumberFormat from 'react-number-format';
-import { BsCapslockFill } from "react-icons/bs"
-import { ImSpellCheck } from "react-icons/im";
+import {BsCapslockFill} from "react-icons/bs"
+import {ImSpellCheck} from "react-icons/im";
 
 class Voucher extends Component {
     constructor(props) {
@@ -44,14 +44,14 @@ class Voucher extends Component {
 
     deleteRecord = (record) => {
         this.setState({
-            selected: { ...record, id_operator: this.props.user.id_operator }
+            selected: {...record, id_operator: this.props.user.id_operator}
         });
         this.props.showConfirmDel(true);
     }
 
     publishRecord = (record) => {
         this.setState({
-            selected: { ...record, id_operator: this.props.user.id_operator }
+            selected: {...record, id_operator: this.props.user.id_operator}
         });
         this.props.showConfirmPublish(true);
     }
@@ -88,7 +88,7 @@ class Voucher extends Component {
     }
 
     handleChange(event) {
-        const { name, value } = event.target
+        const {name, value} = event.target
         var val = value;
         this.props.clearErrProps();
         if (event.target.name === "path_file") {
@@ -96,21 +96,24 @@ class Voucher extends Component {
             let reader = new FileReader();
             reader.readAsDataURL(val);
             reader.onloadend = () => {
-                this.setState({ loadingForm: false, selected: { ...this.state.selected, path_file: val } });
+                this.setState({loadingForm: false, selected: {...this.state.selected, path_file: val}});
             };
         }
         if (event.target.name === "img") {
             val = event.target.files[0];
-            this.setState({ selected: { ...this.state.selected, imgUpload: "", img: "" } });
+            this.setState({selected: {...this.state.selected, imgUpload: "", img: ""}});
             if (!val) return;
             if (!val.name.match(/\.(jpg|jpeg|png)$/)) {
-                this.setState({ loadingForm: true, errMsg: { ...this.state.errMsg, img: "Please select valid image(.jpg .jpeg .png)" } });
+                this.setState({
+                    loadingForm: true,
+                    errMsg: {...this.state.errMsg, img: "Please select valid image(.jpg .jpeg .png)"}
+                });
 
                 //setLoading(true);
                 return;
             }
             if (val.size > 2099200) {
-                this.setState({ loadingForm: true, errMsg: { ...this.state.errMsg, img: "File size over 2MB" } });
+                this.setState({loadingForm: true, errMsg: {...this.state.errMsg, img: "File size over 2MB"}});
 
                 //setLoading(true);
                 return;
@@ -118,7 +121,10 @@ class Voucher extends Component {
             let reader = new FileReader();
             reader.readAsDataURL(val);
             reader.onloadend = () => {
-                this.setState({ loadingForm: false, selected: { ...this.state.selected, imgUpload: reader.result, img: val } });
+                this.setState({
+                    loadingForm: false,
+                    selected: {...this.state.selected, imgUpload: reader.result, img: val}
+                });
             };
         }
 
@@ -133,12 +139,22 @@ class Voucher extends Component {
                 [name]: ''
             }
         });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
     discardChanges = () => {
-        this.setState({ errMsg: {}, selected: this.initSelected, loadingForm: false });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        this.setState({errMsg: {}, selected: this.initSelected, loadingForm: false});
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
         this.props.showForm(true);
     }
 
@@ -152,8 +168,13 @@ class Voucher extends Component {
         errors.path_file = !this.state.selected.path_file ? "File required" : '';
         errors.img = this.state.selected.img.size > 2099200 ? "File size over 2MB" : '';
 
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
-        this.setState({ errors });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
+        this.setState({errors});
         if (this.validateForm(this.state.errMsg)) {
             this.props.onAdd(this.state.selected);
         } else {
@@ -194,7 +215,7 @@ class Voucher extends Component {
     }
 
     render() {
-        const { data, user } = this.props;
+        const {data, user} = this.props;
         const columns = [
             {
                 key: "no",
@@ -202,7 +223,8 @@ class Voucher extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
+                cell: (row, index) => <div
+                    style={{textAlign: "center"}}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
                 row: 0
             },
             {
@@ -213,7 +235,7 @@ class Voucher extends Component {
                 cell: record => {
                     return (
                         <Fragment>
-                            {record.title}<br />
+                            {record.title}<br/>
                             {record.tipe !== 3 ? ('Minimal Pembelian :') : ''}
                             {record.tipe !== 3 ? (<NumberFormat
                                 value={record.min_pembelian}
@@ -223,8 +245,8 @@ class Voucher extends Component {
                             />) : ''}
                             {record.tipe === 3 ? ('Produk Utama : ') : ''}
                             {record.tipe === 3 ? (record.produk_utama_name) : ''}
-							<br/>
-							{record.new_konsumen === 1 && (<Badge variant="primary">New Konsumen</Badge>)}
+                            <br/>
+                            {record.new_konsumen === 1 && (<Badge variant="primary">New Konsumen</Badge>)}
                         </Fragment>
                     )
                 }
@@ -237,7 +259,7 @@ class Voucher extends Component {
                 width: 120,
                 cell: record => {
                     return (<Fragment>
-                        {moment(new Date(record.start_date)).format('DD-MM-YYYY')} -<br /> {moment(new Date(record.end_date)).format('DD-MM-YYYY')}
+                        {moment(new Date(record.start_date)).format('DD-MM-YYYY')} -<br/> {moment(new Date(record.end_date)).format('DD-MM-YYYY')}
                     </Fragment>)
                 }
             },
@@ -265,12 +287,12 @@ class Voucher extends Component {
                                 displayType={'text'}
                             />) : ''}
                         {record.tipe === 3 ? (record.produk_bonus_name) : ''}
-                        <br />
+                        <br/>
 
                         {record.tipe === 1 && <Badge variant="success">Free Ongkir</Badge>}
                         {record.tipe === 2 && <Badge variant="info">Potongan/Diskon</Badge>}
                         {record.tipe === 3 && <Badge variant="warning">Bonus Produk</Badge>}
-                        
+
                     </Fragment>)
                 }
             },
@@ -301,7 +323,7 @@ class Voucher extends Component {
                 sortable: false,
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Figure>
                                 <Figure.Image
                                     thumbnail
@@ -325,7 +347,7 @@ class Voucher extends Component {
                 sortable: false,
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
 
                             {!record.is_publish ? (
                                 <Fragment>
@@ -333,57 +355,58 @@ class Voucher extends Component {
                                         <button
                                             className="btn btn-xs btn-primary"
                                             onClick={() => this.redirect_voucher(4, record)}
-                                            style={{ marginBottom: '3px', width: 80 }}>
-                                            <ImSpellCheck /> Assign
+                                            style={{marginBottom: '3px', width: 80}}>
+                                            <ImSpellCheck/> Assign
                                         </button>) : ''}
 
                                     <button
                                         className="btn btn-xs btn-info"
                                         onClick={() => this.publishRecord(record)}
-                                        style={{ marginBottom: '3px', width: 80 }}>
-                                        <BsCapslockFill /> Publish
+                                        style={{marginBottom: '3px', width: 80}}>
+                                        <BsCapslockFill/> Publish
                                     </button>
                                     {this.props.user.vouchers_edit ? (<button
                                         className="btn btn-xs btn-success"
                                         onClick={() => this.redirect_voucher(record.tipe, record)}
-                                        style={{ marginBottom: '3px', width: 80 }}>
+                                        style={{marginBottom: '3px', width: 80}}>
                                         <i className="fa fa-edit"></i> Edit
                                     </button>) : (<button
                                         className="btn btn-xs btn-success"
                                         disabled
-                                        style={{ marginBottom: '3px', width: 80 }}>
+                                        style={{marginBottom: '3px', width: 80}}>
                                         <i className="fa fa-edit"></i> Edit
-                                    </button>) }
-                                    <br />
+                                    </button>)}
+                                    <br/>
                                     {this.props.user.vouchers_del ? (<button
-                                        style={{ width: 80 }}
+                                        style={{width: 80}}
                                         className="btn btn-danger btn-xs"
                                         onClick={() => this.deleteRecord(record)}>
                                         <i className="fa fa-trash"></i> Delete
                                     </button>) : (<button
-                                        style={{ width: 80 }}
+                                        style={{width: 80}}
                                         className="btn btn-danger btn-xs"
                                         disabled>
                                         <i className="fa fa-trash"></i> Delete
                                     </button>)}
-                                    
+
                                 </Fragment>
                             ) : (
                                 <Fragment>
-                                <button
-                                    className="btn btn-xs btn-primary"
-                                    onClick={() => this.redirect_voucher(4, record)}
-                                    style={{ marginBottom: '3px', width: 80 }}>
-                                    Published {moment(new Date(record.publish_date)).format('DD-MM-YYYY')} <br /> {moment(new Date(record.publish_date)).format('HH:mm')}
-                                </button>
-                                <br />
+                                    <button
+                                        className="btn btn-xs btn-primary"
+                                        onClick={() => this.redirect_voucher(4, record)}
+                                        style={{marginBottom: '3px', width: 80}}>
+                                        Published {moment(new Date(record.publish_date)).format('DD-MM-YYYY')}
+                                        <br/> {moment(new Date(record.publish_date)).format('HH:mm')}
+                                    </button>
+                                    <br/>
                                     {this.props.user.vouchers_del ? (<button
-                                        style={{ width: 80 }}
+                                        style={{width: 80}}
                                         className="btn btn-danger btn-xs"
                                         onClick={() => this.deleteRecord(record)}>
                                         <i className="fa fa-trash"></i> Delete
                                     </button>) : (<button
-                                        style={{ width: 80 }}
+                                        style={{width: 80}}
                                         className="btn btn-danger btn-xs"
                                         disabled>
                                         <i className="fa fa-trash"></i> Delete
@@ -414,8 +437,10 @@ class Voucher extends Component {
         }
 
 
-        const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
-        const contentPublish = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda akan <br/>mempublish voucher ini ?</div>' }} />;
+        const contentDelete = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
+        const contentPublish = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda akan <br/>mempublish voucher ini ?</div>'}}/>;
 
         return (
 
@@ -427,10 +452,13 @@ class Voucher extends Component {
                             <div className="row mb-2">
                                 <div className="col-sm-6">
                                     <h1 className="m-0">Vouchers</h1>
-                                </div>{/* /.col */}
+                                </div>
+                                {/* /.col */}
 
-                            </div>{/* /.row */}
-                        </div>{/* /.container-fluid */}
+                            </div>
+                            {/* /.row */}
+                        </div>
+                        {/* /.container-fluid */}
                     </div>
                     {/* /.content-header */}
                     {/* Main content */}
@@ -439,7 +467,7 @@ class Voucher extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     {/* card start */}
-                                    <div className="card card-success shadow-lg" style={{ "minHeight": "470px" }}>
+                                    <div className="card card-success shadow-lg" style={{"minHeight": "470px"}}>
                                         <div className="card-header">
                                             <Dropdown>
                                                 {user.vouchers_add ? (
@@ -451,9 +479,15 @@ class Voucher extends Component {
                                                 </Dropdown.Toggle>)}
 
                                                 <Dropdown.Menu className="my-dropdown-menu">
-                                                    <Dropdown.Item as="button" onClick={() => this.redirect_voucher(1, null)}>Free Ongkir</Dropdown.Item>
-                                                    <Dropdown.Item as="button" onClick={() => this.redirect_voucher(2, null)}>Potongan/Diskon Harga</Dropdown.Item>
-                                                    <Dropdown.Item as="button" onClick={() => this.redirect_voucher(3, null)}>Bonus Produk</Dropdown.Item>
+                                                    <Dropdown.Item as="button"
+                                                                   onClick={() => this.redirect_voucher(1, null)}>Free
+                                                        Ongkir</Dropdown.Item>
+                                                    <Dropdown.Item as="button"
+                                                                   onClick={() => this.redirect_voucher(2, null)}>Potongan/Diskon
+                                                        Harga</Dropdown.Item>
+                                                    <Dropdown.Item as="button"
+                                                                   onClick={() => this.redirect_voucher(3, null)}>Bonus
+                                                        Produk</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </Dropdown>
                                         </div>

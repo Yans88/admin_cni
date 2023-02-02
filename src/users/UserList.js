@@ -1,13 +1,13 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
 import AdminService from './AdminService';
-import { Button, Col, Form } from 'react-bootstrap';
+import {Button, Col, Form} from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import { connect } from 'react-redux';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-import { fetchData } from '../level/levelService';
+import {connect} from 'react-redux';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
+import {fetchData} from '../level/levelService';
 import AreaService from '../area/AreaService';
 
 // export const ToastDemo = ({ content }) => {
@@ -24,7 +24,7 @@ import AreaService from '../area/AreaService';
 
 const UserList = (auth, onUserLogin) => {
 
-    const initAdmin = { id_admin: '', username: '', pass: '', name: '', id_level: '' };
+    const initAdmin = {id_admin: '', username: '', pass: '', name: '', id_level: ''};
     const [selected, setSelected] = useState(initAdmin);
     const [admin, setAdmin] = useState([]);
     const [totalData, setTotalData] = useState(0);
@@ -108,7 +108,7 @@ const UserList = (auth, onUserLogin) => {
                         <button
                             className="btn btn-xs btn-success"
                             onClick={e => editRecord(record)}
-                            style={{ marginRight: '5px' }}>
+                            style={{marginRight: '5px'}}>
                             <i className="fa fa-edit"></i> Edit
                         </button>
                         <button
@@ -216,11 +216,13 @@ const UserList = (auth, onUserLogin) => {
         setErrMsg(null);
         if (actionForm === "ADD_DATA") {
             userPost.created_by = auth.user.id_operator;
-            contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil ditambahkan</div>' }} />;
+            contentSwal = <div
+                dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil ditambahkan</div>'}}/>;
         }
         if (actionForm === "EDIT_DATA") {
             userPost.updated_by = auth.user.id_operator;
-            contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil diubah</div>' }} />;
+            contentSwal = <div
+                dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil diubah</div>'}}/>;
         }
         if (actionForm === "DELETE_DATA") {
             userPost = {};
@@ -228,14 +230,15 @@ const UserList = (auth, onUserLogin) => {
                 id_admin: selected.id_admin,
                 deleted_by: auth.user.id_operator
             }
-            contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+            contentSwal = <div
+                dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>'}}/>;
         }
         await AdminService.postDataUsers(userPost, actionForm).then((res) => {
             err_code = res.data.err_code;
             setLoading(false);
             if (err_code !== '00') {
                 setErrMsg(res.data.err_msg);
-                return;
+
             } else {
                 setShow(false);
                 setdeleteForm(false);
@@ -271,12 +274,12 @@ const UserList = (auth, onUserLogin) => {
             pass: Yup.string()
                 .required('Please provide a password')
         }),
-        onSubmit: (values, { setSubmitting, resetForm }) => {
+        onSubmit: (values, {setSubmitting, resetForm}) => {
             handleSave(values);
             resetForm({});
             setSubmitting(false);
         },
-        onReset: (values, { setSubmitting, resetForm }) => {
+        onReset: (values, {setSubmitting, resetForm}) => {
             setSubmitting(false);
         }
     });
@@ -300,7 +303,8 @@ const UserList = (auth, onUserLogin) => {
             <Form.Label>Fullname</Form.Label>
             {formik.touched.name && formik.errors.name ?
                 (<span className="float-right text-error badge badge-danger">{formik.errors.name}</span>) : null}
-            <Form.Control name="name" size="sm" value="test val" type="text" placeholder="Fullname" {...formik.getFieldProps('name')} />
+            <Form.Control name="name" size="sm" value="test val" type="text"
+                          placeholder="Fullname" {...formik.getFieldProps('name')} />
         </Form.Group>
 
         <Form.Group controlId="id_level">
@@ -323,7 +327,8 @@ const UserList = (auth, onUserLogin) => {
             <Form.Group as={Col} controlId="username">
                 <Form.Label>Username</Form.Label>
                 {formik.touched.username && formik.errors.username ?
-                    (<span className="float-right text-error badge badge-danger">{formik.errors.username}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{formik.errors.username}</span>) : null}
                 <Form.Control size="sm" type="text" placeholder="Username" {...formik.getFieldProps('username')} />
             </Form.Group>
             <Form.Group as={Col} controlId="password">
@@ -352,7 +357,8 @@ const UserList = (auth, onUserLogin) => {
 
     </Form>;
 
-    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+    const contentDelete = <div
+        dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
 
     return (
 
@@ -365,10 +371,13 @@ const UserList = (auth, onUserLogin) => {
                         <div className="row mb-2">
                             <div className="col-sm-6">
                                 <h1 className="m-0">Dashboard</h1>
-                            </div>{/* /.col */}
+                            </div>
+                            {/* /.col */}
 
-                        </div>{/* /.row */}
-                    </div>{/* /.container-fluid */}
+                        </div>
+                        {/* /.row */}
+                    </div>
+                    {/* /.container-fluid */}
                 </div>
                 {/* /.content-header */}
                 {/* Main content */}
@@ -379,7 +388,8 @@ const UserList = (auth, onUserLogin) => {
                                 {/* card start */}
                                 <div className="card card-success shadow-lg">
                                     <div className="card-header">
-                                        <Button variant="success" onClick={discardChanges}><i className="fa fa-plus"></i> Add</Button>
+                                        <Button variant="success" onClick={discardChanges}><i
+                                            className="fa fa-plus"></i> Add</Button>
                                         {/* <ToastProvider
                                             placement="bottom-right" autoDismiss
                                             autoDismissTimeout={2000}

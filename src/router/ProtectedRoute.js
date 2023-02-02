@@ -1,28 +1,29 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import { connect } from 'react-redux'
-const ProtectedRoute = ({ children, isLoggedIn, ...rest }) => {
+import {Redirect, Route} from 'react-router-dom';
+import {connect} from 'react-redux'
+
+const ProtectedRoute = ({children, isLoggedIn, ...rest}) => {
     return (
         <Route
             {...rest}
-            render={({ location }) =>
+            render={({location}) =>
                 isLoggedIn ? (
                     children
                 ) : (
                     <Redirect
                         to={{
                             pathname: '/login',
-                            state: { from: location }
+                            state: {from: location}
                         }}
                     />
                 )
             }
         />
     );
-    
+
 };
 
-const mapStateToProps = (state) => ({    
+const mapStateToProps = (state) => ({
     isLoggedIn: state.auth.isLoggedIn
 });
 

@@ -14,14 +14,14 @@ const icons = {
 };
 
 const AppButton = ({
-    children,
-    isLoading,
-    icon,
+                       children,
+                       isLoading,
+                       icon,
 
-    theme = 'primary',
-    disabled,
-    ...otherProps
-}) => {
+                       theme = 'primary',
+                       disabled,
+                       ...otherProps
+                   }) => {
     let spinnerTemplate;
     let iconTemplate;
 
@@ -39,7 +39,7 @@ const AppButton = ({
     }
 
     if (icon && icons[icon]) {
-        iconTemplate = <i className={`${icons[icon]} mr-2`} />;
+        iconTemplate = <i className={`${icons[icon]} mr-2`}/>;
     }
 
 
@@ -54,7 +54,7 @@ const AppButton = ({
             {iconTemplate}
             {children}
             {spinnerTemplate}
-        </Button >
+        </Button>
     );
 };
 

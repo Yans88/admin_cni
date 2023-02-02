@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react'
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import Loading from '../components/loading/MyLoading';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-import { SelectProducts, SelectProvMulti } from '../components/modal/MySelect';
-import { Button, Col, Form } from 'react-bootstrap'
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
+import {SelectProducts, SelectProvMulti} from '../components/modal/MySelect';
+import {Button, Col, Form} from 'react-bootstrap'
 import AppButton from '../components/button/Button';
 import axios from 'axios';
-import { addData, addDataSuccess } from './blastService';
-import { ExcelRenderer } from 'react-excel-renderer';
+import {addData, addDataSuccess} from './blastService';
+import {ExcelRenderer} from 'react-excel-renderer';
 import AppModal from '../components/modal/MyModal';
 
 class BlastForm extends Component {
@@ -39,22 +39,22 @@ class BlastForm extends Component {
     }
 
     onchangeSelect(evt) {
-        this.setState({ id_product: evt.value, product_name: evt.label, errMsg: { ...this.state.errMsg, id_product: '' } })
-        if (!this.state.id_operator) this.setState({ ...this.state, id_operator: this.props.user.id_operator });
+        this.setState({id_product: evt.value, product_name: evt.label, errMsg: {...this.state.errMsg, id_product: ''}})
+        if (!this.state.id_operator) this.setState({...this.state, id_operator: this.props.user.id_operator});
     };
 
     handleChange(evt) {
         const name = evt.target.name;
         var value = evt.target.value;
         if (name === 'tujuan' && value === 'Pengguna tertentu') {
-            this.setState({ loadArea: true, multiValue: [] });
+            this.setState({loadArea: true, multiValue: []});
             this.getOptions();
         }
         if (name === 'tujuan' && value === 'Semua pengguna') {
             this.setState({
                 multiValue: [],
                 loadArea: true,
-                errMsg: { ...this.state.errMsg, member: '' }
+                errMsg: {...this.state.errMsg, member: ''}
             })
         }
 
@@ -72,12 +72,12 @@ class BlastForm extends Component {
                 [name]: ''
             }
         })
-        if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
+        if (!this.state.id_operator) this.setState({id_operator: this.props.user.id_operator});
     }
 
     async getOptions() {
-        this.setState({ isLoadingSelected: true })
-        const param = { is_wh: 1 }
+        this.setState({isLoadingSelected: true})
+        const param = {is_wh: 1}
         const url = process.env.REACT_APP_URL_API + "/members"
         const res = await axios.post(url, param)
         const err_code = res.data.err_code
@@ -133,9 +133,9 @@ class BlastForm extends Component {
         errors.id_product = !this.state.id_product ? "Produk required" : '';
         errors.content = !this.state.content ? "Pesan required" : '';
         errors.member = this.state.tujuan === 'Pengguna tertentu' && this.state.multiValue.length === 0 ? "Member required" : '';
-        
-        this.setState({ errors });
-        
+
+        this.setState({errors});
+
         if (this.validateForm(this.state.errMsg)) {
             this.handleSave();
         } else {
@@ -145,7 +145,7 @@ class BlastForm extends Component {
             });
             console.error('Invalid Form')
         }
-        if (!this.state.id_operator) this.setState({ ...this.state, id_operator: this.props.user.id_operator });
+        if (!this.state.id_operator) this.setState({...this.state, id_operator: this.props.user.id_operator});
 
     }
 
@@ -199,8 +199,7 @@ class BlastForm extends Component {
                     uploadedFileName: fileName,
                     showConfirm: false
                 });
-            }
-            else {
+            } else {
                 errors.file_import = "Extension invalid";
                 this.setState({
                     uploadedFileName: ""
@@ -215,8 +214,7 @@ class BlastForm extends Component {
         ExcelRenderer(fileObj, (err, resp) => {
             if (err) {
                 console.log(err);
-            }
-            else {
+            } else {
                 resp.rows.map((dt, i) => {
                     if (i > 0) {
                         opt[i] = {
@@ -237,18 +235,19 @@ class BlastForm extends Component {
 
     render() {
 
-        const { errMsg } = this.state;
+        const {errMsg} = this.state;
         const frmUser2 = <Form id="myForm">
             <Form.Group controlId="import_pengguna">
                 <Form.Label>File(.xlsx)</Form.Label>
-                {this.state.errMsg.file_import ? (<span className="float-right text-error badge badge-danger">{this.state.errMsg.file_import}</span>) : ''}
+                {this.state.errMsg.file_import ? (<span
+                    className="float-right text-error badge badge-danger">{this.state.errMsg.file_import}</span>) : ''}
                 <Form.File
                     setfieldvalue={this.state.uploadedFileName}
                     onChange={this.fileHandler.bind(this)}
                     size="sm"
                     name="import_pengguna"
                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                    style={{ "color": "rgba(0, 0, 0, 0)" }} />
+                    style={{"color": "rgba(0, 0, 0, 0)"}}/>
                 <em>File : {this.state.uploadedFileName ? this.state.uploadedFileName : "-"}</em>
             </Form.Group>
 
@@ -274,7 +273,7 @@ class BlastForm extends Component {
                                 <div className="col-12">
                                     {/* card start */}
                                     {this.state.appsLoading ? (
-                                        <Loading />
+                                        <Loading/>
                                     ) : (
                                         <div className="card shadow-lg">
                                             <Form>
@@ -283,7 +282,8 @@ class BlastForm extends Component {
                                                         <Form.Group as={Col} controlId="tujuan">
                                                             <Form.Label>Tujuan</Form.Label>
                                                             {errMsg.tujuan ?
-                                                                (<span className="float-right text-error badge badge-danger">{errMsg.tujuan}
+                                                                (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.tujuan}
                                                                 </span>) : ''}
                                                             <Form.Control
                                                                 name="tujuan"
@@ -293,7 +293,8 @@ class BlastForm extends Component {
                                                                 onChange={this.handleChange.bind(this)}>
                                                                 <option value="">Select ...</option>
                                                                 <option value="Semua pengguna">Semua pengguna</option>
-                                                                <option value="Pengguna tertentu">Pengguna tertentu</option>
+                                                                <option value="Pengguna tertentu">Pengguna tertentu
+                                                                </option>
                                                                 <option value="Import pengguna">Import Pengguna</option>
                                                             </Form.Control>
 
@@ -301,11 +302,15 @@ class BlastForm extends Component {
                                                         <Form.Group as={Col} controlId="id_product">
                                                             <Form.Label>Produk</Form.Label>
                                                             {errMsg.id_product ?
-                                                                (<span className="float-right text-error badge badge-danger">{errMsg.id_product}
+                                                                (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.id_product}
                                                                 </span>) : ''}
                                                             <SelectProducts
-                                                                myVal={this.state.id_product ? ({ value: this.state.id_product, label: this.state.product_name }) : ''}
-                                                                onChange={this.onchangeSelect.bind(this)} />
+                                                                myVal={this.state.id_product ? ({
+                                                                    value: this.state.id_product,
+                                                                    label: this.state.product_name
+                                                                }) : ''}
+                                                                onChange={this.onchangeSelect.bind(this)}/>
                                                         </Form.Group>
 
                                                     </Form.Row>
@@ -314,7 +319,8 @@ class BlastForm extends Component {
                                                         <Form.Group as={Col} controlId="members">
                                                             <Form.Label>Members</Form.Label>
                                                             {errMsg.member && this.state.tujuan === 'Pengguna tertentu' ?
-                                                                (<span className="float-right text-error badge badge-danger">{errMsg.member}
+                                                                (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.member}
                                                                 </span>) : ''}
                                                             <SelectProvMulti
                                                                 myVal={this.state.multiValue && this.state.multiValue}
@@ -326,12 +332,13 @@ class BlastForm extends Component {
                                                         <Form.Group as={Col} controlId="content">
                                                             <Form.Label>Pesan</Form.Label>
                                                             {errMsg.content ?
-                                                                (<span className="float-right text-error badge badge-danger">{errMsg.content}
+                                                                (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.content}
                                                                 </span>) : ''}
                                                             <Form.Control as="textarea" rows={5}
-                                                                name="content"
-                                                                value={this.state.content}
-                                                                onChange={this.handleChange.bind(this)} />
+                                                                          name="content"
+                                                                          value={this.state.content}
+                                                                          onChange={this.handleChange.bind(this)}/>
                                                         </Form.Group>
                                                     </Form.Row>
 
@@ -339,7 +346,8 @@ class BlastForm extends Component {
 
                                                 <div className="card-footer">
                                                     <Link to="/blast">
-                                                        <Button style={{ marginRight: 5 }} variant="danger">Cancel</Button>
+                                                        <Button style={{marginRight: 5}}
+                                                                variant="danger">Cancel</Button>
                                                     </Link>
                                                     <AppButton
                                                         isLoading={this.state.isLoading}
@@ -382,6 +390,7 @@ class BlastForm extends Component {
         )
     }
 }
+
 const mapStateToProps = (state) => ({
     showFormSuccess: state.blast.showFormSuccess,
     contentMsg: state.blast.contentMsg,

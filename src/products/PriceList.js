@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, {Component, Fragment} from 'react'
 
-import { Alert, Button, Col, Collapse, Form } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import {Alert, Button, Col, Collapse, Form} from 'react-bootstrap';
+import {connect} from 'react-redux';
 import moment from 'moment';
 import "moment/locale/id";
 import Datetime from 'react-datetime';
@@ -10,8 +10,16 @@ import AppButton from '../components/button/Button';
 import AppModal from '../components/modal/MyModal';
 import ReactDatatable from '@ashvin27/react-datatable';
 
-import { postData, addData, addForm, addDataSuccess, showConfirmDel, deleteData, clearAddDataError } from './pricelistService';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {
+    addData,
+    addDataSuccess,
+    addForm,
+    clearAddDataError,
+    deleteData,
+    postData,
+    showConfirmDel
+} from './pricelistService';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 import Cookies from 'universal-cookie';
 import NumberFormat from 'react-number-format';
 
@@ -81,7 +89,7 @@ class PriceList extends Component {
             appsLoading: true,
             loadTbl: true,
             id_product: selectedId,
-            selected: { ...this.state.selected, id_product: selectedId }
+            selected: {...this.state.selected, id_product: selectedId}
         });
         let param = {};
         param = this.state;
@@ -108,12 +116,12 @@ class PriceList extends Component {
                             totalData: response.data.total_data
                         });
                     }
-                    this.setState({ ...this.state, appsLoading: false, loadTbl: false });
+                    this.setState({...this.state, appsLoading: false, loadTbl: false});
                 }, 200);
             })
             .catch(e => {
                 console.log(e);
-                this.setState({ ...this.state, appsLoading: false, loadTbl: false });
+                this.setState({...this.state, appsLoading: false, loadTbl: false});
             });
     }
 
@@ -126,10 +134,15 @@ class PriceList extends Component {
                 start_date: _date
             })
         } else {
-            this.setState({ start_date: '' })
+            this.setState({start_date: ''})
         }
 
-        if (!this.state.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
     handleChangeEndDate(date) {
@@ -141,9 +154,14 @@ class PriceList extends Component {
                 end_date: _date
             })
         } else {
-            this.setState({ end_date: '' })
+            this.setState({end_date: ''})
         }
-        if (!this.state.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
     discardChanges = () => {
@@ -167,7 +185,7 @@ class PriceList extends Component {
             show: true,
             isLoading: false,
             errMsg: {},
-            selected: { ...record }
+            selected: {...record}
         });
     }
 
@@ -186,7 +204,7 @@ class PriceList extends Component {
     }
 
     handleChange(evt) {
-        const { name, value } = evt.target;
+        const {name, value} = evt.target;
         this.setState({
             isLoading: false,
             selected: {
@@ -211,8 +229,13 @@ class PriceList extends Component {
         errors.end_date = !this.state.end_date ? "End date required" : '';
         errors.harga_member = !this.state.selected.harga_member ? "Required" : '';
         errors.harga_konsumen = !this.state.selected.harga_konsumen ? "Required" : '';
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
-        this.setState({ errors })
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
+        this.setState({errors})
         let param = {};
         if (this.validateForm(errors)) {
             param = this.state.selected;
@@ -244,7 +267,7 @@ class PriceList extends Component {
 
     deleteRecord = (record) => {
         this.setState({
-            selected: { ...record, id_operator: this.props.user.id_operator }
+            selected: {...record, id_operator: this.props.user.id_operator}
         });
         this.props.showConfirmDel(true);
     }
@@ -277,8 +300,9 @@ class PriceList extends Component {
     }
 
     render() {
-        const { errMsg, selected } = this.state;
-        const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+        const {errMsg, selected} = this.state;
+        const contentDelete = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
         const columns = [
             {
                 key: "no",
@@ -286,7 +310,8 @@ class PriceList extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
+                cell: (row, index) => <div
+                    style={{textAlign: "center"}}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
                 row: 0
             },
             {
@@ -314,7 +339,7 @@ class PriceList extends Component {
                 sortable: true,
                 cell: record => {
                     return (<Fragment>
-                        <div style={{ textAlign: "right" }}>
+                        <div style={{textAlign: "right"}}>
                             <NumberFormat
                                 value={record.harga_member}
                                 thousandSeparator={true}
@@ -322,17 +347,17 @@ class PriceList extends Component {
                                 displayType={'text'}
                             /></div>
                         Non PPN : <NumberFormat
-                            value={record.hm_non_ppn}
-                            thousandSeparator={true}
-                            decimalScale={2}
-                            displayType={'text'}
-                        /><br />
+                        value={record.hm_non_ppn}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        displayType={'text'}
+                    /><br/>
                         PPN : <NumberFormat
-                            value={record.ppn_hm}
-                            thousandSeparator={true}
-                            decimalScale={2}
-                            displayType={'text'}
-                        />
+                        value={record.ppn_hm}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        displayType={'text'}
+                    />
                     </Fragment>)
                 }
             },
@@ -343,7 +368,7 @@ class PriceList extends Component {
                 sortable: true,
                 cell: record => {
                     return (<Fragment>
-                        <div style={{ textAlign: "right" }}>
+                        <div style={{textAlign: "right"}}>
                             <NumberFormat
                                 value={record.harga_konsumen}
                                 thousandSeparator={true}
@@ -351,17 +376,17 @@ class PriceList extends Component {
                                 displayType={'text'}
                             /></div>
                         Non PPN : <NumberFormat
-                            value={record.hk_non_ppn}
-                            thousandSeparator={true}
-                            decimalScale={2}
-                            displayType={'text'}
-                        /><br />
+                        value={record.hk_non_ppn}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        displayType={'text'}
+                    /><br/>
                         PPN : <NumberFormat
-                            value={record.ppn_hk}
-                            thousandSeparator={true}
-                            decimalScale={2}
-                            displayType={'text'}
-                        />
+                        value={record.ppn_hk}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        displayType={'text'}
+                    />
                     </Fragment>)
                 }
             },
@@ -373,7 +398,7 @@ class PriceList extends Component {
                 sortable: true,
                 cell: record => {
                     return (<Fragment>
-                        <div style={{ textAlign: "right" }}>
+                        <div style={{textAlign: "right"}}>
                             <NumberFormat
                                 value={record.pv}
                                 thousandSeparator={true}
@@ -392,7 +417,7 @@ class PriceList extends Component {
                 sortable: true,
                 cell: record => {
                     return (<Fragment>
-                        <div style={{ textAlign: "right" }}>
+                        <div style={{textAlign: "right"}}>
                             <NumberFormat
                                 value={record.rv}
                                 thousandSeparator={true}
@@ -411,13 +436,13 @@ class PriceList extends Component {
                 align: "center",
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Fragment>
                                 <button
                                     disabled={!this.props.user.pricelist_edit}
                                     className="btn btn-xs btn-success"
                                     onClick={() => this.editRecord(record)}
-                                    style={{ marginBottom: '5px', width: '58px' }}>
+                                    style={{marginBottom: '5px', width: '58px'}}>
                                     <i className="fa fa-edit"></i> Edit
                                 </button>
                                 <button
@@ -486,20 +511,22 @@ class PriceList extends Component {
                                         </div>
                                         <div className="card-body">
                                             <Collapse in={this.state.show}
-                                                style={{
-                                                    marginBottom: "15px",
-                                                    borderBottom: "1px solid #d2d2d2", paddingBottom: "5px"
-                                                }}>
+                                                      style={{
+                                                          marginBottom: "15px",
+                                                          borderBottom: "1px solid #d2d2d2", paddingBottom: "5px"
+                                                      }}>
                                                 <div id="example-collapse-text">
                                                     {this.props.errorPriority ? (
-                                                        <Alert variant="danger" show={true}>Error : {this.props.errorPriority}</Alert>
+                                                        <Alert variant="danger" show={true}>Error
+                                                            : {this.props.errorPriority}</Alert>
                                                     ) : ''}
 
                                                     <Form>
                                                         <Form.Row>
                                                             <Form.Group as={Col} controlId="start_date">
                                                                 <Form.Label>Start Date</Form.Label>
-                                                                {errMsg.start_date ? (<span className="float-right text-error badge badge-danger">{errMsg.start_date}</span>) : ''}
+                                                                {errMsg.start_date ? (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.start_date}</span>) : ''}
                                                                 <Datetime
                                                                     setViewDate={this.state.start_date ? (new Date(this.state.start_date)) : new Date()}
                                                                     value={this.state.start_date ? (new Date(this.state.start_date)) : ''}
@@ -529,13 +556,14 @@ class PriceList extends Component {
                                                                     inputMode="numeric"
                                                                     required
                                                                     autoComplete="off"
-                                                                    placeholder="PV" />
+                                                                    placeholder="PV"/>
 
                                                             </Form.Group>
 
                                                             <Form.Group as={Col} controlId="harga_member">
                                                                 <Form.Label>Harga Member</Form.Label>
-                                                                {errMsg.harga_member ? (<span className="float-right text-error badge badge-danger">{errMsg.harga_member}</span>) : ''}
+                                                                {errMsg.harga_member ? (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.harga_member}</span>) : ''}
                                                                 <NumberFormat
                                                                     onChange={this.handleChange}
                                                                     name="harga_member"
@@ -545,7 +573,7 @@ class PriceList extends Component {
                                                                     decimalScale={2}
                                                                     inputMode="numeric"
                                                                     autoComplete="off"
-                                                                    placeholder="Harga Member" />
+                                                                    placeholder="Harga Member"/>
                                                             </Form.Group>
                                                             <Form.Group as={Col} controlId="hm_non_ppn">
                                                                 <Form.Label>Hrg. Member Non PPN</Form.Label>
@@ -558,7 +586,7 @@ class PriceList extends Component {
                                                                     decimalScale={2}
                                                                     inputMode="numeric"
                                                                     autoComplete="off"
-                                                                    placeholder="Harga Member Non PPN" />
+                                                                    placeholder="Harga Member Non PPN"/>
 
                                                             </Form.Group>
                                                             <Form.Group as={Col} controlId="ppn_hm">
@@ -572,22 +600,25 @@ class PriceList extends Component {
                                                                     decimalScale={2}
                                                                     inputMode="numeric"
                                                                     autoComplete="off"
-                                                                    placeholder="PPN Harga Member" />
+                                                                    placeholder="PPN Harga Member"/>
 
                                                             </Form.Group>
                                                         </Form.Row>
                                                         <Form.Row>
                                                             <Form.Group as={Col} controlId="start_date">
                                                                 <Form.Label>End Date</Form.Label>
-                                                                {errMsg.end_date ? (<span className="float-right text-error badge badge-danger">{errMsg.end_date}</span>) : ''}
+                                                                {errMsg.end_date ? (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.end_date}</span>) : ''}
                                                                 <Datetime
                                                                     setViewDate={this.state.end_date ? (new Date(this.state.end_date)) : new Date()}
                                                                     value={this.state.end_date ? (new Date(this.state.end_date)) : ''}
                                                                     onChange={this.handleChangeEndDate}
                                                                     inputProps={{
                                                                         readOnly: true,
-                                                                        placeholder: 'End Date', autoComplete: "off",
-                                                                        name: 'end_date', className: 'form-control form-control-sm'
+                                                                        placeholder: 'End Date',
+                                                                        autoComplete: "off",
+                                                                        name: 'end_date',
+                                                                        className: 'form-control form-control-sm'
                                                                     }}
                                                                     renderView={(mode, renderDefault) =>
                                                                         this.renderView(mode, renderDefault, 'end_date')
@@ -607,13 +638,14 @@ class PriceList extends Component {
                                                                     inputMode="numeric"
                                                                     required
                                                                     autoComplete="off"
-                                                                    placeholder="RV" />
+                                                                    placeholder="RV"/>
 
                                                             </Form.Group>
 
                                                             <Form.Group as={Col} controlId="harga_konsumen">
                                                                 <Form.Label>Harga Konsumen</Form.Label>
-                                                                {errMsg.harga_konsumen ? (<span className="float-right text-error badge badge-danger">{errMsg.harga_konsumen}</span>) : ''}
+                                                                {errMsg.harga_konsumen ? (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.harga_konsumen}</span>) : ''}
                                                                 <NumberFormat
                                                                     onChange={this.handleChange}
                                                                     name="harga_konsumen"
@@ -623,7 +655,7 @@ class PriceList extends Component {
                                                                     decimalScale={2}
                                                                     inputMode="numeric"
                                                                     autoComplete="off"
-                                                                    placeholder="Harga Konsumen" />
+                                                                    placeholder="Harga Konsumen"/>
                                                             </Form.Group>
                                                             <Form.Group as={Col} controlId="hk_non_ppn">
                                                                 <Form.Label>Hrg. Konsumen Non PPN</Form.Label>
@@ -636,7 +668,7 @@ class PriceList extends Component {
                                                                     decimalScale={2}
                                                                     inputMode="numeric"
                                                                     autoComplete="off"
-                                                                    placeholder="Harga Konsumen Non PPN" />
+                                                                    placeholder="Harga Konsumen Non PPN"/>
 
                                                             </Form.Group>
                                                             <Form.Group as={Col} controlId="ppn_hk">
@@ -650,14 +682,14 @@ class PriceList extends Component {
                                                                     decimalScale={2}
                                                                     inputMode="numeric"
                                                                     autoComplete="off"
-                                                                    placeholder="PPN Harga Konsumen" />
+                                                                    placeholder="PPN Harga Konsumen"/>
 
                                                             </Form.Group>
                                                         </Form.Row>
                                                     </Form>
                                                     <Button
                                                         onClick={this.handleClose.bind(this)}
-                                                        style={{ marginRight: 5 }}
+                                                        style={{marginRight: 5}}
                                                         variant="danger">Close</Button>
                                                     <AppButton
                                                         onClick={this.handleSubmit.bind(this)}
@@ -705,7 +737,7 @@ class PriceList extends Component {
                         show={this.props.showFormSuccess}
                         title={this.props.contentMsg}
                         type="success"
-                        handleClose={this.closeSwal.bind(this)} />) : ''}
+                        handleClose={this.closeSwal.bind(this)}/>) : ''}
 
                     <AppModal
                         show={this.props.showFormDelete}
@@ -730,6 +762,7 @@ class PriceList extends Component {
         )
     }
 }
+
 const mapStateToProps = (state) => ({
     user: state.auth.currentUser,
     showFormSuccess: state.pricelist.showFormSuccess,

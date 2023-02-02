@@ -3,7 +3,7 @@ import axios from "axios";
 let API_URL = process.env.REACT_APP_URL_API;
 
 class MemberService {
-    postData(param, action) {  
+    postData(param, action) {
         switch (action) {
             case "GET_DATA":
                 return axios.post(API_URL + "/members", param)
@@ -14,4 +14,5 @@ class MemberService {
         }
     }
 }
+
 export default new MemberService()

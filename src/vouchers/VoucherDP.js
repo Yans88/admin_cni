@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import { Button, Col, Figure, Form, Row } from 'react-bootstrap'
+import React, {Component} from 'react'
+import {Button, Col, Figure, Form, Row} from 'react-bootstrap'
 import noImg from '../assets/noPhoto.jpg'
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import moment from 'moment';
 import "moment/locale/id";
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
 import NumberFormat from 'react-number-format';
 import AppButton from '../components/button/Button';
-import { addData, addDataSuccess, postData } from './voucherService';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-import { Link } from 'react-router-dom';
+import {addData, addDataSuccess, postData} from './voucherService';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
+import {Link} from 'react-router-dom';
 import Loading from '../components/loading/MyLoading';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
@@ -37,15 +37,15 @@ class VoucherDP extends Component {
             imgUpload: noImg,
             errMsg: this.initSelected,
             isLoading: false,
-			user_tertentu:0,
-			produk_tertentu:0,
-			is_limited:0,
-			website:0,
-			mobile:0,
-			member:0,
-			konsumen:0,
-			is_show:0,
-			new_konsumen:0,
+            user_tertentu: 0,
+            produk_tertentu: 0,
+            is_limited: 0,
+            website: 0,
+            mobile: 0,
+            member: 0,
+            konsumen: 0,
+            is_show: 0,
+            new_konsumen: 0,
         }
         this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
         this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
@@ -58,32 +58,32 @@ class VoucherDP extends Component {
         if (selectedId > 0) {
             this.getData();
         }
-        this.setState({ id_operator: this.props.user.id_operator });
+        this.setState({id_operator: this.props.user.id_operator});
     }
 
     getData = async () => {
-        this.setState({ appsLoading: true, isLoading: true })
+        this.setState({appsLoading: true, isLoading: true})
         const selectedIdCNI = sessionStorage.getItem('idVoucherCNI');
-        const param = { id_voucher: selectedIdCNI }
+        const param = {id_voucher: selectedIdCNI}
         postData(param, 'VIEW_DETAIL')
             .then(response => {
                 if (response.data.err_code === "00") {
                     const dtRes = response.data.data;
                     Object.keys(dtRes).map((key) => {
-                        this.setState({ [key]: dtRes[key] });
-                        this.setState({ imgUpload: dtRes.img });
+                        this.setState({[key]: dtRes[key]});
+                        this.setState({imgUpload: dtRes.img});
                         //this.setState({ img: '' });
-                        this.setState({ isLoading: false, appsLoading: false });
+                        this.setState({isLoading: false, appsLoading: false});
                         return 1;
                     });
                 }
                 if (response.data.err_code === "04") {
-                    this.setState({ isLoading: false });
+                    this.setState({isLoading: false});
                 }
             })
             .catch(e => {
                 console.log(e);
-                this.setState({ isLoading: false });
+                this.setState({isLoading: false});
             });
     };
 
@@ -99,10 +99,10 @@ class VoucherDP extends Component {
         errors.kuota = this.state.is_limited && !this.state.kuota ? "Kuota required" : '';
         errors.start_date = !this.state.start_date && "Start date required";
         errors.end_date = !this.state.end_date && "End date required";
-		errors.kode_voucher = !this.state.kode_voucher ? "Kode Voucher required" : '';
+        errors.kode_voucher = !this.state.kode_voucher ? "Kode Voucher required" : '';
         errors.min_pembelian = !this.state.min_pembelian ? "Minimal Pembelian required" : '';
-        this.setState({ ...this.state, id_operator: this.props.user.id_operator, isLoading: true, tipe: 1 });
-        this.setState({ errors });
+        this.setState({...this.state, id_operator: this.props.user.id_operator, isLoading: true, tipe: 1});
+        this.setState({errors});
         if (this.validateForm(this.state.errMsg)) {
             this.props.onAdd(this.state);
         } else {
@@ -130,29 +130,29 @@ class VoucherDP extends Component {
     handleChange(evt) {
         const name = evt.target.name;
         var value = evt.target.value;
-        this.setState({ isLoading: false })
+        this.setState({isLoading: false})
         //this.setState({ errMsg: { img: "" } })
         if (evt.target.name === "img") {
             value = evt.target.files[0];
-            this.setState({ img: '' })
+            this.setState({img: ''})
             if (!value) return;
             if (!value.name.match(/\.(jpg|jpeg|png)$/)) {
-                this.setState({ errMsg: { img: "Extension Invalid" } })
-                this.setState({ isLoading: true })
+                this.setState({errMsg: {img: "Extension Invalid"}})
+                this.setState({isLoading: true})
                 return;
             }
             if (value.size > 2099200) {
-                this.setState({ errMsg: { img: "File size over 2MB" } })
-                this.setState({ isLoading: true })
+                this.setState({errMsg: {img: "File size over 2MB"}})
+                this.setState({isLoading: true})
                 return;
             }
             let reader = new FileReader();
             reader.readAsDataURL(value);
             reader.onloadend = () => {
-                this.setState({ img: value, imgUpload: reader.result })
+                this.setState({img: value, imgUpload: reader.result})
             };
         }
-        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen' || name === 'produk_tertentu' || name === 'is_show' || name=== 'new_konsumen') {
+        if (name === 'user_tertentu' || name === 'is_limited' || name === 'website' || name === 'mobile' || name === 'member' || name === 'konsumen' || name === 'produk_tertentu' || name === 'is_show' || name === 'new_konsumen') {
             value = evt.target.checked ? 1 : 0;
         }
         this.setState({
@@ -165,7 +165,7 @@ class VoucherDP extends Component {
             }
         })
         //this.setState({ id_operator: this.props.user.id_operator });
-        if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
+        if (!this.state.id_operator) this.setState({id_operator: this.props.user.id_operator});
     }
 
     handleChangeDesk(evt) {
@@ -177,30 +177,33 @@ class VoucherDP extends Component {
                 deskripsi: ''
             }
         });
-        if (!this.state.id_operator) this.setState({ ...this.state, id_operator: this.props.user.id_operator });
+        if (!this.state.id_operator) this.setState({...this.state, id_operator: this.props.user.id_operator});
     }
+
     handleChangeStartDate(date) {
-        this.setState({ ...this.state, errMsg: { ...this.state.errMsg, start_date: '' } })
+        this.setState({...this.state, errMsg: {...this.state.errMsg, start_date: ''}})
         if (date) {
             const selectedDate = new Date(date);
             const _date = moment(selectedDate).format('YYYY-MM-DD');
-            this.setState({ start_date: _date })
+            this.setState({start_date: _date})
         } else {
-            this.setState({ start_date: '' })
+            this.setState({start_date: ''})
         }
-        if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
+        if (!this.state.id_operator) this.setState({id_operator: this.props.user.id_operator});
     }
+
     handleChangeEndDate(date) {
-        this.setState({ ...this.state, errMsg: { ...this.state.errMsg, end_date: '' } })
+        this.setState({...this.state, errMsg: {...this.state.errMsg, end_date: ''}})
         if (date) {
             const selectedDate = new Date(date);
             const _date = moment(selectedDate).format('YYYY-MM-DD');
-            this.setState({ end_date: _date })
+            this.setState({end_date: _date})
         } else {
-            this.setState({ end_date: '' })
+            this.setState({end_date: ''})
         }
-        if (!this.state.id_operator) this.setState({ id_operator: this.props.user.id_operator });
+        if (!this.state.id_operator) this.setState({id_operator: this.props.user.id_operator});
     }
+
     renderView(mode, renderDefault, name) {
         // Only for years, months and days view
         if (mode === "time") return renderDefault();
@@ -225,7 +228,7 @@ class VoucherDP extends Component {
     }
 
     render() {
-        const { errMsg } = this.state;
+        const {errMsg} = this.state;
 
         return (
             <div>
@@ -248,7 +251,7 @@ class VoucherDP extends Component {
                                 <div className="col-12">
                                     {/* card start */}
                                     {this.state.appsLoading ? (
-                                        <Loading />
+                                        <Loading/>
                                     ) : (
                                         <div className="card shadow-lg">
                                             <Form id="myForm">
@@ -264,8 +267,9 @@ class VoucherDP extends Component {
                                                                 name="title"
                                                                 type="text"
                                                                 autoComplete="off"
-                                                                placeholder="Title" />
-                                                            {errMsg.title && (<span className="text-error badge badge-danger">{errMsg.title}</span>)}
+                                                                placeholder="Title"/>
+                                                            {errMsg.title && (<span
+                                                                className="text-error badge badge-danger">{errMsg.title}</span>)}
 
                                                         </Form.Group>
 
@@ -289,12 +293,13 @@ class VoucherDP extends Component {
                                                                 }
                                                                 locale="id" isValidDate={this.state.validSd}
                                                             />
-                                                            {errMsg.start_date && (<span className="text-error badge badge-danger">{errMsg.start_date}</span>)}
+                                                            {errMsg.start_date && (<span
+                                                                className="text-error badge badge-danger">{errMsg.start_date}</span>)}
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="is_limited">
                                                             <Form.Label>Limited</Form.Label>
                                                             <Row>
-                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                <Col xs={{span: 1, offset: 2}}>
                                                                     <Form.Check
                                                                         onChange={this.handleChange}
                                                                         checked={this.state.is_limited > 0 ? ("checked") : ""}
@@ -309,9 +314,9 @@ class VoucherDP extends Component {
                                                         <Form.Group as={Col} xs={2} controlId="user_tertentu">
                                                             <Form.Label>User Tertentu</Form.Label>
                                                             <Row>
-                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                <Col xs={{span: 1, offset: 2}}>
                                                                     <Form.Check
-																		disabled ={this.state.new_konsumen > 0 ? true :false}
+                                                                        disabled={this.state.new_konsumen > 0 ? true : false}
                                                                         onChange={this.handleChange}
                                                                         checked={this.state.user_tertentu > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
                                                                         label={this.state.user_tertentu > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
@@ -334,8 +339,9 @@ class VoucherDP extends Component {
                                                                 size="sm"
                                                                 name="kode_voucher"
                                                                 type="text"
-                                                                placeholder="Kode Voucher" />
-															{errMsg.kode_voucher && (<span className="text-error badge badge-danger">{errMsg.kode_voucher}</span>)}
+                                                                placeholder="Kode Voucher"/>
+                                                            {errMsg.kode_voucher && (<span
+                                                                className="text-error badge badge-danger">{errMsg.kode_voucher}</span>)}
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="min_pembelian">
                                                             <Form.Label>Min. Pembelian(IDR)</Form.Label>
@@ -348,8 +354,9 @@ class VoucherDP extends Component {
                                                                 decimalScale={2}
                                                                 inputMode="numeric"
                                                                 autoComplete="off"
-                                                                placeholder="Min. Pembelian(IDR)" />
-															{errMsg.min_pembelian && (<span className="text-error badge badge-danger">{errMsg.min_pembelian}</span>)}
+                                                                placeholder="Min. Pembelian(IDR)"/>
+                                                            {errMsg.min_pembelian && (<span
+                                                                className="text-error badge badge-danger">{errMsg.min_pembelian}</span>)}
 
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="satuan_potongan">
@@ -366,7 +373,8 @@ class VoucherDP extends Component {
                                                                 <option value="2">Persentase</option>
                                                             </Form.Control>
 
-                                                            {errMsg.satuan_potongan && (<span className="text-error badge badge-danger">{errMsg.satuan_potongan}</span>)}
+                                                            {errMsg.satuan_potongan && (<span
+                                                                className="text-error badge badge-danger">{errMsg.satuan_potongan}</span>)}
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="end_date">
                                                             <Form.Label>End Date</Form.Label>
@@ -378,15 +386,18 @@ class VoucherDP extends Component {
                                                                 onChange={this.handleChangeEndDate}
                                                                 inputProps={{
                                                                     readOnly: true,
-                                                                    placeholder: 'End Date', autoComplete: "off",
-                                                                    name: 'end_date', className: 'form-control form-control-sm'
+                                                                    placeholder: 'End Date',
+                                                                    autoComplete: "off",
+                                                                    name: 'end_date',
+                                                                    className: 'form-control form-control-sm'
                                                                 }}
                                                                 renderView={(mode, renderDefault) =>
                                                                     this.renderView(mode, renderDefault, 'end_date')
                                                                 }
                                                                 locale="id" isValidDate={this.state.validEd}
                                                             />
-                                                            {errMsg.end_date && (<span className="text-error badge badge-danger">{errMsg.end_date}</span>)}
+                                                            {errMsg.end_date && (<span
+                                                                className="text-error badge badge-danger">{errMsg.end_date}</span>)}
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} xs={2} controlId="kuota">
@@ -401,13 +412,14 @@ class VoucherDP extends Component {
                                                                 decimalScale={2}
                                                                 inputMode="numeric"
                                                                 autoComplete="off"
-                                                                placeholder="Kuota" />
-                                                            {errMsg.kuota && (<span className="text-error badge badge-danger">{errMsg.kuota}</span>)}
+                                                                placeholder="Kuota"/>
+                                                            {errMsg.kuota && (<span
+                                                                className="text-error badge badge-danger">{errMsg.kuota}</span>)}
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="produk_tertentu">
                                                             <Form.Label>Produk Tertentu</Form.Label>
                                                             <Row>
-                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                <Col xs={{span: 1, offset: 2}}>
                                                                     <Form.Check
                                                                         onChange={this.handleChange}
                                                                         checked={this.state.produk_tertentu > 0 ? ("checked") : ""}
@@ -435,8 +447,9 @@ class VoucherDP extends Component {
                                                                 decimalScale={2}
                                                                 inputMode="numeric"
                                                                 autoComplete="off"
-                                                                placeholder="Potongan" />
-                                                            {errMsg.potongan && (<span className="text-error badge badge-danger">{errMsg.potongan}</span>)}
+                                                                placeholder="Potongan"/>
+                                                            {errMsg.potongan && (<span
+                                                                className="text-error badge badge-danger">{errMsg.potongan}</span>)}
                                                         </Form.Group>
                                                         <Form.Group as={Col} controlId="max_potongan">
                                                             <Form.Label>Maks. Diskon(IDR)</Form.Label>
@@ -450,13 +463,13 @@ class VoucherDP extends Component {
                                                                 decimalScale={2}
                                                                 inputMode="numeric"
                                                                 autoComplete="off"
-                                                                placeholder="Maks. Diskon(IDR)" />
+                                                                placeholder="Maks. Diskon(IDR)"/>
 
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="mobile">
-                                                            <Form.Label style={{ marginLeft: 10 }}>Mobile</Form.Label>
+                                                            <Form.Label style={{marginLeft: 10}}>Mobile</Form.Label>
                                                             <Row>
-                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                <Col xs={{span: 1, offset: 2}}>
                                                                     <Form.Check
                                                                         onChange={this.handleChange}
                                                                         checked={this.state.mobile > 0 ? ("checked") : ""}
@@ -472,7 +485,7 @@ class VoucherDP extends Component {
                                                         <Form.Group as={Col} xs={2} controlId="website">
                                                             <Form.Label>Website</Form.Label>
                                                             <Row>
-                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                <Col xs={{span: 1, offset: 2}}>
                                                                     <Form.Check
                                                                         onChange={this.handleChange}
                                                                         checked={this.state.website > 0 ? ("checked") : ""}
@@ -487,9 +500,9 @@ class VoucherDP extends Component {
                                                         <Form.Group as={Col} xs={2} controlId="member">
                                                             <Form.Label>Member</Form.Label>
                                                             <Row>
-                                                                <Col xs={{ span: 1, offset: 2 }}>
-                                                                   <Form.Check
-																		disabled ={this.state.new_konsumen > 0 ? true :false}
+                                                                <Col xs={{span: 1, offset: 2}}>
+                                                                    <Form.Check
+                                                                        disabled={this.state.new_konsumen > 0 ? true : false}
                                                                         onChange={this.handleChange}
                                                                         checked={this.state.member > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
                                                                         label={this.state.member > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
@@ -503,9 +516,9 @@ class VoucherDP extends Component {
                                                         <Form.Group as={Col} xs={2} controlId="konsumen">
                                                             <Form.Label>Konsumen</Form.Label>
                                                             <Row>
-                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                <Col xs={{span: 1, offset: 2}}>
                                                                     <Form.Check
-																		disabled ={this.state.new_konsumen > 0 ? true :false}
+                                                                        disabled={this.state.new_konsumen > 0 ? true : false}
                                                                         onChange={this.handleChange}
                                                                         checked={this.state.konsumen > 0 && this.state.new_konsumen === 0 ? ("checked") : ""}
                                                                         label={this.state.konsumen > 0 && this.state.new_konsumen === 0 ? ("Yes") : "No"}
@@ -529,13 +542,14 @@ class VoucherDP extends Component {
                                                                 name="short_description"
                                                                 type="text"
                                                                 autoComplete="off"
-                                                                placeholder="Short Description" />
-                                                            {errMsg.short_description && (<span className="text-error badge badge-danger">{errMsg.short_description}</span>)}
+                                                                placeholder="Short Description"/>
+                                                            {errMsg.short_description && (<span
+                                                                className="text-error badge badge-danger">{errMsg.short_description}</span>)}
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="is_show">
                                                             <Form.Label>Is Show</Form.Label>
                                                             <Row>
-                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                <Col xs={{span: 1, offset: 2}}>
                                                                     <Form.Check
                                                                         onChange={this.handleChange}
                                                                         checked={this.state.is_show > 0 ? ("checked") : ""}
@@ -547,12 +561,12 @@ class VoucherDP extends Component {
                                                                 </Col>
                                                             </Row>
                                                         </Form.Group>
-														<Form.Group as={Col} xs={2} controlId="new_konsumen">
+                                                        <Form.Group as={Col} xs={2} controlId="new_konsumen">
                                                             <Form.Label>New Konsumen</Form.Label>
                                                             <Row>
-                                                                <Col xs={{ span: 1, offset: 2 }}>
+                                                                <Col xs={{span: 1, offset: 2}}>
                                                                     <Form.Check
-																		disabled ={this.state.konsumen > 0 || this.state.member > 0 || this.state.user_tertentu > 0 ? true :false}
+                                                                        disabled={this.state.konsumen > 0 || this.state.member > 0 || this.state.user_tertentu > 0 ? true : false}
                                                                         onChange={this.handleChange}
                                                                         checked={this.state.new_konsumen > 0 && this.state.konsumen === 0 && this.state.member === 0 && this.state.user_tertentu === 0 ? ("checked") : ""}
                                                                         label={this.state.new_konsumen > 0 && this.state.konsumen === 0 && this.state.member === 0 && this.state.user_tertentu === 0 ? ("Yes") : "No"}
@@ -569,7 +583,8 @@ class VoucherDP extends Component {
                                                     <Form.Row>
                                                         <Form.Group as={Col} controlId="deskripsi">
                                                             <Form.Label>Description</Form.Label>
-                                                            {errMsg.deskripsi && (<span className="float-right text-error badge badge-danger">{errMsg.deskripsi}</span>)}
+                                                            {errMsg.deskripsi && (<span
+                                                                className="float-right text-error badge badge-danger">{errMsg.deskripsi}</span>)}
                                                             <SunEditor
                                                                 defaultValue={this.state.deskripsi}
                                                                 setContents={this.state.deskripsi}
@@ -588,21 +603,23 @@ class VoucherDP extends Component {
                                                         </Form.Group>
                                                         <Form.Group as={Col} xs={2} controlId="img">
                                                             <Form.Label>Image(500x500)</Form.Label>
-                                                            {errMsg.img ? (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
+                                                            {errMsg.img ? (<span
+                                                                className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
                                                             <Form.File
                                                                 setfieldvalue={this.state.img}
                                                                 onChange={this.handleChange}
                                                                 size="sm"
                                                                 name="img"
-                                                                style={{ "color": "rgba(0, 0, 0, 0)" }} />
+                                                                style={{"color": "rgba(0, 0, 0, 0)"}}/>
                                                             <Form.Text className="text-muted">
-                                                                <em>- Images *.jpg, *.jpeg, *.png <br />- Maks. Size 2MB</em>
+                                                                <em>- Images *.jpg, *.jpeg, *.png <br/>- Maks. Size 2MB</em>
                                                             </Form.Text>
 
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} xs={2} controlId="imagePreview">
-                                                            <Form.Label style={{ "color": "rgba(0, 0, 0, 0)" }}>-----</Form.Label>
+                                                            <Form.Label
+                                                                style={{"color": "rgba(0, 0, 0, 0)"}}>-----</Form.Label>
                                                             <Figure>
                                                                 <Figure.Image
                                                                     thumbnail

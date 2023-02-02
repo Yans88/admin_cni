@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
-import { Alert, Button, Col, Collapse, Form } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import React, {Component, Fragment} from 'react'
+import {Alert, Button, Col, Collapse, Form} from 'react-bootstrap';
+import {connect} from 'react-redux';
 import moment from 'moment';
 import "moment/locale/id";
 import Datetime from 'react-datetime';
@@ -8,8 +8,16 @@ import "react-datetime/css/react-datetime.css";
 import AppButton from '../components/button/Button';
 import AppModal from '../components/modal/MyModal';
 import ReactDatatable from '@ashvin27/react-datatable';
-import { postData, addData, addForm, addDataSuccess, showConfirmDel, deleteData, clearAddDataError } from './limitBeliService';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {
+    addData,
+    addDataSuccess,
+    addForm,
+    clearAddDataError,
+    deleteData,
+    postData,
+    showConfirmDel
+} from './limitBeliService';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 import Cookies from 'universal-cookie';
 import NumberFormat from 'react-number-format';
 
@@ -72,7 +80,7 @@ class LimitBeli extends Component {
             appsLoading: true,
             loadTbl: true,
             id_product: selectedId,
-            selected: { ...this.state.selected, id_product: selectedId }
+            selected: {...this.state.selected, id_product: selectedId}
         });
         let param = {};
         param = this.state;
@@ -99,12 +107,12 @@ class LimitBeli extends Component {
                             totalData: response.data.total_data
                         });
                     }
-                    this.setState({ ...this.state, appsLoading: false, loadTbl: false });
+                    this.setState({...this.state, appsLoading: false, loadTbl: false});
                 }, 200);
             })
             .catch(e => {
                 console.log(e);
-                this.setState({ ...this.state, appsLoading: false, loadTbl: false });
+                this.setState({...this.state, appsLoading: false, loadTbl: false});
             });
     }
 
@@ -117,10 +125,15 @@ class LimitBeli extends Component {
                 start_date: _date
             })
         } else {
-            this.setState({ start_date: '' })
+            this.setState({start_date: ''})
         }
 
-        if (!this.state.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
     handleChangeEndDate(date) {
@@ -132,9 +145,14 @@ class LimitBeli extends Component {
                 end_date: _date
             })
         } else {
-            this.setState({ end_date: '' })
+            this.setState({end_date: ''})
         }
-        if (!this.state.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
     discardChanges = () => {
@@ -158,7 +176,7 @@ class LimitBeli extends Component {
             show: true,
             isLoading: false,
             errMsg: {},
-            selected: { ...record }
+            selected: {...record}
         });
     }
 
@@ -177,7 +195,7 @@ class LimitBeli extends Component {
     }
 
     handleChange(evt) {
-        const { name, value } = evt.target;
+        const {name, value} = evt.target;
         this.setState({
             isLoading: false,
             selected: {
@@ -202,8 +220,13 @@ class LimitBeli extends Component {
         errors.end_date = !this.state.end_date ? "End date required" : '';
         errors.limit_pembelian = !this.state.selected.limit_pembelian ? "Required" : '';
 
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
-        this.setState({ errors })
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
+        this.setState({errors})
         let param = {};
         if (this.validateForm(errors)) {
             param = this.state.selected;
@@ -235,7 +258,7 @@ class LimitBeli extends Component {
 
     deleteRecord = (record) => {
         this.setState({
-            selected: { ...record, id_operator: this.props.user.id_operator }
+            selected: {...record, id_operator: this.props.user.id_operator}
         });
         this.props.showConfirmDel(true);
     }
@@ -268,8 +291,9 @@ class LimitBeli extends Component {
     }
 
     render() {
-        const { errMsg, selected } = this.state;
-        const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+        const {errMsg, selected} = this.state;
+        const contentDelete = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
         const columns = [
             {
                 key: "no",
@@ -277,7 +301,8 @@ class LimitBeli extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
+                cell: (row, index) => <div
+                    style={{textAlign: "center"}}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
                 row: 0
             },
             {
@@ -304,7 +329,7 @@ class LimitBeli extends Component {
                 sortable: true,
                 cell: record => {
                     return (<Fragment>
-                        <div style={{ textAlign: "right" }}>
+                        <div style={{textAlign: "right"}}>
                             <NumberFormat
                                 value={record.limit_pembelian}
                                 thousandSeparator={true}
@@ -317,7 +342,6 @@ class LimitBeli extends Component {
             },
 
 
-
             {
                 key: "action",
                 text: "Action",
@@ -326,13 +350,13 @@ class LimitBeli extends Component {
                 align: "center",
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Fragment>
                                 <button
                                     disabled={!this.props.user.pricelist_edit}
                                     className="btn btn-xs btn-success"
                                     onClick={() => this.editRecord(record)}
-                                    style={{ marginRight: '5px' }}>
+                                    style={{marginRight: '5px'}}>
                                     <i className="fa fa-edit"></i> Edit
                                 </button>
                                 <button
@@ -401,20 +425,22 @@ class LimitBeli extends Component {
                                         </div>
                                         <div className="card-body">
                                             <Collapse in={this.state.show}
-                                                style={{
-                                                    marginBottom: "15px",
-                                                    borderBottom: "1px solid #d2d2d2", paddingBottom: "5px"
-                                                }}>
+                                                      style={{
+                                                          marginBottom: "15px",
+                                                          borderBottom: "1px solid #d2d2d2", paddingBottom: "5px"
+                                                      }}>
                                                 <div id="example-collapse-text">
                                                     {this.props.errorPriority ? (
-                                                        <Alert variant="danger" show={true}>Error : {this.props.errorPriority}</Alert>
+                                                        <Alert variant="danger" show={true}>Error
+                                                            : {this.props.errorPriority}</Alert>
                                                     ) : ''}
 
                                                     <Form>
                                                         <Form.Row>
                                                             <Form.Group as={Col} controlId="start_date">
                                                                 <Form.Label>Start Date</Form.Label>
-                                                                {errMsg.start_date ? (<span className="float-right text-error badge badge-danger">{errMsg.start_date}</span>) : ''}
+                                                                {errMsg.start_date ? (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.start_date}</span>) : ''}
                                                                 <Datetime
                                                                     setViewDate={this.state.start_date ? (new Date(this.state.start_date)) : new Date()}
                                                                     value={this.state.start_date ? (new Date(this.state.start_date)) : ''}
@@ -434,15 +460,18 @@ class LimitBeli extends Component {
                                                             </Form.Group>
                                                             <Form.Group as={Col} controlId="start_date">
                                                                 <Form.Label>End Date</Form.Label>
-                                                                {errMsg.end_date ? (<span className="float-right text-error badge badge-danger">{errMsg.end_date}</span>) : ''}
+                                                                {errMsg.end_date ? (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.end_date}</span>) : ''}
                                                                 <Datetime
                                                                     setViewDate={this.state.end_date ? (new Date(this.state.end_date)) : new Date()}
                                                                     value={this.state.end_date ? (new Date(this.state.end_date)) : ''}
                                                                     onChange={this.handleChangeEndDate}
                                                                     inputProps={{
                                                                         readOnly: true,
-                                                                        placeholder: 'End Date', autoComplete: "off",
-                                                                        name: 'end_date', className: 'form-control form-control-sm'
+                                                                        placeholder: 'End Date',
+                                                                        autoComplete: "off",
+                                                                        name: 'end_date',
+                                                                        className: 'form-control form-control-sm'
                                                                     }}
                                                                     renderView={(mode, renderDefault) =>
                                                                         this.renderView(mode, renderDefault, 'end_date')
@@ -453,7 +482,8 @@ class LimitBeli extends Component {
 
                                                             <Form.Group as={Col} controlId="limit_pembelian">
                                                                 <Form.Label>Limit Pembelian</Form.Label>
-                                                                {errMsg.limit_pembelian ? (<span className="float-right text-error badge badge-danger">{errMsg.limit_pembelian}</span>) : ''}
+                                                                {errMsg.limit_pembelian ? (<span
+                                                                    className="float-right text-error badge badge-danger">{errMsg.limit_pembelian}</span>) : ''}
                                                                 <NumberFormat
                                                                     onChange={this.handleChange}
                                                                     name="limit_pembelian"
@@ -463,7 +493,7 @@ class LimitBeli extends Component {
                                                                     decimalScale={2}
                                                                     inputMode="numeric"
                                                                     autoComplete="off"
-                                                                    placeholder="Limit Pembelian" />
+                                                                    placeholder="Limit Pembelian"/>
                                                             </Form.Group>
 
 
@@ -472,7 +502,7 @@ class LimitBeli extends Component {
                                                     </Form>
                                                     <Button
                                                         onClick={this.handleClose.bind(this)}
-                                                        style={{ marginRight: 5 }}
+                                                        style={{marginRight: 5}}
                                                         variant="danger">Close</Button>
                                                     <AppButton
                                                         onClick={this.handleSubmit.bind(this)}
@@ -520,7 +550,7 @@ class LimitBeli extends Component {
                         show={this.props.showFormSuccess}
                         title={this.props.contentMsg}
                         type="success"
-                        handleClose={this.closeSwal.bind(this)} />) : ''}
+                        handleClose={this.closeSwal.bind(this)}/>) : ''}
 
                     <AppModal
                         show={this.props.showFormDelete}
@@ -545,6 +575,7 @@ class LimitBeli extends Component {
         )
     }
 }
+
 const mapStateToProps = (state) => ({
     user: state.auth.currentUser,
     showFormSuccess: state.pricelist.showFormSuccess,

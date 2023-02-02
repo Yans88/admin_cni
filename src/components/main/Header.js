@@ -1,8 +1,8 @@
 import React from 'react'
-import { useHistory, Link, NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {Link, NavLink, useHistory} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-const Header = ({ toggleMenuSidebar, user, onUserLogout }) => {
+const Header = ({toggleMenuSidebar, user, onUserLogout}) => {
 
     const history = useHistory();
 
@@ -15,8 +15,9 @@ const Header = ({ toggleMenuSidebar, user, onUserLogout }) => {
         <nav className="main-header navbar navbar-expand navbar-dark navbar-info text-sm border-bottom-0">
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <NavLink to="#" className="nav-link" onClick={toggleMenuSidebar} data-widget="pushmenu" role="button">
-                        <i className="fas fa-bars" />
+                    <NavLink to="#" className="nav-link" onClick={toggleMenuSidebar} data-widget="pushmenu"
+                             role="button">
+                        <i className="fas fa-bars"/>
                     </NavLink>
 
                 </li>
@@ -30,7 +31,7 @@ const Header = ({ toggleMenuSidebar, user, onUserLogout }) => {
                         type="button"
                         className="nav-link dropdown-toggle"
                         data-toggle="dropdown">
-                        <i className="far fa-user" /> {user.name ? (user.name) : ("Logout")}
+                        <i className="far fa-user"/> {user.name ? (user.name) : ("Logout")}
                     </NavLink>
 
                     <div className="dropdown-menu">
@@ -39,7 +40,7 @@ const Header = ({ toggleMenuSidebar, user, onUserLogout }) => {
                             onClick={logOut}
                             className="dropdown-item">
                             <i className="fa fa-sign-out-alt"></i> Logout
-                    </Link>
+                        </Link>
 
                     </div>
                 </li>
@@ -52,7 +53,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onUserLogout: () => dispatch({ type: "LOGOUT_USER" })
+    onUserLogout: () => dispatch({type: "LOGOUT_USER"})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

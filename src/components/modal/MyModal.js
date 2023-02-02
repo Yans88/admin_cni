@@ -1,19 +1,19 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import Button from '../button/Button'
 
 const AppModal = ({
-    children,
-    handleClose,
-    title,
-    isLoading,
-    form,
-    formSubmit,
-    titleButton,
-    themeButton,
-    hideBtn,
-    ...otherProps
-}) => {
+                      children,
+                      handleClose,
+                      title,
+                      isLoading,
+                      form,
+                      formSubmit,
+                      titleButton,
+                      themeButton,
+                      hideBtn,
+                      ...otherProps
+                  }) => {
     return (
         // eslint-disable-next-line react/button-has-type
         <Modal
@@ -37,7 +37,6 @@ const AppModal = ({
                         {titleButton ? titleButton : "Yes"}
                     </Button>
                 ) : ''}
-
 
 
             </Modal.Footer>

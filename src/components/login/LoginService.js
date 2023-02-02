@@ -2,7 +2,8 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_URL_API;
 const CryptoJS = require("crypto-js");
-const secretKey = process.env.REACT_APP_SECRET_KEY;;
+const secretKey = process.env.REACT_APP_SECRET_KEY;
+
 
 export const loginAdmin = async (username, pass) => {
     const param = {
@@ -48,7 +49,7 @@ export const getProfileAdmin = async () => {
             dt_user = {
                 ...dt_user,
                 id_operator: data.id_admin,
-                
+
             };
         }
     });

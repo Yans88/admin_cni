@@ -1,9 +1,17 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux';
-import { fetchData, addData, addForm, addDataSuccess, showConfirmDel, deleteData, clearAddDataError } from './newsService';
-import { Button, Form, Figure, Col, Row } from 'react-bootstrap';
+import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux';
+import {
+    addData,
+    addDataSuccess,
+    addForm,
+    clearAddDataError,
+    deleteData,
+    fetchData,
+    showConfirmDel
+} from './newsService';
+import {Button, Col, Figure, Form, Row} from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 import ReactDatatable from '@ashvin27/react-datatable';
 
 
@@ -41,14 +49,14 @@ class News extends Component {
         this.setState({
             loadingForm: false,
             errMsg: this.initSelected,
-            selected: { ...record, imgUpload: record.img }
+            selected: {...record, imgUpload: record.img}
         });
         this.props.showForm(true);
     }
 
     deleteRecord = (record) => {
         this.setState({
-            selected: { ...record, id_operator: this.props.user.id_operator }
+            selected: {...record, id_operator: this.props.user.id_operator}
         });
         this.props.showConfirmDel(true);
     }
@@ -85,7 +93,7 @@ class News extends Component {
     }
 
     handleChange(event) {
-        const { name, value } = event.target
+        const {name, value} = event.target
         var val = value;
         this.props.clearErrProps();
         if (event.target.name === "path_file") {
@@ -93,21 +101,24 @@ class News extends Component {
             let reader = new FileReader();
             reader.readAsDataURL(val);
             reader.onloadend = () => {
-                this.setState({ loadingForm: false, selected: { ...this.state.selected, path_file: val } });
+                this.setState({loadingForm: false, selected: {...this.state.selected, path_file: val}});
             };
         }
         if (event.target.name === "img") {
             val = event.target.files[0];
-            this.setState({ selected: { ...this.state.selected, imgUpload: "", img: "" } });
+            this.setState({selected: {...this.state.selected, imgUpload: "", img: ""}});
             if (!val) return;
             if (!val.name.match(/\.(jpg|jpeg|png)$/)) {
-                this.setState({ loadingForm: true, errMsg: { ...this.state.errMsg, img: "Please select valid image(.jpg .jpeg .png)" } });
+                this.setState({
+                    loadingForm: true,
+                    errMsg: {...this.state.errMsg, img: "Please select valid image(.jpg .jpeg .png)"}
+                });
 
                 //setLoading(true);
                 return;
             }
             if (val.size > 2099200) {
-                this.setState({ loadingForm: true, errMsg: { ...this.state.errMsg, img: "File size over 2MB" } });
+                this.setState({loadingForm: true, errMsg: {...this.state.errMsg, img: "File size over 2MB"}});
 
                 //setLoading(true);
                 return;
@@ -115,7 +126,10 @@ class News extends Component {
             let reader = new FileReader();
             reader.readAsDataURL(val);
             reader.onloadend = () => {
-                this.setState({ loadingForm: false, selected: { ...this.state.selected, imgUpload: reader.result, img: val } });
+                this.setState({
+                    loadingForm: false,
+                    selected: {...this.state.selected, imgUpload: reader.result, img: val}
+                });
             };
         }
 
@@ -130,12 +144,22 @@ class News extends Component {
                 [name]: ''
             }
         });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
     }
 
     discardChanges = () => {
-        this.setState({ errMsg: {}, selected: this.initSelected, loadingForm: false });
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
+        this.setState({errMsg: {}, selected: this.initSelected, loadingForm: false});
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
         this.props.showForm(true);
     }
 
@@ -149,8 +173,13 @@ class News extends Component {
         errors.path_file = !this.state.selected.path_file ? "File required" : '';
         errors.img = this.state.selected.img.size > 2099200 ? "File size over 2MB" : '';
 
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
-        this.setState({ errors });
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
+        this.setState({errors});
         if (this.validateForm(this.state.errMsg)) {
             this.props.onAdd(this.state.selected);
         } else {
@@ -175,8 +204,8 @@ class News extends Component {
     }
 
     render() {
-        const { data, user } = this.props;
-        const { selected, errMsg } = this.state;
+        const {data, user} = this.props;
+        const {selected, errMsg} = this.state;
         const columns = [
             {
                 key: "no",
@@ -184,7 +213,8 @@ class News extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
+                cell: (row, index) => <div
+                    style={{textAlign: "center"}}>{((this.state.page_number - 1) * this.state.per_page) + index + 1 + '.'}</div>,
                 row: 0
             },
             {
@@ -195,7 +225,8 @@ class News extends Component {
                 cell: record => {
                     return (
                         <Fragment>
-                            <a href={record.path_file} title={record.filename} target="_blank" rel="noopener noreferrer">{record.filename}</a>
+                            <a href={record.path_file} title={record.filename} target="_blank"
+                               rel="noopener noreferrer">{record.filename}</a>
                         </Fragment>
                     )
                 }
@@ -208,7 +239,7 @@ class News extends Component {
                 sortable: false,
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Figure>
                                 <Figure.Image
                                     thumbnail
@@ -232,17 +263,17 @@ class News extends Component {
                 sortable: false,
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Fragment>
                                 {this.props.user.news_edit ? (<button
                                     className="btn btn-xs btn-success"
                                     onClick={e => this.editRecord(record)}
-                                    style={{ marginRight: '5px' }}>
+                                    style={{marginRight: '5px'}}>
                                     <i className="fa fa-edit"></i> Edit
                                 </button>) : (<button
                                     className="btn btn-xs btn-success"
                                     disabled
-                                    style={{ marginRight: '5px' }}>
+                                    style={{marginRight: '5px'}}>
                                     <i className="fa fa-edit"></i> Edit
                                 </button>)}
                                 {this.props.user.news_del ? (
@@ -295,17 +326,18 @@ class News extends Component {
                     onInput={this.handleChange.bind(this)}
                     value={selected.title}
                     onChange={this.handleChange.bind(this)}
-                    placeholder="Title" />
+                    placeholder="Title"/>
             </Form.Group>
             <Row>
                 <Col xs={6}>
                     <Form.Group controlId="img">
                         <Form.Label>Image(500x500)</Form.Label>{errMsg.img ?
-                            (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : null}
-                        <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={this.handleChange.bind(this)} />
-						<Form.Text className="text-muted" style={{textAlign:"left"}}>
-							<em>- Images *.jpg, *.jpeg, *.png <br/>- Maks. Size 2MB</em>
-						</Form.Text>
+                        (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : null}
+                        <Form.File size="sm" name="img" setfieldvalue={selected.img}
+                                   onChange={this.handleChange.bind(this)}/>
+                        <Form.Text className="text-muted" style={{textAlign: "left"}}>
+                            <em>- Images *.jpg, *.jpeg, *.png <br/>- Maks. Size 2MB</em>
+                        </Form.Text>
                     </Form.Group>
                     {selected.imgUpload ? (<Form.Group controlId="imagePreview">
                         <Figure>
@@ -322,13 +354,14 @@ class News extends Component {
                 <Col xs={6}>
                     <Form.Group controlId="path_file">
                         <Form.Label>File</Form.Label>{errMsg.path_file ?
-                            (<span className="float-right text-error badge badge-danger">{errMsg.path_file}</span>) : null}
-                        <Form.File size="sm" name="path_file" setfieldvalue={selected.path_file} onChange={this.handleChange.bind(this)} />
-						
+                        (<span className="float-right text-error badge badge-danger">{errMsg.path_file}</span>) : null}
+                        <Form.File size="sm" name="path_file" setfieldvalue={selected.path_file}
+                                   onChange={this.handleChange.bind(this)}/>
+
                         {selected.filename ? (
                             <Fragment>
-                                <Form.Label style={{ paddingTop: 10, marginBottom: 0 }}>Current File:
-                    </Form.Label>{selected.filename}
+                                <Form.Label style={{paddingTop: 10, marginBottom: 0}}>Current File:
+                                </Form.Label>{selected.filename}
                             </Fragment>
                         ) : null}
                     </Form.Group>
@@ -337,7 +370,8 @@ class News extends Component {
             </Row>
         </Form>;
 
-        const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+        const contentDelete = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
         return (
             <div>
                 <div className="content-wrapper">
@@ -347,10 +381,13 @@ class News extends Component {
                             <div className="row mb-2">
                                 <div className="col-sm-6">
                                     <h1 className="m-0">News</h1>
-                                </div>{/* /.col */}
+                                </div>
+                                {/* /.col */}
 
-                            </div>{/* /.row */}
-                        </div>{/* /.container-fluid */}
+                            </div>
+                            {/* /.row */}
+                        </div>
+                        {/* /.container-fluid */}
                     </div>
                     {/* /.content-header */}
                     {/* Main content */}
@@ -359,10 +396,12 @@ class News extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     {/* card start */}
-                                    <div className="card card-success shadow-lg" style={{ "minHeight": "470px" }}>
+                                    <div className="card card-success shadow-lg" style={{"minHeight": "470px"}}>
                                         <div className="card-header">
-                                            {user.news_add ? (<Button variant="success" onClick={this.discardChanges}><i className="fa fa-plus"></i> Add</Button>
-                                            ) : (<Button variant="success" disabled><i className="fa fa-plus"></i> Add</Button>
+                                            {user.news_add ? (<Button variant="success" onClick={this.discardChanges}><i
+                                                    className="fa fa-plus"></i> Add</Button>
+                                            ) : (<Button variant="success" disabled><i
+                                                    className="fa fa-plus"></i> Add</Button>
                                             )}
 
                                         </div>

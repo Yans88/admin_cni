@@ -1,7 +1,7 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
-import { Badge } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import {Badge} from 'react-bootstrap';
+import {connect} from 'react-redux';
 import MemberService from './MemberService';
 
 const Members = (auth) => {
@@ -43,7 +43,8 @@ const Members = (auth) => {
             width: 20,
             align: "center",
             sortable: false,
-            cell: (row, index) => <div style={{ textAlign: "center" }}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
+            cell: (row, index) => <div
+                style={{textAlign: "center"}}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
             row: 0
         },
         {
@@ -52,7 +53,7 @@ const Members = (auth) => {
             align: "center",
             sortable: true,
             cell: record => {
-                return (<Fragment> {record.cni_id} <br />
+                return (<Fragment> {record.cni_id} <br/>
                     {record.status === 1 ? (<Badge variant="success">Verified</Badge>) : ''}
                 </Fragment>)
             }
@@ -68,7 +69,9 @@ const Members = (auth) => {
             text: "Contact",
             align: "center",
             sortable: false,
-            cell: record => { return (<Fragment> {record.email} <br /><b>Phone</b> : {record.phone}</Fragment>) }
+            cell: record => {
+                return (<Fragment> {record.email} <br/><b>Phone</b> : {record.phone}</Fragment>)
+            }
         }
     ];
     const config = {
@@ -126,10 +129,13 @@ const Members = (auth) => {
                         <div className="row mb-2">
                             <div className="col-sm-6">
                                 <h1 className="m-0">Members</h1>
-                            </div>{/* /.col */}
+                            </div>
+                            {/* /.col */}
 
-                        </div>{/* /.row */}
-                    </div>{/* /.container-fluid */}
+                        </div>
+                        {/* /.row */}
+                    </div>
+                    {/* /.container-fluid */}
                 </div>
                 {/* /.content-header */}
                 {/* Main content */}
@@ -160,7 +166,6 @@ const Members = (auth) => {
                         </div>
                     </div>
                 </section>
-
 
 
             </div>

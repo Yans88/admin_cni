@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import Cookies from 'universal-cookie';
-import { Button } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import {Button} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {Link, useHistory} from 'react-router-dom';
 import ProductService from './ProductService';
-import { TblProducts } from './TblProducts';
+import {TblProducts} from './TblProducts';
 import AppModal from '../components/modal/MyModal';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
-import { array } from 'yup/lib/locale';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
+import {array} from 'yup/lib/locale';
 
 const Product = (auth) => {
     const [productList, setProductList] = useState([]);
     const [totalData, setTotalData] = useState(0);
-    const [selected, setSelected] = useState({ id_product: '' });
+    const [selected, setSelected] = useState({id_product: ''});
     const [pageNumb, setPageNumb] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [sortOrder, setSortOrder] = useState("ASC");
@@ -34,13 +34,13 @@ const Product = (auth) => {
 
     const closeSwal = () => {
         setshowSwalSuccess(false);
-       /* const param = {
-            sort_order: sortOrder,
-            sort_column: sortColumn,
-            keyword: filterValue,
-            page_number: pageNumb,
-            per_page: pageSize
-        }*/
+        /* const param = {
+             sort_order: sortOrder,
+             sort_column: sortColumn,
+             keyword: filterValue,
+             page_number: pageNumb,
+             per_page: pageSize
+         }*/
         //getData(param);
     }
     /*const getData = async (queryString) => {
@@ -77,7 +77,8 @@ const Product = (auth) => {
             id_product: selected.id_product,
             id_operator: auth.user.id_operator
         }
-        contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+        contentSwal = <div
+            dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>'}}/>;
 
         await ProductService.postData(_data, "DELETE_DATA").then((res) => {
             err_code = res.data.err_code;
@@ -162,9 +163,9 @@ const Product = (auth) => {
         let dtt = [];
         dt.map((x, key) => {
             if (x.id_product === record.id_product) {
-                _dt = { ...x, is_active: isActive }
+                _dt = {...x, is_active: isActive}
             } else {
-                _dt = { ...x };
+                _dt = {...x};
             }
             dtt[key] = _dt;
         });
@@ -190,9 +191,9 @@ const Product = (auth) => {
         let dtt = [];
         dt.map((x, key) => {
             if (x.id_product === selected.id_product) {
-                _dt = { ...x, is_sold_out: isSoldOut }
+                _dt = {...x, is_sold_out: isSoldOut}
             } else {
-                _dt = { ...x };
+                _dt = {...x};
             }
             dtt[key] = _dt;
         });
@@ -201,11 +202,12 @@ const Product = (auth) => {
             is_sold_out: isSoldOut,
             id_operator: auth.user.id_operator
         }
-		const contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>' }} />;
+        const contentSwal = <div
+            dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>'}}/>;
         setProductList(dtt);
-		setErrMsg(contentSwal);
-		setshowSwalSuccess(true);
-		setSoldOutForm(false);
+        setErrMsg(contentSwal);
+        setshowSwalSuccess(true);
+        setSoldOutForm(false);
         await ProductService.postData(_data, "SOLD_OUT").then((res) => {
 
         }).catch((error) => {
@@ -238,10 +240,11 @@ const Product = (auth) => {
         setSelected(record)
         setSoldOutForm(true);
     }
-    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+    const contentDelete = <div
+        dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
     const contentSoldOut = <div dangerouslySetInnerHTML={{
         __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin akan <strong>mengubah status</strong> produk <br/><strong>' + selected.product_name + '</strong>?</div>'
-    }} />;
+    }}/>;
 
     return (
         <div>
@@ -252,10 +255,13 @@ const Product = (auth) => {
                         <div className="row mb-2">
                             <div className="col-sm-6">
                                 <h1 className="m-0">Products</h1>
-                            </div>{/* /.col */}
+                            </div>
+                            {/* /.col */}
 
-                        </div>{/* /.row */}
-                    </div>{/* /.container-fluid */}
+                        </div>
+                        {/* /.row */}
+                    </div>
+                    {/* /.container-fluid */}
                 </div>
                 {/* /.content-header */}
                 {/* Main content */}
@@ -267,9 +273,11 @@ const Product = (auth) => {
                                 <div className="card card-success shadow-lg">
                                     <div className="card-header">
                                         {auth.user.product_add ? (
-                                            <Link to="/add_product"><Button variant="success"><i className="fa fa-plus"></i> Add</Button>
+                                            <Link to="/add_product"><Button variant="success"><i
+                                                className="fa fa-plus"></i> Add</Button>
                                             </Link>
-                                        ) : <Button variant="success" disabled><i className="fa fa-plus"></i> Add</Button>}
+                                        ) : <Button variant="success" disabled><i
+                                            className="fa fa-plus"></i> Add</Button>}
 
                                     </div>
                                     <div className="card-body">

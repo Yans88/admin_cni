@@ -1,15 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, {Component, Fragment} from 'react';
+import {connect} from 'react-redux';
 import ReactDatatable from '@ashvin27/react-datatable';
 import TransService from './TransService';
 import moment from 'moment';
 import "moment/locale/id";
-import { Figure, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import {Figure, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import NoImg from '../assets/noPhoto.jpg'
-import { FaTimes } from "react-icons/fa"
-import { Link } from 'react-router-dom';
+import {FaTimes} from "react-icons/fa"
+import {Link} from 'react-router-dom';
 import AppModal from '../components/modal/MyModal';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 
 class ListUlasan extends Component {
     constructor(props) {
@@ -46,7 +46,7 @@ class ListUlasan extends Component {
 
 
     getData = () => {
-        this.setState({ loadTbl: true, id_operator: this.props.user.id_operator });
+        this.setState({loadTbl: true, id_operator: this.props.user.id_operator});
         TransService.postData(this.state.queryString, "GET_DATA")
             .then(response => {
                 setTimeout(() => {
@@ -64,7 +64,7 @@ class ListUlasan extends Component {
                             totalData: 0
                         });
                     }
-                    this.setState({ loadTbl: false });
+                    this.setState({loadTbl: false});
                 }, 400);
             })
             .catch(e => {
@@ -165,7 +165,8 @@ class ListUlasan extends Component {
                     show: false,
                     showReject: false,
                     isLoading: false,
-                    errMsg: <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>' }} />,
+                    errMsg: <div
+                        dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil diupdate</div>'}}/>,
                     showSwalSuccess: true
 
                 });
@@ -181,7 +182,8 @@ class ListUlasan extends Component {
     }
 
     render() {
-        const contentProgress = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>memproses ulasan ini ?</div>' }} />;
+        const contentProgress = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>memproses ulasan ini ?</div>'}}/>;
 
         const columns = [
             {
@@ -190,7 +192,7 @@ class ListUlasan extends Component {
                 width: 20,
                 align: "center",
                 sortable: false,
-                cell: (row, index) => <div style={{ textAlign: "center" }}>
+                cell: (row, index) => <div style={{textAlign: "center"}}>
                     {((this.state.queryString.page_number - 1) * this.state.queryString.per_page) + index + 1 + '.'}
                 </div>,
                 row: 0
@@ -218,7 +220,7 @@ class ListUlasan extends Component {
                             overlay={
                                 <Tooltip id="tooltip-right">
                                     Detail Ulasan
-                            </Tooltip>
+                                </Tooltip>
                             }
                         >
                             <Link to='/waiting_approve' onClick={() => this.redirect_ulasan(record)}>
@@ -242,7 +244,7 @@ class ListUlasan extends Component {
                 width: 60,
                 sortable: true,
                 cell: record => {
-                    return (<div style={{ textAlign: "center" }}>{record.rating}</div>)
+                    return (<div style={{textAlign: "center"}}>{record.rating}</div>)
                 }
             },
             {
@@ -253,7 +255,7 @@ class ListUlasan extends Component {
                 width: 155,
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             <Figure>
                                 <Figure.Image
                                     thumbnail
@@ -277,34 +279,34 @@ class ListUlasan extends Component {
                 sortable: false,
                 cell: record => {
                     return (
-                        <div style={{ textAlign: "center" }}>
+                        <div style={{textAlign: "center"}}>
                             {this.props.user.ulasan_upd_status ? (
                                 <Fragment>
                                     <button
                                         onClick={e => this.showFormApprove(record)}
                                         className="btn btn-xs btn-success"
-                                        style={{ marginBottom: '3px' }}>
+                                        style={{marginBottom: '3px'}}>
                                         <i className="fa fa-check"></i> Approve
                                     </button>
                                     <button
                                         onClick={() => this.showFormReject(record)}
-                                        style={{ marginBottom: '3px', width: 70 }}
+                                        style={{marginBottom: '3px', width: 70}}
                                         className="btn btn-danger btn-xs">
-                                        <FaTimes /> Reject
+                                        <FaTimes/> Reject
                                     </button>
                                 </Fragment>) : (
                                 <Fragment>
                                     <button
                                         disabled
                                         className="btn btn-xs btn-success"
-                                        style={{ marginBottom: '3px' }}>
+                                        style={{marginBottom: '3px'}}>
                                         <i className="fa fa-check"></i> Approve
                                     </button>
                                     <button
                                         disabled
-                                        style={{ marginBottom: '3px', width: 70 }}
+                                        style={{marginBottom: '3px', width: 70}}
                                         className="btn btn-danger btn-xs">
-                                        <FaTimes /> Reject
+                                        <FaTimes/> Reject
                                     </button>
                                 </Fragment>
                             )}

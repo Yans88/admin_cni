@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
+import React, {Fragment} from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
 import NumberFormat from 'react-number-format';
-import { Link } from 'react-router-dom';
-import { Badge, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import {Link} from 'react-router-dom';
+import {Badge, Form, OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 
 export const TblProducts = props => {
@@ -14,12 +14,12 @@ export const TblProducts = props => {
             width: 20,
             align: "center",
             sortable: false,
-            cell: (row, index) => <div style={{ textAlign: "center" }}>
+            cell: (row, index) => <div style={{textAlign: "center"}}>
                 {((props.pageNumb - 1) * props.pageSize) + index + 1 + '.'}
             </div>,
             row: 0
         },
-		{
+        {
             key: "kode_produk",
             text: "Kode Produk",
             align: "center",
@@ -44,7 +44,7 @@ export const TblProducts = props => {
             sortable: true,
             width: 120,
             cell: record => {
-                return (<div style={{ textAlign: "right" }}>
+                return (<div style={{textAlign: "right"}}>
                     <Fragment>
                         {props.hakAkses.pricelist_view ? (
                             <OverlayTrigger
@@ -84,7 +84,7 @@ export const TblProducts = props => {
             sortable: true,
             width: 120,
             cell: record => {
-                return (<div style={{ textAlign: "right" }}>
+                return (<div style={{textAlign: "right"}}>
                     <Fragment>
                         {props.hakAkses.pricelist_view ? (
                             <OverlayTrigger
@@ -130,7 +130,7 @@ export const TblProducts = props => {
                         {record.id_product > 1 ? (
                             <OverlayTrigger
                                 placement="left"
-                                delay={{ hide: 50 }}
+                                delay={{hide: 50}}
                                 overlay={
                                     <Tooltip id="tooltip-left">
                                         Set is sold out ?
@@ -161,7 +161,7 @@ export const TblProducts = props => {
                             displayType={'text'}
                         />)}
 
-                    </Fragment >
+                    </Fragment>
                 )
             }
         },
@@ -173,7 +173,7 @@ export const TblProducts = props => {
             align: "center",
             cell: record => {
                 return (
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{textAlign: "center"}}>
                         <Fragment>
                             <Form.Check
                                 disabled={record.id_product === 1 || record.id_product === 65 || record.id_product === 64 || record.id_product === 66 ? true : false}
@@ -197,19 +197,19 @@ export const TblProducts = props => {
             align: "center",
             cell: record => {
                 return (
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{textAlign: "center"}}>
                         <Fragment>
                             <button
                                 className="btn btn-info btn-xs"
                                 onClick={() => props.listImg(record)}
-                                style={{ marginRight: '5px' }}>
+                                style={{marginRight: '5px'}}>
                                 <i className="fa fa-list"></i> Image
                             </button>
                             <button
                                 disabled={!props.hakAkses.product_edit}
                                 className="btn btn-xs btn-success"
                                 onClick={() => props.editRecord(record)}
-                                style={{ marginRight: '5px' }}>
+                                style={{marginRight: '5px'}}>
                                 <i className="fa fa-edit"></i> Edit
                             </button>
                             <button

@@ -52,7 +52,7 @@ const reducer = (state = initialState, action) => {
                 currentUser: action.currentUser
             };
         default:
-            return { ...state };
+            return {...state};
     }
 };
 

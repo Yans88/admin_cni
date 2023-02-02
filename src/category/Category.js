@@ -1,15 +1,15 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import ReactDatatable from '@ashvin27/react-datatable';
 import CategoryService from './CategoryService';
-import { Button, Form, Figure } from 'react-bootstrap';
+import {Button, Figure, Form} from 'react-bootstrap';
 import AppModal from '../components/modal/MyModal';
-import { connect } from 'react-redux';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {connect} from 'react-redux';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 import NoImg from '../assets/noPhoto.jpg'
 
 const Category = (auth) => {
-    const initData = { id_category: "", category_name: "", img: "", imgUpload: "" };
-    const errorValidate = { img: '', category_name: '' };
+    const initData = {id_category: "", category_name: "", img: "", imgUpload: ""};
+    const errorValidate = {img: '', category_name: ''};
     const [selected, setSelected] = useState(initData);
     const [categoryList, setCategoryList] = useState([]);
     const [totalData, setTotalData] = useState(0);
@@ -50,7 +50,8 @@ const Category = (auth) => {
             width: 20,
             align: "center",
             sortable: false,
-            cell: (row, index) => <div style={{ textAlign: "center" }}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
+            cell: (row, index) => <div
+                style={{textAlign: "center"}}>{((pageNumb - 1) * pageSize) + index + 1 + '.'}</div>,
             row: 0
         },
         {
@@ -67,7 +68,7 @@ const Category = (auth) => {
             width: 250,
             cell: record => {
                 return (
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{textAlign: "center"}}>
                         <Figure>
                             <Figure.Image
                                 thumbnail
@@ -96,13 +97,13 @@ const Category = (auth) => {
                             <button
                                 className="btn btn-xs btn-success"
                                 onClick={e => editRecord(record)}
-                                style={{ marginRight: '5px' }}>
+                                style={{marginRight: '5px'}}>
                                 <i className="fa fa-edit"></i> Edit
                             </button>) : (
                             <button
                                 className="btn btn-xs btn-success"
                                 disabled
-                                style={{ marginRight: '5px' }}>
+                                style={{marginRight: '5px'}}>
                                 <i className="fa fa-edit"></i> Edit
                             </button>
                         )}
@@ -141,7 +142,7 @@ const Category = (auth) => {
 
     const editRecord = (record) => {
         setActionForm("EDIT_DATA")
-        setSelected({ ...record, imgUpload: record.img })
+        setSelected({...record, imgUpload: record.img})
         setErrMsg(errorValidate);
         setShow(true);
     }
@@ -203,13 +204,15 @@ const Category = (auth) => {
             _data.append('img', userPost.img);
             _data.append('created_by', auth.user.id_operator);
             _data.append('category_name', userPost.category_name);
-            contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil ditambahkan</div>' }} />;
+            contentSwal = <div
+                dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil ditambahkan</div>'}}/>;
         }
         if (actionForm === "EDIT_DATA") {
             _data.append('img', userPost.img);
             _data.append('updated_by', auth.user.id_operator);
             _data.append('category_name', userPost.category_name);
-            contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil diubah</div>' }} />;
+            contentSwal = <div
+                dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil diubah</div>'}}/>;
         }
         if (actionForm === "DELETE_DATA") {
             _data = {};
@@ -217,7 +220,8 @@ const Category = (auth) => {
                 id_category: selected.id_category,
                 deleted_by: auth.user.id_operator
             }
-            contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+            contentSwal = <div
+                dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>'}}/>;
         }
 
         await CategoryService.postData(_data, actionForm).then((res) => {
@@ -225,7 +229,7 @@ const Category = (auth) => {
             setLoading(false);
             if (err_code !== '00') {
                 setErrMsg(res.data.err_msg);
-                return;
+
             } else {
                 setShow(false);
                 setdeleteForm(false);
@@ -242,11 +246,11 @@ const Category = (auth) => {
         var fileSize = selected.img.size;
         var error = null;
         if (selected.category_name === null || selected.category_name === "") {
-            error = { ...error, category_name: "Please enter categoty name" };
+            error = {...error, category_name: "Please enter categoty name"};
         }
         if (selected.img) {
             if (fileSize > 2099200) { // satuan bytes 2099200 => 2MB
-                error = { ...error, img: "File size over 2MB" };
+                error = {...error, img: "File size over 2MB"};
             }
         }
         setErrMsg(error);
@@ -273,27 +277,27 @@ const Category = (auth) => {
     }
 
     const handleChange = event => {
-        const { name, value } = event.target
+        const {name, value} = event.target
         var val = value;
         setErrMsg(errorValidate);
         if (event.target.name === "img") {
             val = event.target.files[0];
-            setSelected({ ...selected, imgUpload: "", img: "" })
+            setSelected({...selected, imgUpload: "", img: ""})
             if (!val) return;
             if (!val.name.match(/\.(jpg|jpeg|png)$/)) {
-                setErrMsg({ img: "Please select valid image(.jpg .jpeg .png)" });
+                setErrMsg({img: "Please select valid image(.jpg .jpeg .png)"});
                 setLoading(true);
                 return;
             }
             if (val.size > 2099200) {
-                setErrMsg({ img: "File size over 2MB" });
+                setErrMsg({img: "File size over 2MB"});
                 setLoading(true);
                 return;
             }
             let reader = new FileReader();
             reader.readAsDataURL(val);
             reader.onloadend = () => {
-                setSelected({ ...selected, imgUpload: reader.result, img: val })
+                setSelected({...selected, imgUpload: reader.result, img: val})
             };
         }
         setSelected({
@@ -304,19 +308,20 @@ const Category = (auth) => {
 
     const frmUser = <Form id="myForm">
         <Form.Group controlId="id_category">
-            <Form.Control type="hidden" defaultValue={selected.id_category} />
+            <Form.Control type="hidden" defaultValue={selected.id_category}/>
         </Form.Group>
         <Form.Group controlId="category_name">
             <Form.Label>Category</Form.Label>{errMsg.category_name ?
-                (<span className="float-right text-error badge badge-danger">{errMsg.category_name}</span>) : ''}
-            <Form.Control size="sm" name="category_name" type="text" value={selected.category_name} onChange={handleChange} placeholder="Category" />
+            (<span className="float-right text-error badge badge-danger">{errMsg.category_name}</span>) : ''}
+            <Form.Control size="sm" name="category_name" type="text" value={selected.category_name}
+                          onChange={handleChange} placeholder="Category"/>
         </Form.Group>
         <Form.Group controlId="image">
             <Form.Label>Image(500x500)</Form.Label>{errMsg.img ?
-                (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
-            <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={handleChange} />
-			<Form.Text className="text-muted" style={{textAlign:"left"}}>
-				<em>- Images *.jpg, *.jpeg, *.png dan Maks. Size 2MB</em>
+            (<span className="float-right text-error badge badge-danger">{errMsg.img}</span>) : ''}
+            <Form.File size="sm" name="img" setfieldvalue={selected.img} onChange={handleChange}/>
+            <Form.Text className="text-muted" style={{textAlign: "left"}}>
+                <em>- Images *.jpg, *.jpeg, *.png dan Maks. Size 2MB</em>
             </Form.Text>
         </Form.Group>
         {selected.imgUpload ? (<Form.Group controlId="imagePreview">
@@ -329,11 +334,12 @@ const Category = (auth) => {
                 />
             </Figure>
         </Form.Group>) : ''}
- 
+
 
     </Form>;
 
-    const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+    const contentDelete = <div
+        dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
 
     return (
         <div>
@@ -344,10 +350,13 @@ const Category = (auth) => {
                         <div className="row mb-2">
                             <div className="col-sm-6">
                                 <h1 className="m-0">Category</h1>
-                            </div>{/* /.col */}
+                            </div>
+                            {/* /.col */}
 
-                        </div>{/* /.row */}
-                    </div>{/* /.container-fluid */}
+                        </div>
+                        {/* /.row */}
+                    </div>
+                    {/* /.container-fluid */}
                 </div>
                 {/* /.content-header */}
                 {/* Main content */}
@@ -358,7 +367,10 @@ const Category = (auth) => {
                                 {/* card start */}
                                 <div className="card card-success shadow-lg">
                                     <div className="card-header">
-                                        {auth.user.category_add ? <Button variant="success" onClick={discardChanges}><i className="fa fa-plus"></i> Add</Button> : <Button variant="success" disabled><i className="fa fa-plus"></i> Add</Button>}
+                                        {auth.user.category_add ? <Button variant="success" onClick={discardChanges}><i
+                                                className="fa fa-plus"></i> Add</Button> :
+                                            <Button variant="success" disabled><i
+                                                className="fa fa-plus"></i> Add</Button>}
 
                                         {/* <ToastProvider
                                             placement="bottom-right" autoDismiss

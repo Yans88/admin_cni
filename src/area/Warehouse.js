@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import AreaService from './AreaService';
-import { Form, OverlayTrigger, Spinner, Tooltip } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { BsFillTrashFill } from "react-icons/bs";
-import { FaEdit } from 'react-icons/fa';
+import {Form, OverlayTrigger, Spinner, Tooltip} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {BsFillTrashFill} from "react-icons/bs";
+import {FaEdit} from 'react-icons/fa';
 import AppButton from '../components/button/Button';
 import AppModal from '../components/modal/MyModal';
-import { SelectProv, SelectProvMulti } from '../components/modal/MySelect';
+import {SelectProv, SelectProvMulti} from '../components/modal/MySelect';
 import axios from 'axios';
-import { AppSwalSuccess } from '../components/modal/SwalSuccess';
+import {AppSwalSuccess} from '../components/modal/SwalSuccess';
 
 class Warehouse extends Component {
     constructor(props) {
@@ -52,7 +52,7 @@ class Warehouse extends Component {
     }
 
     getData = () => {
-        this.setState({ loadWH: true });
+        this.setState({loadWH: true});
         AreaService.postData(this.state.queryString, "GET_WH")
             .then(response => {
                 setTimeout(() => {
@@ -71,7 +71,7 @@ class Warehouse extends Component {
 
                         });
                     }
-                    this.setState({ loadWH: false });
+                    this.setState({loadWH: false});
                 }, 400);
             })
             .catch(e => {
@@ -80,7 +80,7 @@ class Warehouse extends Component {
     };
 
     getDataArea = (evt) => {
-        this.setState({ loadDataArea: true, removeIdProv: '', multiValue: [] });
+        this.setState({loadDataArea: true, removeIdProv: '', multiValue: []});
         AreaService.postData(evt, "GET_AREA")
             .then(response => {
                 setTimeout(() => {
@@ -99,7 +99,7 @@ class Warehouse extends Component {
                             notFound: "Data not found"
                         });
                     }
-                    this.setState({ loadDataArea: false });
+                    this.setState({loadDataArea: false});
                 }, 400);
             })
             .catch(e => {
@@ -138,23 +138,24 @@ class Warehouse extends Component {
             isLoading: false,
             errMsg: {},
             actionForm: "ADD_WH",
-            selected: { ...record }
+            selected: {...record}
         });
         this.getOptions();
     }
 
     handleClose2(evt, id) {
-        this.setState({ showFormAreaa: false })
+        this.setState({showFormAreaa: false})
         Object.keys(this.iniSelected).map((key) => {
-            this.setState({ selected: { ...evt, [key]: evt[key], id_operator: this.props.user.id_operator } })
+            this.setState({selected: {...evt, [key]: evt[key], id_operator: this.props.user.id_operator}})
             return 1;
         })
         this.getDataArea(evt);
         //evt.classList.remove('li_active');
         //evt.target.classList.add('li_active');S
     };
+
     handleChange(evt) {
-        const { name, value } = evt.target;
+        const {name, value} = evt.target;
         this.setState({
             selected: {
                 ...this.state.selected,
@@ -172,8 +173,13 @@ class Warehouse extends Component {
         });
         errors.wh_name = !this.state.selected.wh_name ? "Warehouse name required" : '';
         errors.id_prov = !this.state.selected.id_prov ? "Origin required" : '';
-        if (!this.state.selected.id_operator) this.setState({ selected: { ...this.state.selected, id_operator: this.props.user.id_operator } });
-        this.setState({ errors, isLoading: false })
+        if (!this.state.selected.id_operator) this.setState({
+            selected: {
+                ...this.state.selected,
+                id_operator: this.props.user.id_operator
+            }
+        });
+        this.setState({errors, isLoading: false})
         this.handleSave();
     }
 
@@ -186,7 +192,7 @@ class Warehouse extends Component {
     }
 
     async removeArea(evt, id) {
-        await this.setState({ actionForm: 'REMOVE_AREA', removeIdProv: evt.id_provinsi })
+        await this.setState({actionForm: 'REMOVE_AREA', removeIdProv: evt.id_provinsi})
         this.handleSaveArea();
     }
 
@@ -231,10 +237,12 @@ class Warehouse extends Component {
             let err_code = '';
             let param = this.state.selected;
             if (this.state.actionForm === "ADD_WH") {
-                contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil disimpan</div>' }} />;
+                contentSwal = <div
+                    dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong style="font-size:24px;">Success</strong>, Data berhasil disimpan</div>'}}/>;
             }
             if (this.state.actionForm === "DEL_WH") {
-                contentSwal = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+                contentSwal = <div
+                    dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>'}}/>;
             }
 
             await AreaService.postData(param, this.state.actionForm).then((res) => {
@@ -275,8 +283,8 @@ class Warehouse extends Component {
     };
 
     async getOptions() {
-        this.setState({ isLoadingSelected: true })
-        const param = { is_wh: 1 }
+        this.setState({isLoadingSelected: true})
+        const param = {is_wh: 1}
         const url = process.env.REACT_APP_URL_API + "/provinsi"
         const res = await axios.post(url, param)
         const err_code = res.data.err_code
@@ -331,9 +339,9 @@ class Warehouse extends Component {
         this.setState({
             ...this.state,
             deleteForm: true,
-            errMsg: { id_prov: '' },
+            errMsg: {id_prov: ''},
             actionForm: "DEL_WH",
-            selected: { ...record, id_operator: this.props.user.id_operator }
+            selected: {...record, id_operator: this.props.user.id_operator}
         });
     }
 
@@ -343,20 +351,22 @@ class Warehouse extends Component {
             ...this.state,
             loadArea: true,
             showFormAreaa: !this.state.showFormAreaa ? true : false,
-            selected: { ...this.state.selected, id_operator: this.props.user.id_operator },
-            errMsg: { id_prov: '' },
+            selected: {...this.state.selected, id_operator: this.props.user.id_operator},
+            errMsg: {id_prov: ''},
             actionForm: "ADD_AREA"
         });
         this.getOptions();
     }
 
     render() {
-        const contentDelete = <div dangerouslySetInnerHTML={{ __html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>' }} />;
+        const contentDelete = <div
+            dangerouslySetInnerHTML={{__html: '<div id="caption" style=padding-bottom:20px;">Apakah anda yakin <br/>akan menghapus data ini ?</div>'}}/>;
         const frmUser = <Form id="myForm">
             <Form.Group controlId="wh_name">
                 <Form.Label>Warehouse Name</Form.Label>
                 {this.state.errMsg.wh_name ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.wh_name}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.wh_name}</span>) : null}
                 <Form.Control
                     value={this.state.selected['wh_name']}
                     name="wh_name"
@@ -364,37 +374,43 @@ class Warehouse extends Component {
                     type="text"
                     placeholder="Warehouse Name"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
             <Form.Group controlId="origin">
                 <Form.Label>Origin</Form.Label>
                 {this.state.errMsg.id_prov ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.id_prov}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.id_prov}</span>) : null}
                 <SelectProv
-                    myVal={this.state.selected['id_prov'] ? ({ value: this.state.selected['id_prov'], label: this.state.selected['provinsi_name'] }) : ''}
+                    myVal={this.state.selected['id_prov'] ? ({
+                        value: this.state.selected['id_prov'],
+                        label: this.state.selected['provinsi_name']
+                    }) : ''}
                     getData={this.state.selectOptions}
                     isLoading={this.state.isLoadingSelected}
                     onChange={this.onchangeSelect}
                 />
             </Form.Group>
-			<Form.Group controlId="alamat_wh">
+            <Form.Group controlId="alamat_wh">
                 <Form.Label>Alamat</Form.Label>
                 {this.state.errMsg.alamat_wh ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.alamat_wh}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.alamat_wh}</span>) : null}
                 <Form.Control
-					 as="textarea"
+                    as="textarea"
                     value={this.state.selected['alamat_wh'] && this.state.selected['alamat_wh']}
                     name="alamat_wh"
                     size="sm"
                     type="text"
                     placeholder="Alamat"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
-			<Form.Group controlId="phone_wh">
+            <Form.Group controlId="phone_wh">
                 <Form.Label>Phone</Form.Label>
                 {this.state.errMsg.phone_wh ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.phone_wh}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.phone_wh}</span>) : null}
                 <Form.Control
                     value={this.state.selected['phone_wh'] && this.state.selected['phone_wh']}
                     name="phone_wh"
@@ -402,12 +418,13 @@ class Warehouse extends Component {
                     type="text"
                     placeholder="Phone"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
-			<Form.Group controlId="email_wh">
+            <Form.Group controlId="email_wh">
                 <Form.Label>Email</Form.Label>
                 {this.state.errMsg.email_wh ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.email_wh}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.email_wh}</span>) : null}
                 <Form.Control
                     value={this.state.selected['email_wh'] && this.state.selected['email_wh']}
                     name="email_wh"
@@ -415,12 +432,13 @@ class Warehouse extends Component {
                     type="text"
                     placeholder="Email"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
-			<Form.Group controlId="client_code">
+            <Form.Group controlId="client_code">
                 <Form.Label>Client Code</Form.Label>
                 {this.state.errMsg.client_code ?
-                    (<span className="float-right text-error badge badge-danger">{this.state.errMsg.client_code}</span>) : null}
+                    (<span
+                        className="float-right text-error badge badge-danger">{this.state.errMsg.client_code}</span>) : null}
                 <Form.Control
                     value={this.state.selected['client_code'] && this.state.selected['client_code']}
                     name="client_code"
@@ -428,7 +446,7 @@ class Warehouse extends Component {
                     type="text"
                     placeholder="Client Code"
                     onChange={this.handleChange}
-                    autoComplete="off" />
+                    autoComplete="off"/>
             </Form.Group>
         </Form>;
 
@@ -470,17 +488,24 @@ class Warehouse extends Component {
                                         <div className="card-body inbox_chat">
                                             {this.state.loadWH ? (
                                                 <div className="loadings text-center">
-                                                    <Spinner animation="border" variant="secondary" />
-                                                    <br />
-                                            Loading ...
-                                                </div>) : (<ul className="todo-list ui-sortable" data-widget="todo-list">
+                                                    <Spinner animation="border" variant="secondary"/>
+                                                    <br/>
+                                                    Loading ...
+                                                </div>) : (
+                                                <ul className="todo-list ui-sortable" data-widget="todo-list">
                                                     {this.state.dtRes.length > 0 ? (
                                                         this.state.dtRes.map((dt, i) => (
-                                                            <li key={dt.id_wh} className={this.state.selected['id_wh'] === dt.id_wh ? 'li_wh li_active' : 'li_wh'} onClick={this.handleClose2.bind(this, dt)}>
-                                                                <span className="text">{dt.wh_name} {dt.client_code && ' - '+dt.client_code}</span><br />
-                                                                <span className="text-second-li">Origin : {dt.provinsi_name}({dt.kode_jne + '/' + dt.kode_lp})</span><br/>
-                                                                <span className="text-second-li">Alamat : {dt.alamat_wh}, {dt.phone_wh}, {dt.email_wh}</span><br/>
-                                                                <div className="tools" style={{float:"none", marginLeft:7}}>
+                                                            <li key={dt.id_wh}
+                                                                className={this.state.selected['id_wh'] === dt.id_wh ? 'li_wh li_active' : 'li_wh'}
+                                                                onClick={this.handleClose2.bind(this, dt)}>
+                                                                <span
+                                                                    className="text">{dt.wh_name} {dt.client_code && ' - ' + dt.client_code}</span><br/>
+                                                                <span
+                                                                    className="text-second-li">Origin : {dt.provinsi_name}({dt.kode_jne + '/' + dt.kode_lp})</span><br/>
+                                                                <span
+                                                                    className="text-second-li">Alamat : {dt.alamat_wh}, {dt.phone_wh}, {dt.email_wh}</span><br/>
+                                                                <div className="tools"
+                                                                     style={{float: "none", marginLeft: 7}}>
                                                                     {this.props.user.warehouse_edit ? (
                                                                         <OverlayTrigger
                                                                             placement="left"
@@ -488,10 +513,11 @@ class Warehouse extends Component {
                                                                             overlay={
                                                                                 <Tooltip id="tooltip-left">
                                                                                     Edit
-                                                                        </Tooltip>
+                                                                                </Tooltip>
                                                                             }
                                                                         >
-                                                                            <i className="fas">{<FaEdit onClick={this.editRecord.bind(this, dt)} />}</i>
+                                                                            <i className="fas">{<FaEdit
+                                                                                onClick={this.editRecord.bind(this, dt)}/>}</i>
                                                                         </OverlayTrigger>
                                                                     ) : ''}
                                                                     {this.props.user.warehouse_del ? (
@@ -501,10 +527,12 @@ class Warehouse extends Component {
                                                                             overlay={
                                                                                 <Tooltip id="tooltip-right">
                                                                                     Delete
-                                                                        </Tooltip>
+                                                                                </Tooltip>
                                                                             }
                                                                         >
-                                                                            <i className="fas" style={{marginLeft:5}}>{<BsFillTrashFill onClick={this.deleteRecord.bind(this, dt)} />}</i>
+                                                                            <i className="fas" style={{marginLeft: 5}}>{
+                                                                                <BsFillTrashFill
+                                                                                    onClick={this.deleteRecord.bind(this, dt)}/>}</i>
                                                                         </OverlayTrigger>
                                                                     ) : ''}
 
@@ -525,7 +553,10 @@ class Warehouse extends Component {
                                         <div className="card shadow-lg">
                                             <div className="card-header card-header-custom">
                                                 <h1 className="card-title card-title-custom">Coverage Area
-                                            <span className="area" style={{ "fontWeight": "600", "color": "green" }}> {this.state.selected['wh_name']}</span></h1>
+                                                    <span className="area" style={{
+                                                        "fontWeight": "600",
+                                                        "color": "green"
+                                                    }}> {this.state.selected['wh_name']}</span></h1>
                                                 {this.state.selected['id_wh'] && this.props.user.coverage_area_add ? (
                                                     <div className="tools">
                                                         <AppButton
@@ -551,7 +582,7 @@ class Warehouse extends Component {
                                                         />
 
                                                         <AppButton
-                                                            style={{ "marginTop": "3px", "marginBottom": "15px" }}
+                                                            style={{"marginTop": "3px", "marginBottom": "15px"}}
                                                             className="btn-block btn-sm"
                                                             onClick={this.handleSaveArea.bind(this)}
                                                             theme="warning"
@@ -562,14 +593,15 @@ class Warehouse extends Component {
 
                                                 {this.state.loadDataArea ? (
                                                     <div className="loadings text-center">
-                                                        <Spinner animation="border" variant="secondary" />
-                                                        <br />
-                                             Loading ...
+                                                        <Spinner animation="border" variant="secondary"/>
+                                                        <br/>
+                                                        Loading ...
                                                     </div>
                                                 ) : (<ul className="todo-list ui-sortable" data-widget="todo-list">
                                                     {this.state.dtArea.length > 0 ? (
                                                         this.state.dtArea.map((dt, i) => (
-                                                            <li key={dt.id_provinsi} className={dt.origin_utama ? "li_wh_origin" : "li_wh_area"} >
+                                                            <li key={dt.id_provinsi}
+                                                                className={dt.origin_utama ? "li_wh_origin" : "li_wh_area"}>
                                                                 <span className="text">{dt.provinsi_name}</span>
                                                                 {dt.origin_utama === 0 && this.props.user.coverage_area_del ? (
                                                                     <div className="tools">
@@ -579,10 +611,11 @@ class Warehouse extends Component {
                                                                             overlay={
                                                                                 <Tooltip id="tooltip-top">
                                                                                     Remove Area
-                                                                    </Tooltip>
+                                                                                </Tooltip>
                                                                             }
                                                                         >
-                                                                            <i className="fas">{<BsFillTrashFill onClick={this.removeArea.bind(this, dt)} />}</i>
+                                                                            <i className="fas">{<BsFillTrashFill
+                                                                                onClick={this.removeArea.bind(this, dt)}/>}</i>
                                                                         </OverlayTrigger>
                                                                     </div>
                                                                 ) : ''}
@@ -621,7 +654,7 @@ class Warehouse extends Component {
                         show={this.state.showSwalSucces}
                         title={this.state.successMsg}
                         type="success"
-                        handleClose={this.closeSwal} />) : ''}
+                        handleClose={this.closeSwal}/>) : ''}
 
                     <AppModal
                         show={this.state.deleteForm}
@@ -638,7 +671,6 @@ class Warehouse extends Component {
                     ></AppModal>
 
 
-
                 </div>
                 <div>
 
@@ -648,6 +680,7 @@ class Warehouse extends Component {
         )
     }
 }
-const mapStateToProps = (state) => ({ user: state.auth.currentUser });
+
+const mapStateToProps = (state) => ({user: state.auth.currentUser});
 
 export default connect(mapStateToProps, '')(Warehouse)

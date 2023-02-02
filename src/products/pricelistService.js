@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {
-    FORM_DATA,
-    FORM_DELETE,
+    ADD_DATA_ERROR,
     ADD_DATA_LOADING,
     ADD_DATA_SUCCESS,
-    ADD_DATA_ERROR,
     CLEAR_ADD_DATA_ERROR,
+    FETCH_DATA_ERROR,
     FETCH_DATA_LOADING,
     FETCH_DATA_PRICELIST,
-    FETCH_DATA_ERROR
+    FORM_DATA,
+    FORM_DELETE
 } from '../store/types';
 
 const API_URL = process.env.REACT_APP_URL_API;
@@ -117,13 +117,14 @@ export const addData = (param) => {
             .then(response => {
                 const err_code = response.data.err_code;
                 if (err_code === '05' || err_code === '06') {
-                    const dt = response.data.err_msg+' dengan '+response.data.data;
+                    const dt = response.data.err_msg + ' dengan ' + response.data.data;
                     dispatch(addDataError(dt));
                 }
-                if (err_code === '00') {                    
+                if (err_code === '00') {
                     _data['showFormSuccess'] = true;
                     _data['tipeSWAL'] = "success";
-                    _data['contentMsg'] = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil disimpan</div>' }} />;
+                    _data['contentMsg'] = <div
+                        dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil disimpan</div>'}}/>;
                     dispatch(addDataSuccess(_data));
                 }
 
@@ -133,7 +134,8 @@ export const addData = (param) => {
                 isLoading = false;
                 _data['showFormSuccess'] = true;
                 _data['tipeSWAL'] = "error";
-                _data['contentMsg'] = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Failed</strong>, Something wrong</div>' }} />;
+                _data['contentMsg'] = <div
+                    dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Failed</strong>, Something wrong</div>'}}/>;
                 dispatch(addDataSuccess(_data));
                 dispatch(fetchAddDataLoading(isLoading));
             })
@@ -153,13 +155,15 @@ export const deleteData = (param) => {
                 if (err_code === '00') {
                     _data['showFormSuccess'] = true;
                     _data['tipeSWAL'] = "success";
-                    _data['contentMsg'] = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>' }} />;
+                    _data['contentMsg'] = <div
+                        dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil dihapus</div>'}}/>;
                     dispatch(addDataSuccess(_data));
                 } else {
                     let isLoading = false;
                     _data['showFormSuccess'] = true;
                     _data['tipeSWAL'] = "error";
-                    _data['contentMsg'] = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Failed</strong>, Something wrong</div>' }} />;
+                    _data['contentMsg'] = <div
+                        dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Failed</strong>, Something wrong</div>'}}/>;
                     dispatch(addDataSuccess(_data));
                     dispatch(fetchAddDataLoading(isLoading));
                 }
@@ -170,7 +174,8 @@ export const deleteData = (param) => {
                 dispatch(showConfirmDel(false));
                 _data['showFormSuccess'] = true;
                 _data['tipeSWAL'] = "error";
-                _data['contentMsg'] = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Failed</strong>, Something wrong</div>' }} />;
+                _data['contentMsg'] = <div
+                    dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Failed</strong>, Something wrong</div>'}}/>;
                 dispatch(addDataSuccess(_data));
                 dispatch(fetchAddDataLoading(isLoading));
             })

@@ -2,10 +2,10 @@ import axios from 'axios';
 import {
     ADD_DATA_LOADING,
     ADD_DATA_SUCCESS,
-    FETCH_DATA_LOADING,
-    FETCH_DATA_SETTING,
     CHG_PROPS,
-    FETCH_DATA_ERROR
+    FETCH_DATA_ERROR,
+    FETCH_DATA_LOADING,
+    FETCH_DATA_SETTING
 } from '../store/types';
 
 const API_URL = process.env.REACT_APP_URL_API;
@@ -54,7 +54,7 @@ export const chgProps = (data) => {
 
 export const fetchData = () => {
     let isLoading = true;
-    const param = { cms: 1 }
+    const param = {cms: 1}
     return async (dispatch) => {
         dispatch(fetchDataLoading(isLoading));
         return await axios.post(API_URL + "/master_data", param)
@@ -77,7 +77,7 @@ export const fetchData = () => {
 
 export const fetchData2 = () => {
     let isLoading = false;
-    const param = { cms: 1 }
+    const param = {cms: 1}
     return async (dispatch) => {
         dispatch(fetchDataLoading(isLoading));
         return await axios.post(API_URL + "/master_data", param)
@@ -109,7 +109,8 @@ export const addData = (param) => {
                 if (err_code === '00') {
                     _data['showFormSuccess'] = true;
                     _data['tipeSWAL'] = "success";
-                    _data['contentMsg'] = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil disimpan</div>' }} />;
+                    _data['contentMsg'] = <div
+                        dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Success</strong>, Data berhasil disimpan</div>'}}/>;
                     dispatch(addDataSuccess(_data));
                 }
             }).catch(error => {
@@ -117,7 +118,8 @@ export const addData = (param) => {
                 isLoading = false;
                 _data['showFormSuccess'] = true;
                 _data['tipeSWAL'] = "error";
-                _data['contentMsg'] = <div dangerouslySetInnerHTML={{ __html: '<div style="font-size:20px; text-align:center;"><strong>Failed</strong>, Something wrong</div>' }} />;
+                _data['contentMsg'] = <div
+                    dangerouslySetInnerHTML={{__html: '<div style="font-size:20px; text-align:center;"><strong>Failed</strong>, Something wrong</div>'}}/>;
                 dispatch(addDataSuccess(_data));
                 dispatch(fetchAddDataLoading(isLoading));
             })

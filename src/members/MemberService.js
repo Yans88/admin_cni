@@ -9,6 +9,8 @@ class MemberService {
                 return axios.post(API_URL + "/members", param)
             case "VIEW_DETAIL":
                 return axios.post(API_URL + "/profile_member", param)
+            case "GET_REPORT":
+                return axios.post(API_URL + "/export_member", param)
             default:
                 return axios.post(API_URL + "/members", param)
         }

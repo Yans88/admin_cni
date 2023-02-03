@@ -25,6 +25,7 @@ import ListTransCompleted from '../../transaksi/ListTransCompleted';
 import PriceList from '../../products/PriceList'
 import LimitBeli from '../../products/LimitBeli'
 import News from '../../news/News';
+import ListTransAll from '../../transaksi/ListTransAll';
 import ListTransProcess from '../../transaksi/ListTransProcess';
 import ListTransDikirim from '../../transaksi/ListTransDikirim';
 import ListTransExpired from '../../transaksi/ListTransExpired';
@@ -145,6 +146,7 @@ const Main = ({onUserLoad, user}) => {
                         <Route path="/city" component={user.city_view ? City : Forbidden}/>
                         <Route path="/kecamatan" component={user.kec_view ? Kecamatan : Forbidden}/>
                         <Route path="/warehouse" component={user.warehouse_view ? Warehouse : Forbidden}/>
+                        <Route path="/all_transaksi" component={user.transaksi_view ? ListTransAll : Forbidden}/>
                         <Route path="/waiting_payment" component={user.transaksi_view ? ListTrans : Forbidden}/>
                         <Route path="/payment" component={user.transaksi_view ? ListTransPayment : Forbidden}/>
                         <Route path="/completed" component={user.transaksi_view ? ListTransCompleted : Forbidden}/>

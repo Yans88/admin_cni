@@ -485,7 +485,7 @@ class TransDetail extends Component {
                                                             <td align="right"
                                                                 style={{"backgroundColor": "rgba(0,0,0,.04)"}}>
                                                                 <strong><NumberFormat
-                                                                    value={this.state.dtRes.ttl_price}
+                                                                    value={this.state.dtRes.nominal_doku}
                                                                     thousandSeparator={true}
                                                                     decimalScale={2}
                                                                     displayType={'text'}

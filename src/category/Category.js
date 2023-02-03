@@ -372,13 +372,7 @@ const Category = (auth) => {
                                             <Button variant="success" disabled><i
                                                 className="fa fa-plus"></i> Add</Button>}
 
-                                        {/* <ToastProvider
-                                            placement="bottom-right" autoDismiss
-                                            autoDismissTimeout={2000}
-                                            TransitionState="exiting"
-                                        >
-                                            <ToastDemo content="Data Berhasil disimpan" />
-                                        </ToastProvider> */}
+
                                     </div>
 
                                     <div className="card-body">

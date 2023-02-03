@@ -41,7 +41,7 @@ const MenuSidebar = ({menuCollapse, user}) => {
     const menuvouchers = ["vouchers", "free_ongkir"];
     const menuArea = ["provinsi", "city", "kecamatan"];
     const menuLevel = ["level", "permission"];
-    const dataTrans = ["waiting_payment", "payment", "completed", "trans_detail", "onprocess", "dikirim", "expired", "hold", "cancel_customer"];
+    const dataTrans = ["all_transaksi", "waiting_payment", "payment", "completed", "trans_detail", "onprocess", "dikirim", "expired", "hold", "cancel_customer"];
     const dataSimp = ["waiting_simpatik", "diterima", "approved_simpatik", "rejected_simpatik", "completed_simpatik", "simpatik_detail"];
     const dataUlasan = ["waiting_approve", "approved", "rejected", "detail_ulasan"];
     const dataReport = ["report_header", "report_detail", "report_logistik"];
@@ -176,6 +176,10 @@ const MenuSidebar = ({menuCollapse, user}) => {
                             {user.transaksi_view ? (
                                 <SubMenu title="Transaksi" onClick={handleClickSubmenu("dataTrans")}
                                          open={isOpenDataTrans} icon={<BsClipboardData/>}>
+                                    <MenuItem active={isActiveMenu.all_transaksi} style={{"paddingLeft": "27px"}}
+                                              icon={<BsCardText/>}>
+                                        <NavLink to='/all_transaksi'/> All
+                                    </MenuItem>
                                     <MenuItem active={isActiveMenu.waiting_payment} style={{"paddingLeft": "27px"}}
                                               icon={<BsCardText/>}>
                                         <NavLink to='/waiting_payment'/> Waiting Payment

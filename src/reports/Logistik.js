@@ -56,8 +56,12 @@ class Logistik extends Component {
     }
 
     componentDidMount() {
-        this.props.onLoad(this.state);
-        this.props.onDownload(this.state);
+        const param = {
+            ...this.state,
+            id_operator: this.props.user.id_operator
+        }
+        this.props.onLoad(param);
+        this.props.onDownload(param);
     }
 
     tableChangeHandler = (data) => {

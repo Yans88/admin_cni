@@ -120,6 +120,28 @@ class ListTrans extends Component {
 
             },
             {
+                key: "status",
+                text: "Status",
+                align: "center",
+                sortable: false,
+                width: 180,
+                cell: record => {
+                    return (
+                        <Fragment>
+                            {record.status === 0 && "Waiting Payment"}
+                            {record.status === 1 && "Payment Complete"}
+                            {record.status === 2 && "Expired Payment"}
+                            {record.status === 3 && "On Process"}
+                            {record.status === 4 && "Dikirim"}
+                            {record.status === 5 && "Completed"}
+                            {record.status === 95678 && "Hold"}
+                            {record.status === 7 && "Cancel by Customer"}
+                        </Fragment>
+                    )
+
+                }
+            },
+            {
                 key: "nama_member",
                 text: "Nama",
                 align: "center",
